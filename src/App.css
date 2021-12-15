@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+.app {
+  background: linear-gradient(to bottom, #EFEFEF 50%, #1A2956 50%);
+}
+
+.headcolor {
+  color:#1A2956;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border: 0;
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
