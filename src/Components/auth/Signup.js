@@ -45,13 +45,21 @@ export default function Signup () {
     setCompanynum(e.target.value)
     setSubmitted(false);
   };
+  const handleCheck = (e) => {
+    e.preventDefault();
+    if(check === true ){
+      setCheck(false)
+    } else
+    setCheck(true)
+   }
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companyname === '' || companynum === ''|| phone === '') {
-      toast.error('All field required!')
-      return
-    }
-    auth.createUserWithEmailAndPassword(email, password)
+    if( check ) {
+      if(fname === '' || lname === '' || companyname === '' || companynum === ''|| phone === '') {
+        toast.error('All field required!')
+        return
+      }
+      auth.createUserWithEmailAndPassword(email, password)
       .then(authUser => {
         db.collection("users")
         .doc(authUser.user.uid)
@@ -68,18 +76,20 @@ export default function Signup () {
         })
       })
       .catch((error) => {
+        console.log("Email", error);
         if(error.code === 'auth/email-already-in-use') {
           toast.error('email already exist');
         }
         if(error.code === 'auth/weak-password'){
           toast.warning('Strong Password!');
         }
+        if(error.code === 'auth/invalid-email'){
+          console.log("Invalid Email");
+          toast.warning('Invalid Email');
+        }
       })
-
-  }
-  const handleCheck = (e) => {
-    setCheck(e.target.value);
-    setSubmitted(false);
+    } else 
+     toast.info('Agree Terms & Services');
   }
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col app">
@@ -174,6 +184,7 @@ export default function Signup () {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  value={check}
                   onChange={handleCheck}
                 />
                 <label

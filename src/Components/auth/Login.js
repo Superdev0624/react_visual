@@ -77,7 +77,7 @@ export default function Login () {
 
           <div className="flex items-center justify-between">
             <div className="flex item-center">
-              <Link class="font-medium text-green-500 hover:text-xl" to="/reset">
+              <Link className="font-medium text-green-500 hover:text-xl" to="/reset">
                 Forgot Password?
               </Link>
             </div>
@@ -89,9 +89,9 @@ export default function Login () {
             Log In
           </button>
         </form>
-        <div class="text-grey-dark mt-1  flex justify-center">
+        <div className="text-grey-dark mt-1  flex justify-center">
           Don't have an account?
-          <Link class="font-medium text-green-500 hover:text-xl"  to="/auth/signup">
+          <Link className="font-medium text-green-500 hover:text-xl"  to="/auth/signup">
             Create Account
           </Link>
         </div>
