@@ -13,7 +13,7 @@ export default function Main() {
   useEffect(() => {
     let authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
-        navigate('/main')
+        navigate('/pages/main')
         toast.success('Authentication Success!')
     }
 

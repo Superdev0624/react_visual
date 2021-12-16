@@ -68,10 +68,10 @@ export default function Signup () {
           lastname: lname,
           companyname: companyname,
           companynum: companynum,
-          phone: phone,
+          phone: phone
         })
         .then(() => {
-          navigate('/main')
+          navigate('/pages/main')
           sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
         })
       })

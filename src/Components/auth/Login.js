@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import '../assets/Login.css'
 import { useNavigate } from 'react-router-dom'
-import { auth } from '../../firebase-config'
+import { db, auth } from '../../firebase-config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,8 +23,24 @@ export default function Login () {
     e.preventDefault();
     auth.signInWithEmailAndPassword(email, password)
     .then(authUser => {
-      navigate('/main')
-      sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+      db.collection("users")
+        .doc(authUser.user.uid)
+        .get()
+        .then(doc => {
+          console.log(doc);
+          const Admin = doc.data().id;
+          if ( Admin == 0 ) {
+            navigate('/pages/superadmin')
+            sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+            sessionStorage.setItem('UserName', authUser.user.uid)
+          } if ( Admin == 1 ) {
+            navigate('/pages/manager')
+            sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+          } else {
+            navigate('/pages/main')
+            sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+          }
+        })
     }).catch((error) => {
       if(error.code === 'auth/wrong-password') {
         toast.error('Please check the Password');
