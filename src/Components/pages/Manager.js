@@ -7,6 +7,7 @@ import '../assets/main.css'
 export default function Main() {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
+  let Username = sessionStorage.getItem('UserName');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
@@ -33,9 +34,10 @@ export default function Main() {
           <div className="flex flex-col justify-between h-full">
             <div className="px-6 pt-4">
               <div className="px-10 pt-4 flex justify-content center">
-                  <p className="flex item text-white text-lg pb-2">Hi,</p>
-                  <br></br><br></br>
-                  <p className="flex item text-white text-xl font-bold">Manager</p>
+                  <p className="flex item text-white w-full text-2xl pb-2 font-bold">Hi,{Username}</p>
+              </div>
+              <div className="px-10 pt-1 flex justify-content center">
+                  <p className="flex item text-sl w-full ">Manager</p>
               </div>
               <hr className="border-5 mb-5 mt-5"></hr>
               <ul className="f-m-m">

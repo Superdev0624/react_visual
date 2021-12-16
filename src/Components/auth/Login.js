@@ -32,13 +32,16 @@ export default function Login () {
           if ( Admin == 0 ) {
             navigate('/pages/superadmin')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('UserName', authUser.user.uid)
+            sessionStorage.setItem('UserName', doc.data().firstname)
+            console.log(doc.data().firstname)
           } if ( Admin == 1 ) {
             navigate('/pages/manager')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+            sessionStorage.setItem('UserName', doc.data().firstname)
           } else {
             navigate('/pages/main')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+            sessionStorage.setItem('UserName', doc.data().firstname)
           }
         })
     }).catch((error) => {
