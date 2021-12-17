@@ -11,7 +11,7 @@ export default function Main() {
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
-    toast.warning('Log out!')
+    toast.info('Log out!')
   }
   let navigate = useNavigate();
   useEffect(() => {
@@ -44,23 +44,23 @@ export default function Main() {
                 <a>
                   <li className="text-white">
                     <div className="flex items-center">
-                      <p className="text-white font-Medium ml-3 text-2xl pt-5">DASHBOARD</p>
+                      <p className="text-white font-Medium ml-3 text-2xl pt-5 hover:text-indigo-700">DASHBOARD</p>
                     </div>
                   </li>
                 </a>
                 <a>
                   <li >
                     <div>
-                        <p className="text-white ml-3 text-2xl pt-5" onClick={() => setProduct(!product)}>ACCOUNT & SETTINGS</p>
+                        <p className="text-white ml-3 text-2xl pt-5 hover:text-indigo-700" onClick={() => setProduct(!product)}>ACCOUNT & SETTINGS</p>
                     </div>
                     {product ? (
                       <div>
                         <ul className="my-3">
-                          <li className="text-white font-Medium ml-3 text-xl">Company</li>
-                          <li className="text-white font-Medium ml-3 text-xl">Departments</li>
-                          <li className="text-white font-Medium ml-3 text-xl">Users</li>
-                          <li className="text-white font-Medium ml-3 text-xl">Apps</li>
-                          <li className="text-white font-Medium ml-3 text-xl">Billing & Subscription</li>
+                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Company</li>
+                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Departments</li>
+                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Users</li>
+                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Apps</li>
+                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Billing & Subscription</li>
                         </ul>
                       </div>
                     ) : (
@@ -71,7 +71,7 @@ export default function Main() {
                 <a>
                   <li className="text-gray-800 pt-5">
                     <div className="flex items-center">
-                      <p className="text-white ml-3 text-2xl" onClick={handleLogout}>Log out</p>
+                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
                     </div>
                   </li>
                 </a>

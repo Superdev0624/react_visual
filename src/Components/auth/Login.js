@@ -28,7 +28,7 @@ export default function Login () {
     if ( email === '' || password === '') {
       setEmailBorder(true);
       setPassBorder(true);
-      toast.error('Cannot be empty');
+      toast.error('Cannot be empty', {position: toast.POSITION.TOP_CENTER, autoClose:3000});
     } 
     auth.signInWithEmailAndPassword(email, password)
     .then(authUser => {

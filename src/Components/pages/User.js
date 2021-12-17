@@ -9,7 +9,7 @@ export default function Main() {
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
-    toast.warning('Log out!')
+    toast.info('Log out!')
   }
   let navigate = useNavigate();
   useEffect(() => {
@@ -42,14 +42,14 @@ export default function Main() {
                 <a>
                   <li className="text-white">
                     <div className="flex items-center">
-                      <p className="text-white font-Medium ml-3 text-2xl pt-5">DASHBOARD</p>
+                      <p className="text-white font-Medium ml-3 text-2xl pt-5 hover:text-indigo-700">DASHBOARD</p>
                     </div>
                   </li>
                 </a>
                 <a>
                   <li className="text-gray-800 pt-5">
                     <div className="flex items-center">
-                      <p className="text-white ml-3 text-2xl" onClick={handleLogout}>Log out</p>
+                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
                     </div>
                   </li>
                 </a>
