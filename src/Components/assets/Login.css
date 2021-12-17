@@ -12,3 +12,11 @@ hr {
   border: 0;
   border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
+
+.inputcolor {
+  color:#ff0000;
+}
+
+.bordercolor {
+  border-color: #ff0000;
+}

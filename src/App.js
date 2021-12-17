@@ -1,7 +1,6 @@
 import Login from "./Components/auth/Login"
 import Signup from "./Components/auth/Signup"
-import Home from "./Components/Home"
-import Main from "./Components/pages/Main"
+import User from "./Components/pages/User"
 import SuperAdmin from './Components/pages/SuperAdmin'
 import Manager from './Components/pages/Manager'
 
@@ -12,13 +11,7 @@ function App() {
     <div>
       <Routes>
         <Route
-          path='/auth/login'
-          element={
-            <Login />
-          }
-        />
-        <Route
-          path='/auth/signup'
+          path='/signup'
           element={
             <Signup />
           }
@@ -26,20 +19,20 @@ function App() {
         <Route
             path='/'
             element={
-              <Home />}
+              <Login />}
           />
         <Route
-            path='/pages/main'
+            path='/user'
             element={
-              <Main />}
+              <User />}
           />
           <Route
-            path='/pages/superadmin'
+            path='/admin'
             element={
               <SuperAdmin />}
           />
           <Route
-            path='/pages/manager'
+            path='/manager'
             element={
               <Manager />}
           />

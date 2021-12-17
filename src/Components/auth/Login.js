@@ -10,17 +10,26 @@ export default function Login () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [emailborder, setEmailBorder] = useState(false);
+  const [passborder, setPassBorder] = useState(false);
   let navigate = useNavigate();
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setSubmitted(false);
+    setEmailBorder(false);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setSubmitted(false);
+    setPassBorder(false);
   };
   async function handleSubmit(e) {
     e.preventDefault();
+    if ( email === '' || password === '') {
+      setEmailBorder(true);
+      setPassBorder(true);
+      toast.error('Cannot be empty');
+    } 
     auth.signInWithEmailAndPassword(email, password)
     .then(authUser => {
       db.collection("users")
@@ -30,16 +39,16 @@ export default function Login () {
           console.log(doc);
           const Admin = doc.data().id;
           if ( Admin == 0 ) {
-            navigate('/pages/superadmin')
+            navigate('/admin')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('UserName', doc.data().firstname)
             console.log(doc.data().firstname)
           } if ( Admin == 1 ) {
-            navigate('/pages/manager')
+            navigate('/manager')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('UserName', doc.data().firstname)
           } else {
-            navigate('/pages/main')
+            navigate('/user')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('UserName', doc.data().firstname)
           }
@@ -77,23 +86,24 @@ export default function Login () {
           </label>
           <input
             type="text"
-            className="block border border-grey-light w-full p-1 pl-3 rounded mb-4"
+            className={"block w-full p-1 pl-3 rounded " + (emailborder ? "border-2 bordercolor" : "border border-gray-light")} 
             placeholder="WorkEmail"
             value={email}
             onChange={handleEmail}
           />
+          <p className={"inputcolor text-xm italic mb-1 mt-1 ml-1 " + (emailborder ? "visible" : "invisible")}>please choose email</p>
           <label
             className="mb-1 block text-lg pl-3 text-gray-600">
             Password:
           </label>
           <input
             type="password"
-            className="block border border-grey-light w-full p-1 pl-3 rounded mb-4"
+            className={"block w-full p-1 pl-3 rounded " + (passborder ? "border-2 bordercolor" : "border border-gray-light")} 
             placeholder="Password"
             value={password}
             onChange={handlePassword}
           />
-
+          <p className={"inputcolor text-xm italic mb-1 mt-1 ml-1 " + (passborder ? "visible" : "invisible")}>please choose password</p>
           <div className="flex items-center justify-between">
             <div className="flex item-center">
               <Link className="font-medium text-green-500 hover:text-xl" to="/reset">
@@ -110,7 +120,7 @@ export default function Login () {
         </form>
         <div className="text-grey-dark mt-1  flex justify-center">
           Don't have an account?
-          <Link className="font-medium text-green-500 hover:text-xl"  to="/auth/signup">
+          <Link className="font-medium text-green-500 hover:text-xl"  to="/signup">
             Create Account
           </Link>
         </div>

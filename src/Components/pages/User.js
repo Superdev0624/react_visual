@@ -15,7 +15,7 @@ export default function Main() {
   useEffect(() => {
     let authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
-      navigate('/pages/main')
+      navigate('/user')
       toast.success('Welcome to User!')
     }
 

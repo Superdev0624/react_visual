@@ -17,7 +17,7 @@ export default function Main() {
   useEffect(() => {
     let authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
-      navigate('/pages/SuperAdmin')
+      navigate('/admin')
       toast.success('Welcome to Admin!')
     }
 
