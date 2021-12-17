@@ -87,7 +87,7 @@ export default function Login () {
           <input
             type="text"
             className={"block w-full p-1 pl-3 rounded " + (emailborder ? "border-2 bordercolor" : "border border-gray-light")} 
-            placeholder="WorkEmail"
+            placeholder="Work Email"
             value={email}
             onChange={handleEmail}
           />
@@ -119,7 +119,7 @@ export default function Login () {
           </button>
         </form>
         <div className="text-grey-dark mt-1  flex justify-center">
-          Don't have an account?
+          Don't have an account? &nbsp;&nbsp;
           <Link className="font-medium text-green-500 hover:text-xl"  to="/signup">
             Create Account
           </Link>
