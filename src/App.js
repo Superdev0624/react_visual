@@ -4,7 +4,6 @@ import User from "./Components/pages/User"
 import SuperAdmin from './Components/pages/SuperAdmin'
 import Manager from './Components/pages/Manager'
 import ConfirmEmail from './Components/auth/ConfirmEmail'
-import ConfirmPassword from './Components/auth/ConfirmPassword'
 import Profile from './Components/pages/Profile'
 import EditAccount from './Components/pages/EditAccount'
 import { Routes, Route } from 'react-router-dom'
@@ -19,7 +18,6 @@ function App() {
         <Route path='/admin' element={ <SuperAdmin /> } />
         <Route path='/manager' element={ <Manager /> } />
         <Route path='/confirmEmail' element={ <ConfirmEmail /> } />
-        <Route path='/resetpassword' element={ <ConfirmPassword /> } />
         <Route path='/profile' element={ <Profile /> } />
         <Route path='/editaccount' element={ <EditAccount/>} />
       </Routes>
