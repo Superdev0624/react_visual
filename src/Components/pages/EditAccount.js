@@ -3,44 +3,26 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { db } from '../../firebase-config';
 import '../assets/main.css'
-export default function Main() {
+export default function EditAccount() {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
-  let Info = sessionStorage.getItem('Info');
-  const [useinfo, setUseInfo, ] = useState([]);
+  let Username = sessionStorage.getItem('UserName');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
     toast.info('Log out!')
   }
   let navigate = useNavigate();
-  useEffect(() => {
-    let authToken = sessionStorage.getItem('Auth Token')
-    if (authToken) {
-      navigate('/user')
-      db.collection("users").where("useremail", "==", Info)
-      .get()
-      .then(doc =>{
-        setUseInfo(doc.docs[0].data()) 
-      })
-    }
-
-    if (!authToken) {
-      navigate('/home')
-    }
-  }, [])
   return (
-    <div className="absolute bg-gray-200 w-full h-full">
-      <ToastContainer />
+    <div className="absolute bg-green-200 w-full h-full">
       <div className={show ? "w-full h-full absolute z-50  transform  translate-x-0 " : "   w-full h-full absolute z-40  transform -translate-x-full"}>
         <div className="bg-gray-800 opacity-80 inset-0 fixed w-full h-full" onClick={() => setShow(!show)} />
-        <div className="w-80 z-20 absolute right-0 z-40 top-0  shadow flex-col usecolor transition-shadow h-full">
+        <div className="w-80 z-20 absolute right-0 z-40 top-0  shadow flex-col usecolor transform top-0 right-0 w-64 fixed h-full overflow ease-in-out transition-all z-30">
           <div className="flex flex-col justify-between h-full">
             <div className="px-6 pt-4">
               <div className="px-10 pt-4 flex justify-content center">
-                  <p className="flex item text-white w-full text-2xl pb-2 font-bold">Hi,{useinfo.firstname}</p>
+                  <p className="flex item text-white w-full text-2xl pb-2 font-bold">Hi,{Username}</p>
               </div>
               <div className="px-10 pt-1 flex justify-content center">
                   <p className="flex item text-sl w-full ">User</p>
@@ -54,10 +36,10 @@ export default function Main() {
                     </div>
                   </li>
                 </Link>
-                <li>
-                  <a>
+                <a>
+                  <li >
                     <div>
-                      <p className="text-white ml-3 text-2xl mt-2 hover:text-indigo-700" onClick={() => setProduct(!product)}>Settings</p>
+                        <p className="text-white ml-3 text-2xl mt-2 hover:text-indigo-700" onClick={() => setProduct(!product)}>Settings</p>
                     </div>
                     {product ? (
                       <div>
@@ -69,15 +51,15 @@ export default function Main() {
                     ) : (
                       ""
                     )}
-                  </a>
-                </li>
-                <a>
-                  <li className="text-gray-800 pt-3">
-                    <div className="flex items-center">
-                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
-                      </div>
                   </li>
-                </a>
+                  </a>
+                  <a>
+                    <li className="text-gray-800 pt-3">
+                      <div className="flex items-center">
+                        <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
+                      </div>
+                    </li>
+                  </a>
               </ul>
             </div>
             <div className="w-full">

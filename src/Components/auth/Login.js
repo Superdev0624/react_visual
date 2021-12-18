@@ -30,27 +30,39 @@ export default function Login () {
       setPassBorder(true);
       toast.error('Cannot be empty', {position: toast.POSITION.TOP_CENTER, autoClose:3000});
     } 
+    if (typeof email !== "undefined") {
+          
+      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+      if (!pattern.test(email)) {
+        toast.warn("Please enter valid email address");
+      }
+    }
+    if (typeof password !== "undefined") {
+      var pass_patten = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$");
+      if(!pass_patten.test(password)) {
+        toast.warn('Weak password!')
+      }
+    }  
     auth.signInWithEmailAndPassword(email, password)
     .then(authUser => {
       db.collection("users")
         .doc(authUser.user.uid)
         .get()
         .then(doc => {
-          console.log(doc);
           const Admin = doc.data().id;
-          if ( Admin == 0 ) {
+          if ( Admin === 0 ) {
             navigate('/admin')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('UserName', doc.data().firstname)
-            console.log(doc.data().firstname)
-          } if ( Admin == 1 ) {
+            sessionStorage.setItem('UserName', doc.data())
+            console.log(doc.data());
+          } if ( Admin === 1 ) {
             navigate('/manager')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('UserName', doc.data().firstname)
           } else {
             navigate('/user')
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('UserName', doc.data().firstname)
+            sessionStorage.setItem('Info', doc.data().useremail);
           }
         })
     }).catch((error) => {
@@ -106,7 +118,7 @@ export default function Login () {
           <p className={"inputcolor text-xm italic mb-1 mt-1 ml-1 " + (passborder ? "visible" : "invisible")}>please choose password</p>
           <div className="flex items-center justify-between">
             <div className="flex item-center">
-              <Link className="font-medium text-green-500 hover:text-xl" to="/reset">
+              <Link className="font-medium text-green-500 hover:text-xl" to="/confirmEmail">
                 Forgot Password?
               </Link>
             </div>

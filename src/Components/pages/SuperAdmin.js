@@ -7,7 +7,7 @@ import '../assets/main.css'
 export default function Main() {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
-  let Username = sessionStorage.getItem('UserName');
+  let I = sessionStorage.getItem('Info');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
@@ -18,7 +18,7 @@ export default function Main() {
     let authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
       navigate('/admin')
-      toast.success('Welcome to Admin!')
+      toast.success('Welcome ' +  + ' to wepull!')
     }
 
     if (!authToken) {
@@ -34,20 +34,20 @@ export default function Main() {
           <div className="flex flex-col justify-between h-full">
             <div className="px-6 pt-4">
               <div className="px-10 pt-4 flex justify-content center">
-                  <p className="flex item text-white w-full text-2xl pb-2 font-bold">Hi,{Username}</p>
+                  <p className="flex item text-white w-full text-2xl pb-2 font-bold">Hi,{}</p>
               </div>
               <div className="px-10 pt-1 flex justify-content center">
                   <p className="flex item text-sl w-full ">SuperAdmin</p>
               </div>
               <hr className="border-5 mb-5 mt-5"></hr>
               <ul className="f-m-m">
-                <a>
+                <Link  to="/admin">
                   <li className="text-white">
                     <div className="flex items-center">
                       <p className="text-white font-Medium ml-3 text-2xl pt-5 hover:text-indigo-700">DASHBOARD</p>
                     </div>
                   </li>
-                </a>
+                </Link>
                 <a>
                   <li >
                     <div>
@@ -56,11 +56,11 @@ export default function Main() {
                     {product ? (
                       <div>
                         <ul className="my-3">
-                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Company</li>
-                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Departments</li>
-                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Users</li>
-                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Apps</li>
-                          <li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Billing & Subscription</li>
+                          <Link to="/company"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Company</li></Link>
+                          <Link to="/Departments"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Departments</li></Link>
+                          <Link to="/Users"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Users</li></Link>
+                          <Link to="/Apps"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Apps</li></Link>
+                          <Link to="/billSub"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Billing & Subscription</li></Link>
                         </ul>
                       </div>
                     ) : (
@@ -101,25 +101,32 @@ export default function Main() {
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">
                 <div className="w-32 h-full flex items-center justify-center cursor-pointer">
-                  <svg 
-                    className="h-12 w-15 p-1  mr-3" 
-                    fill="none" 
-                    viewBox="0 0 22 22" 
-                    stroke="currentColor"
-                    style={{color:'#41CCAD'}}
-                  >
-                    <path 
-                      strokeLinecap="round"
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" 
-                    />
-                  </svg>
+                  <span className="relative inline-block">
+                    <svg 
+                        className="h-12 w-15 p-1  mr-3" 
+                        fill="none" 
+                        viewBox="0 0 22 22" 
+                        stroke="currentColor"
+                        style={{color:'#41CCAD'}}
+                      >
+                        <path 
+                          strokeLinecap="round"
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" 
+                        />
+                      </svg>
+                      <span 
+                        className="absolute top-4 right-7 inline-flex items-center justify-center px-1 py-1 text-xs font-light leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
+                      >
+                        99
+                      </span>
+                  </span>
                   <svg
                     onClick={() => setShow(!show)}
                     aria-label="Main Menu" 
                     aria-haspopup="true"
-                    className="h-12 w-15 p-1"
+                    className="h-12 w-15 p-1 "
                     viewBox="0 0 22 22"
                     fill="none"
                     stroke="currentColor"
@@ -131,7 +138,7 @@ export default function Main() {
                       strokeWidth="3" 
                       d="M4 6h16M4 12h16M4 18h16"
                     />
-                  </svg>
+                  </svg>   
                 </div>
               </div>
             </div>
