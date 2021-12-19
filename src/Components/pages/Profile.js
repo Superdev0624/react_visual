@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,7 +10,6 @@ export default function Profile() {
   const [product, setProduct] = useState(false);
   const [useinfo, setUseInfo, ] = useState([]);
   let Info = sessionStorage.getItem('Info');
-  let value;
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
@@ -46,7 +45,6 @@ export default function Profile() {
                     </div>
                   </li>
                 </Link>
-                <a>
                   <li >
                     <div>
                         <p className="text-white ml-3 text-2xl mt-2 hover:text-indigo-700" onClick={() => setProduct(!product)}>Settings</p>
@@ -62,14 +60,11 @@ export default function Profile() {
                       ""
                     )}
                   </li>
-                  </a>
-                  <a>
-                    <li className="text-gray-800 pt-3">
-                      <div className="flex items-center">
-                        <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
-                      </div>
-                    </li>
-                  </a>
+                  <li className="text-gray-800 pt-3">
+                    <div className="flex items-center">
+                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
+                    </div>
+                  </li>
               </ul>
             </div>
           </div>  

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../assets/main.css'
 export default function EditAccount() {
@@ -10,10 +10,8 @@ export default function EditAccount() {
   let Username = sessionStorage.getItem('UserName');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
-    navigate('/')
     toast.info('Log out!')
   }
-  let navigate = useNavigate();
   return (
     <div className="absolute bg-green-200 w-full h-full">
       <div className={show ? "w-full h-full absolute z-50  transform  translate-x-0 " : "   w-full h-full absolute z-40  transform -translate-x-full"}>
@@ -36,7 +34,6 @@ export default function EditAccount() {
                     </div>
                   </li>
                 </Link>
-                <a>
                   <li >
                     <div>
                         <p className="text-white ml-3 text-2xl mt-2 hover:text-indigo-700" onClick={() => setProduct(!product)}>Settings</p>
@@ -52,8 +49,7 @@ export default function EditAccount() {
                       ""
                     )}
                   </li>
-                  </a>
-                  <a>
+                  <a href="/">
                     <li className="text-gray-800 pt-3">
                       <div className="flex items-center">
                         <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>

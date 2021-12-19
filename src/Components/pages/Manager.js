@@ -10,7 +10,6 @@ export default function Main() {
   let Username = sessionStorage.getItem('UserName');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
-    navigate('/')
     toast.warning('Log out!')
   }
   let navigate = useNavigate();
@@ -41,14 +40,13 @@ export default function Main() {
               </div>
               <hr className="border-5 mb-5 mt-5"></hr>
               <ul className="f-m-m">
-                <a>
+                <Link to="/manager">
                   <li className="text-white">
                     <div className="flex items-center">
                       <p className="text-white font-Medium ml-3 text-2xl pt-5 hover:text-indigo-700">DASHBOARD</p>
                     </div>
                   </li>
-                </a>
-                <a>
+                </Link>
                   <li >
                     <div>
                         <p className="text-white ml-3 text-2xl pt-5 hover:text-indigo-700" onClick={() => setProduct(!product)}>ACCOUNT & SETTINGS</p>
@@ -67,8 +65,7 @@ export default function Main() {
                       ""
                     )}
                   </li>
-                </a>
-                <a>
+                <a href="/">
                   <li className="text-gray-800 pt-5">
                     <div className="flex items-center">
                       <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>

@@ -55,7 +55,6 @@ export default function Main() {
                   </li>
                 </Link>
                 <li>
-                  <a>
                     <div>
                       <p className="text-white ml-3 text-2xl mt-2 hover:text-indigo-700" onClick={() => setProduct(!product)}>Settings</p>
                     </div>
@@ -69,15 +68,12 @@ export default function Main() {
                     ) : (
                       ""
                     )}
-                  </a>
                 </li>
-                <a>
-                  <li className="text-gray-800 pt-3">
-                    <div className="flex items-center">
-                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
-                      </div>
-                  </li>
-                </a>
+                <li className="text-gray-800 pt-3">
+                  <div className="flex items-center">
+                    <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
+                    </div>
+                </li>
               </ul>
             </div>
             <div className="w-full">

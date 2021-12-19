@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import '../assets/Login.css'
-import { useNavigate } from 'react-router-dom'
 import { db, auth } from '../../firebase-config'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Reset () {
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const [emailborder, setEmailBorder] = useState(false);
-  let navigate = useNavigate();
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setSubmitted(false);
     setEmailBorder(false);
   };
   async function handleSubmit(e) {
@@ -25,7 +21,7 @@ export default function Reset () {
     db.collection("users").where("useremail", "==", email )
     .get()
     .then(doc => {
-      if( doc.docs.length ==0 ) {
+      if( doc.docs.length === 0 ) {
         toast.error(`Email doesn't exist`);
       }
     })

@@ -30,19 +30,6 @@ export default function Login () {
       setPassBorder(true);
       toast.error('Cannot be empty', {position: toast.POSITION.TOP_CENTER, autoClose:3000});
     } 
-    if (typeof email !== "undefined") {
-          
-      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      if (!pattern.test(email)) {
-        toast.warn("Please enter valid email address");
-      }
-    }
-    if (typeof password !== "undefined") {
-      var pass_patten = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$");
-      if(!pass_patten.test(password)) {
-        toast.warn('Weak password!')
-      }
-    }  
     auth.signInWithEmailAndPassword(email, password)
     .then(authUser => {
       db.collection("users")

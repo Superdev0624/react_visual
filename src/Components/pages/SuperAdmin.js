@@ -7,7 +7,6 @@ import '../assets/main.css'
 export default function Main() {
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState(false);
-  let I = sessionStorage.getItem('Info');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     navigate('/')
@@ -18,7 +17,6 @@ export default function Main() {
     let authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
       navigate('/admin')
-      toast.success('Welcome ' +  + ' to wepull!')
     }
 
     if (!authToken) {
@@ -48,33 +46,29 @@ export default function Main() {
                     </div>
                   </li>
                 </Link>
-                <a>
-                  <li >
+                <li >
+                  <div>
+                      <p className="text-white ml-3 text-2xl pt-5 hover:text-indigo-700" onClick={() => setProduct(!product)}>ACCOUNT & SETTINGS</p>
+                  </div>
+                  {product ? (
                     <div>
-                        <p className="text-white ml-3 text-2xl pt-5 hover:text-indigo-700" onClick={() => setProduct(!product)}>ACCOUNT & SETTINGS</p>
+                      <ul className="my-3">
+                        <Link to="/company"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Company</li></Link>
+                        <Link to="/Departments"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Departments</li></Link>
+                        <Link to="/Users"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Users</li></Link>
+                        <Link to="/Apps"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Apps</li></Link>
+                        <Link to="/billSub"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Billing & Subscription</li></Link>
+                      </ul>
                     </div>
-                    {product ? (
-                      <div>
-                        <ul className="my-3">
-                          <Link to="/company"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Company</li></Link>
-                          <Link to="/Departments"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Departments</li></Link>
-                          <Link to="/Users"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Users</li></Link>
-                          <Link to="/Apps"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Apps</li></Link>
-                          <Link to="/billSub"><li className="text-white font-Medium ml-3 text-xl hover:text-indigo-700">Billing & Subscription</li></Link>
-                        </ul>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </li>
-                </a>
-                <a>
-                  <li className="text-gray-800 pt-5">
-                    <div className="flex items-center">
-                      <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
-                    </div>
-                  </li>
-                </a>
+                  ) : (
+                    ""
+                  )}
+                </li>
+                <li className="text-gray-800 pt-5">
+                  <div className="flex items-center">
+                    <p className="text-white ml-3 text-2xl hover:text-indigo-700" onClick={handleLogout}>Log out</p>
+                  </div>
+                </li>
               </ul>
             </div>
             <div className="w-full">
