@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Outlet, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../assets/main.css'
@@ -51,12 +51,13 @@ export default function Sidebar(props) {
           ) : (
             ""
           )}
+          <Outlet />
         </>
       );
     } else if(props.idRoll === 'false') {
       return (
         <>
-          <Link to="">
+          <Link to="/userdashboard">
             <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
               <span className="uppercase text-2xl m-2 font-medium">Dashboard</span>
             </li>

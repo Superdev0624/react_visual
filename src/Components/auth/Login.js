@@ -33,11 +33,14 @@ export default function Login() {
           .doc(authUser.user.uid)
           .get()
           .then(doc => {
-            console.log(doc.data())
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('Roll', doc.data().roll);
             sessionStorage.setItem('UserName', doc.data().firstname)
-            navigate('/layout')
+            if(doc.data().roll == true ){
+              navigate('/admindashboard')
+            } else{
+              navigate('/userdashboard')
+            }
           })
       }).catch((error) => {
         if (error.code === 'auth/wrong-password') {

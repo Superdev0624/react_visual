@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './assets/main.css'
 import Sidebar from './pages/Sidebar';
 import Navbar from './pages/Navbar';
-export default function Layout() {
+export default function Layout(props) {
   let navigate = useNavigate();
   const Username = sessionStorage.getItem('UserName')
   const Roll = sessionStorage.getItem('Roll');
@@ -34,6 +34,7 @@ export default function Layout() {
     <ToastContainer />
     <Navbar 
       sidebarShow={handleShow}
+
     />
     <Sidebar 
       sidebarHide={handleHide} 
@@ -41,6 +42,7 @@ export default function Layout() {
       userValue={Username} 
       value={show}
     />
+    {props.child()}
    </div>
   )
 }

@@ -92,9 +92,9 @@ export default function Signup () {
         })
       )
       .then(() => {
-        toast.warn('Successfully registered.Login again and use it!')
-        navigate('/')
         sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+        navigate('/')
+        toast.success('sdfsfsdfsdfsdfsdfsdfsdf');
       })
     })
     .catch((error) => {
