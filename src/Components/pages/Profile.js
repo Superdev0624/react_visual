@@ -148,9 +148,9 @@ export default function Profile() {
           </div>
         </div>
       </nav>
-      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden sm:max-w-xl mt-5">
+      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden sm:max-w-xl">
         <div className="p-10 text-center">
-          <div className="uppercase text-4xl text-indigo-500 font-semibold mb-10">{useinfo.firstname} {useinfo.lastname}</div>
+          <div className="uppercase text-4xl text-indigo-500 font-semibold">{useinfo.firstname} {useinfo.lastname}</div>
             <div class="flex flex-col">
               <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -158,10 +158,10 @@ export default function Profile() {
                           <table class="min-w-full font-mono italic text-lg">
                               <thead class="bg-gray-100 dark:bg-gray-700 text-lg">
                                   <tr>
-                                      <th scope="col" class="py-3 px-6 font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">
+                                      <th scope="col" class="py-3 px-6 font-bold tracking-wider text-blue-700 uppercase dark:text-gray-400">
                                           Property
                                       </th>
-                                      <th scope="col" class="py-3 px-6 font-medium tracking-wider text-gray-700 uppercase dark:text-gray-400">
+                                      <th scope="col" class="py-3 px-6 font-bold tracking-wider text-blue-700 uppercase dark:text-gray-400">
                                           Value
                                       </th>
                                   </tr>

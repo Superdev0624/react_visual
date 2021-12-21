@@ -14,7 +14,6 @@ export default function Signup () {
   const [companynum, setCompanynum] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const [check, setCheck] = useState(false);
   const [fnamevalid, setFnameValid] = useState(false);
   const [lnamevalid, setLnameValid] = useState(false);
@@ -28,37 +27,30 @@ export default function Signup () {
   const handlefirstName = (e) => {
     setFirst(e.target.value);
     setFnameValid(false);
-    setSubmitted(false);
   };
   const handlelastName = (e) => {
     setSecond(e.target.value);
     setLnameValid(false);
-    setSubmitted(false);
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setEmailValid(false);
-    setSubmitted(false);
   };
   const handlecompanyName = (e) => {
     setCompany(e.target.value);
     setCompanynameValid(false);
-    setSubmitted(false);
   };
   const handlePhone = (e) => {
     setPhone(e.target.value);
     setPhoneValid(false);
-    setSubmitted(false);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setPassValid(false);
-    setSubmitted(false);
   };
   const hadlecompanyNum = (e) => {
     setCompanynum(e.target.value)
     setCompanyNumValid(false);
-    setSubmitted(false);
   };
   const handleCheck = (e) => {
     e.preventDefault();
@@ -82,27 +74,26 @@ export default function Signup () {
       toast.error('All fields required!')
       return
     }
-    // if (typeof email !== "undefined") {
-        
-    //   var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-    //   if (!pattern.test(email)) {
-    //     toast.warn("Please enter valid email address");
-    //   }
-    // }
     auth.createUserWithEmailAndPassword(email, password)
     .then(authUser => {
-      db.collection("users")
-      .doc(authUser.user.uid)
-      .set({
-        useremail: email,
-        firstname: fname,
-        lastname: lname,
-        companyname: companyname,
-        companynum: companynum,
-        phone: phone
-      })
+      db.collection("users").where("companyname", "==", companyname)
+      .get()
+      .then(doc => 
+        db.collection("users")
+        .doc(authUser.user.uid)
+        .set({
+          useremail: email,
+          firstname: fname,
+          lastname: lname,
+          companyname: companyname,
+          companynum: companynum,
+          phone: phone,
+          roll:doc.docs.length === 0
+        })
+      )
       .then(() => {
-        navigate('/user')
+        toast.warn('Successfully registered.Login again and use it!')
+        navigate('/')
         sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
       })
     })
@@ -216,7 +207,6 @@ export default function Signup () {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 bordercolor"
-                  // className={"h-4 w-4 text-indigo-600 rounded " + (checkvalid ? " bordercolor" : "border-gray-300")}
                   value={check}
                   onChange={handleCheck}
                 />
