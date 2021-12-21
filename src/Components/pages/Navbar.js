@@ -6,7 +6,7 @@ export default function Navbar(props) {
   return (
     <div>
       <nav className="w-full mx-auto bg-white shadow">
-        <div className="container justify-between h-16 flex items-center lg:items-stretch mx-auto">
+        <div className="flex justify-between h-16">
           <div className="h-full flex items-center">
             <div className="mr-10 flex items-center">
               <img
