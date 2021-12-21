@@ -8,7 +8,7 @@ export default function Navbar(props) {
       <nav className="w-full mx-auto bg-white shadow">
         <div className="flex justify-between h-16">
           <div className="h-full flex items-center">
-            <div className="mr-10 flex items-center">
+            <div className="ml-5 flex items-center">
               <img
                 alt="logo"
                 className="object-between w-100 mt-2 h-6"
@@ -16,11 +16,11 @@ export default function Navbar(props) {
               />
             </div>
           </div>
-          <div className="h-full xl:flex items-center justify-end hidden">
+          <div className="mr-5 h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">
                 <div className="w-32 h-full flex items-center justify-center cursor-pointer">
-                  <span className="relative inline-block">
+                  <span className="relative inline-block mr-3 ">
                     <svg
                       className="h-12 w-15 p-1  mr-3"
                       fill="none"
