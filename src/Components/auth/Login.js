@@ -36,7 +36,7 @@ export default function Login() {
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('Roll', doc.data().roll);
             sessionStorage.setItem('UserName', doc.data().firstname)
-            if(doc.data().roll == true ){
+            if(doc.data().roll === true ){
               navigate('/admindashboard')
             } else{
               navigate('/userdashboard')

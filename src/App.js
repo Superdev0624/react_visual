@@ -13,6 +13,9 @@ import Edit from './Layout/Edit'
 import { Routes, Route } from 'react-router-dom'
 import './App.css';
 import userDashboard from "./Layout/UserDashboard"
+import AdminNotification from "./Layout/AdminNotification"
+import CreateUser from './Components/pages/CreateUser'
+import EditUser from './Components/pages/EditUser'
 function App() {
   return (
     <div>
@@ -29,6 +32,9 @@ function App() {
         <Route path='/userdashboard' element={ <Layout child={userDashboard} />} />
         <Route path='/profile' element={ <Layout child={Profile_Data} />} />
         <Route path='/edit' element={ <Layout child={Edit} />} />
+        <Route path='/adminnotification' element={ <Layout child={AdminNotification} />} />
+        <Route path='/createuser' element={<Layout child={CreateUser} /> } />
+        <Route path='/edituser' element={<Layout child={EditUser} /> } />
       </Routes>
     </div>
   );
