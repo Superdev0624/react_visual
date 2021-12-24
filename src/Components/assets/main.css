@@ -17,3 +17,15 @@
 .border-main-color {
   border-color: var(--main-color);
 }
+
+.textstylecolor {
+  color:#1A2956;
+}
+
+.backcustomcolor {
+  background-color:#1A2956;
+}
+
+.bordercolor {
+  border-color: #ff0000;
+}

@@ -25,7 +25,7 @@ export default function Login() {
     if (email === '' || password === '') {
       setEmailBorder(true);
       setPassBorder(true);
-      toast.error('Cannot be empty', { position: toast.POSITION.TOP_CENTER, autoClose: 3000 });
+      toast.error('Cannot be empty');
     }
     auth.signInWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -34,13 +34,16 @@ export default function Login() {
           .get()
           .then(doc => {
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('Roll', doc.data().roll);
+            sessionStorage.setItem('Roll', doc.data().Role);
             sessionStorage.setItem('UserName', doc.data().firstname)
-            if(doc.data().roll === true ){
+            sessionStorage.setItem('UID', doc.id);
+            if(doc.data().Role === 'Admin' ){
               navigate('/admindashboard')
-            } else{
+            } else if( doc.data().Role === 'Accountant'){
+              navigate('/accountantdashboard')
+            } else {
               navigate('/userdashboard')
-            }
+            } 
           })
       }).catch((error) => {
         if (error.code === 'auth/wrong-password') {

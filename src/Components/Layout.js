@@ -7,9 +7,9 @@ import Sidebar from './pages/Sidebar';
 import Navbar from './pages/Navbar';
 export default function Layout(props) {
   let navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const Username = sessionStorage.getItem('UserName')
   const Roll = sessionStorage.getItem('Roll');
-  const [show, setShow] = useState(false);
   useEffect(() => {
     const authToken = sessionStorage.getItem('Auth Token')
     if (authToken) {
@@ -19,7 +19,7 @@ export default function Layout(props) {
     if (!authToken) {
       navigate('/')
     }
-  }, [])
+  }, [Username])
   const handleShow = (e) => {
     e.preventDefault();
     setShow(!show);
@@ -38,11 +38,11 @@ export default function Layout(props) {
     />
     <Sidebar 
       sidebarHide={handleHide} 
-      idRoll={Roll} 
+      Role={Roll} 
       userValue={Username} 
       value={show}
     />
-    {props.child()}
+    {props.child}
    </div>
   )
 }

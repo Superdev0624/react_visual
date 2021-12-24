@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Components/assets/main.css'
+import '../../Components/assets/main.css'
 export default function AdminDashboard() {
   return(
     <>

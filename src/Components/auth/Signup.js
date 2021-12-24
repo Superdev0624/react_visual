@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../assets/Login.css'
 
-export default function Signup () {
+export default function Signup() {
   const [fname, setFirst] = useState('');
   const [lname, setSecond] = useState('');
   const [email, setEmail] = useState('');
@@ -54,15 +54,15 @@ export default function Signup () {
   };
   const handleCheck = (e) => {
     e.preventDefault();
-    if(check === true ){
+    if (check === true) {
       setCheck(false)
       setCheckValid(false)
     } else
-    setCheck(true)
-   }
+      setCheck(true)
+  }
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companyname === '' || companynum === ''|| phone === ''|| check === '') {
+    if (fname === '' || lname === '' || companyname === '' || companynum === '' || phone === '' || check === '') {
       setCompanyNumValid(true);
       setCompanynameValid(true);
       setEmailValid(true);
@@ -75,47 +75,71 @@ export default function Signup () {
       return
     }
     auth.createUserWithEmailAndPassword(email, password)
-    .then(authUser => {
-      db.collection("users").where("companyname", "==", companyname)
-      .get()
-      .then(doc => 
-        db.collection("users")
-        .doc(authUser.user.uid)
-        .set({
-          useremail: email,
-          firstname: fname,
-          lastname: lname,
-          companyname: companyname,
-          companynum: companynum,
-          phone: phone,
-          roll:doc.docs.length === 0
-        })
-      )
-      .then(() => {
-        sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-        navigate('/')
-        toast.success('sdfsfsdfsdfsdfsdfsdfsdf');
+      .then(authUser => {
+        db.collection("users").where("companyname", "==", companyname)
+          .get()
+          .then(doc => {
+            if (doc.docs.length === 0) {
+              db.collection("users")
+                .doc(authUser.user.uid)
+                .set({
+                  useremail: email,
+                  firstname: fname,
+                  lastname: lname,
+                  companyname: companyname,
+                  companynum: companynum,
+                  phone: phone,
+                  Role: "Admin"
+                })
+            } else if (doc.docs.length === 1) {
+              db.collection("users")
+                .doc(authUser.user.uid)
+                .set({
+                  useremail: email,
+                  firstname: fname,
+                  lastname: lname,
+                  companyname: companyname,
+                  companynum: companynum,
+                  phone: phone,
+                  Role: "Accountant"
+                })
+            } else if (doc.docs.length > 1) {
+              db.collection("users")
+                .doc(authUser.user.uid)
+                .set({
+                  useremail: email,
+                  firstname: fname,
+                  lastname: lname,
+                  companyname: companyname,
+                  companynum: companynum,
+                  phone: phone,
+                  Role: "User"
+                })
+            }
+          })
+          .then(() => {
+            navigate('/')
+            sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
+          })
       })
-    })
-    .catch((error) => {
-      console.log("Email", error);
-      if(error.code === 'auth/email-already-in-use') {
-        toast.error('email already exist');
-      }
-      if(error.code === 'auth/weak-password'){
-        toast.warning('Strong Password!');
-      }
-      if(error.code === 'auth/invalid-email'){
-        console.log("Invalid Email");
-        toast.warning('Invalid Email');
-      }
-    })
+      .catch((error) => {
+        if (error.code === 'auth/email-already-in-use') {
+          toast.error('email already exist');
+        }
+        if (error.code === 'auth/weak-password') {
+          toast.warning('Strong Password!');
+        }
+        if (error.code === 'auth/invalid-email') {
+          console.log("Invalid Email");
+          toast.warning('Invalid Email');
+        }
+      })
   }
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col app">
       <ToastContainer />
       <div className="container max-w-lg mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <div className="bg-white px-8 py-4 rounded shadow-md text-black w-full">
+        <div className=" bg-gray-50 px-8 py-4 rounded shadow-md text-black w-full">
           <div className="mb-6 flex justify-center">
             <img
               alt="logo"
@@ -127,7 +151,7 @@ export default function Signup () {
             <div className="flex">
               <div className="w-1/2 mr-1">
                 <input
-                  className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (fnamevalid ? "border-2 bordercolor" : "border border-gray-light")} 
+                  className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (fnamevalid ? "border bordercolor" : "border border-gray-light")}
                   id="first_name"
                   type="text"
                   placeholder="First name"
@@ -138,7 +162,7 @@ export default function Signup () {
               </div>
               <div className="w-1/2 ml-1">
                 <input
-                  className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (lnamevalid ? "border-2 bordercolor" : "border border-gray-light")} 
+                  className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (lnamevalid ? "border bordercolor" : "border border-gray-light")}
                   id="last_name"
                   type="text"
                   placeholder="Last name"
@@ -151,7 +175,7 @@ export default function Signup () {
 
             <input
               type="email"
-              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (emailvalid ? "border-2 bordercolor" : "border border-gray-light")}
+              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (emailvalid ? "border bordercolor" : "border border-gray-light")}
               name="Workemail"
               placeholder="workemail"
               value={email}
@@ -160,22 +184,23 @@ export default function Signup () {
             <p className={"inputcolor text-xs italic ml-1 " + (emailvalid ? "visible" : "invisible")}>Email required</p>
             <input
               type="text"
-              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (companynamevalid ? "border-2 bordercolor" : "border border-gray-light")} 
+              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynamevalid ? "border bordercolor" : "border border-gray-light")}
               name="Company Name"
               placeholder="Company Name"
               value={companyname}
               onChange={handlecompanyName}
             />
             <p className={"inputcolor text-xs italic ml-1 " + (companynamevalid ? "visible" : "invisible")}>Companyname required</p>
-            <select 
-              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (companynumvalid ? "border-2 bordercolor" : "border border-gray-light")} 
+            <select
+              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynumvalid ? "border bordercolor" : "border border-gray-light")}
               value={companynum}
               onChange={hadlecompanyNum}
             >
-              <option value="1-3">1-3</option>
-              <option value="4-10">4-10</option>
-              <option value="11-20">11-20</option>
-              <option value="20+">20 +</option>
+              <option selected className="opacity 0.7">select number</option>
+              <option>1-3</option>
+              <option>4-10</option>
+              <option>11-20</option>
+              <option>20+</option>
             </select>
             <p className={"inputcolor text-xs italic ml-1 " + (companynumvalid ? "visible" : "invisible")}>choose Number of company</p>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -184,7 +209,7 @@ export default function Signup () {
 
             <input
               type="text"
-              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (phonevalid ? "border-2 bordercolor" : "border border-gray-light")} 
+              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (phonevalid ? "border bordercolor" : "border border-gray-light")}
               name="phone"
               placeholder="Phone number"
               value={phone}
@@ -193,7 +218,7 @@ export default function Signup () {
             <p className={"inputcolor text-xs italic ml-1 " + (phonevalid ? "visible" : "invisible")}>phone number required</p>
             <input
               type="password"
-              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-grey-darker " + (passvalid ? "border-2 bordercolor" : "border border-gray-light")} 
+              className={"block w-full p-1 pl-3 rounded py-1 px-2 pl-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (passvalid ? "border bordercolor" : "border border-gray-light")}
               name="password"
               placeholder="Password"
               value={password}
