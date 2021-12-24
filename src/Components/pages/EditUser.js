@@ -33,7 +33,7 @@ export default function EditUser() {
       setRole(editData.Role)
       setPhone(editData.phone)
     })
-  })
+  }, [])
 
   const handlefirstName = (e) => {
     const value = e.target.value;  
