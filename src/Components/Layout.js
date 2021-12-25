@@ -8,17 +8,17 @@ import Navbar from './pages/Navbar';
 export default function Layout(props) {
   let navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const Username = sessionStorage.getItem('UserName')
   // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
     const authToken = sessionStorage.getItem('Auth Token')
     // if (authToken) {
     //   toast.success('Welcome ' + Username + ' to WEPULL!')
     // }
-
     if (!authToken) {
       navigate('/')
     }
-  }, [])
+  }, [Username, navigate])
   const handleShow = (e) => {
     e.preventDefault();
     setShow(!show);

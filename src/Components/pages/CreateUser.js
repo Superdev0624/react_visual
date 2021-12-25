@@ -12,6 +12,7 @@ export default function CreateUser() {
   const [email, setEmail] = useState('');
   const [companyname, setCompanyname] =useState('');
   const [companynum, setCompanynum] = useState('');
+  const [department, setDepartment] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
@@ -19,6 +20,7 @@ export default function CreateUser() {
   const [lnamevalid, setLnameValid] = useState(false);
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
+  const [departmentvalid, setDepartmentValid] = useState(false);
   const [companynumvalid, setCompanyNumValid] = useState(false);
   const [phonevalid, setPhoneValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
@@ -61,10 +63,14 @@ export default function CreateUser() {
     setRole(e.target.value)
     setRoleValid(false);
   }
+  const handleDepartment=(e) => {
+    setDepartment(e.target.value)
+    setDepartmentValid(false);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '') {
+    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '' || department === '') {
       setCompanyNumValid(true);
       setEmailValid(true);
       setPassValid(true);
@@ -72,6 +78,7 @@ export default function CreateUser() {
       setLnameValid(true);
       setPhoneValid(true);
       setRoleValid(true);
+      setDepartmentValid(true);
       toast.error('All fields required!')
       return
     }
@@ -89,6 +96,7 @@ export default function CreateUser() {
             companyname: companyname,
             companynum: companynum,
             phone: phone,
+            department:department,
             useremail: email,
             Role: role
           })
@@ -113,7 +121,8 @@ export default function CreateUser() {
       <div className="flex justify-center items-center bg-indigo-50">
         <div className="container max-w-3xl mx-auto bg-gray-50 rounded-xl shadow-xl overflow-hidden sm:max-w-xl pt-3 mt-10 pb-3  flex-1 flex flex-col items-center justify-center">
           <div className="px-2 py-1">
-            <div className="uppercase text-4xl textstylecolor font-semibold text-center">Add User</div>
+          <span className="block tracking-wide text-gray-400 text-4xl text-center font-medium italic">COMPANY  :   { companyname } </span>
+            <div className="uppercase text-3xl textstylecolor font-semibold text-center">Add User</div>
             <form className="w-full max-w-lg" onSubmit={handleSubmit}>
               <div className="flex flex-wrap -mx-3">
                 <div className="w-full md:w-1/2 px-3">
@@ -176,9 +185,16 @@ export default function CreateUser() {
               <div className="flex flex-wrap -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-center text-xs font-bold py-1">
-                    Company name
+                    Department name
                   </label>
-                  <span className="block tracking-wide text-gray-400 text-3xl text-center font-medium italic"> { companyname } </span>
+                  <input 
+                    type="text"
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (phonevalid ? "border bordercolor" : "border border-gray-200")}
+                    placeholder="IT Department"
+                    value={department}
+                    onChange={handleDepartment}
+                  />
+                  <p className={"text-red-500 text-xs italic " + (departmentvalid ? "visible" : "invisible")}>Please fill out this field.</p>
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">

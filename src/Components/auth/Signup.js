@@ -84,10 +84,12 @@ export default function Signup() {
                 .doc(authUser.user.uid)
                 .set({
                   useremail: email,
+                  password: password,
                   firstname: fname,
                   lastname: lname,
                   companyname: companyname,
                   companynum: companynum,
+                  department:"",
                   phone: phone,
                   Role: "Admin"
                 })
@@ -96,10 +98,12 @@ export default function Signup() {
                 .doc(authUser.user.uid)
                 .set({
                   useremail: email,
+                  password: password,
                   firstname: fname,
                   lastname: lname,
                   companyname: companyname,
                   companynum: companynum,
+                  department:"",
                   phone: phone,
                   Role: "Accountant"
                 })
@@ -108,10 +112,12 @@ export default function Signup() {
                 .doc(authUser.user.uid)
                 .set({
                   useremail: email,
+                  password: password,
                   firstname: fname,
                   lastname: lname,
                   companyname: companyname,
                   companynum: companynum,
+                  department:"",
                   phone: phone,
                   Role: "User"
                 })
@@ -196,7 +202,6 @@ export default function Signup() {
               value={companynum}
               onChange={hadlecompanyNum}
             >
-              <option selected className="opacity 0.7">select number</option>
               <option>1-3</option>
               <option>4-10</option>
               <option>11-20</option>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../Components/assets/main.css'
 import { Link, useNavigate} from 'react-router-dom'
-import { db } from '../../firebase-config'
+import { db,auth } from '../../firebase-config'
 import { toast } from 'react-toastify';
 function Users() {
   const [usersdata, setUsersData] = useState('');
@@ -24,9 +24,11 @@ function Users() {
     })
   },[authID])
   let navigate = useNavigate();
+
   function onDelete(event) {
     if(window.confirm('Are you sure to delete this user?')) {
       if(authID !== event){
+        auth()
         db.collection("users")
         .doc(event)
         .delete().then(() => {
@@ -42,12 +44,13 @@ function Users() {
   }
   function onEdit(event) {
     const userId= usersdata[event].id
-    db.collection("users")
-    .doc(userId)
-    .get()
-    .then((res) =>{
-      navigate(`/edituser/${userId}`)
-    })
+    navigate(`/edituser/${userId}`)
+    // db.collection("users")
+    // .doc(userId)
+    // .get()
+    // .then((res) =>{
+    //   navigate(`/edituser/${userId}`)
+    // })
   }
   
   return (
