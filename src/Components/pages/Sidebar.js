@@ -6,24 +6,26 @@ import '../assets/main.css'
 
 export default function Sidebar(props) {
   const [product, setProduct] = useState(false);
+  const Username = sessionStorage.getItem('UserName')
+  const Roll = sessionStorage.getItem('Roll');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     toast.info('Log out!')
   }
   const adminShow = () =>{
-    if(props.Role === 'Admin') {
+    if(Roll === 'Admin') {
       return(
         <>
           <p className="uppercase flex item text-lg w-full justify-center font-bold text-white headcolor">Admin</p>
         </>
       )
-    } else if (props.Role === 'Accountant') {
+    } else if (Roll === 'Accountant') {
       return(
         <>
           <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-indigo-700">Accountant</p>
         </>
       )
-    } else if (props.Role === 'User') {
+    } else if (Roll === 'User') {
       return(
         <>
           <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-indigo-700">User</p>
@@ -33,7 +35,7 @@ export default function Sidebar(props) {
   }
 
   const renderMenuItem = () => {
-    if(props.Role === 'Admin' ) {
+    if(Roll === 'Admin' ) {
       return (
         <>
           <Link to="/admindashboard">
@@ -60,7 +62,7 @@ export default function Sidebar(props) {
           )}
         </>
       );
-    } else if(props.Role === 'Accountant' ) {
+    } else if(Roll === 'Accountant' ) {
         return (
           <>
             <Link to="/accountantdashboard">
@@ -84,7 +86,7 @@ export default function Sidebar(props) {
             )}
           </>
         );
-     } else if (props.Role === 'User' ) {
+     } else if (Roll === 'User' ) {
         return (
           <>
             <Link to="/userdashboard">
@@ -119,7 +121,7 @@ export default function Sidebar(props) {
           <div className="flex flex-col justify-between h-full">
             <div className="px-6 pt-4">
               <div className="px-10 pt-4 flex justify-content center">
-                <p className="uppercase flex item text-white italic font-mono w-full justify-center text-3xl font-bold">Hi,{props.userValue }</p>
+                <p className="uppercase flex item text-white italic font-mono w-full justify-center text-3xl font-bold">Hi,{ Username } </p>
               </div>
               <div className="px-10 pt-1 flex justify-content center">
                 {adminShow()}

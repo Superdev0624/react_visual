@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../assets/main.css'
 import { useNavigate } from 'react-router-dom'
 import { db, auth } from '../../firebase-config'
@@ -10,7 +10,7 @@ export default function CreateUser() {
   const [fname, setFirst] = useState('');
   const [lname, setSecond] = useState('');
   const [email, setEmail] = useState('');
-  const [companyname, setCompany] = useState('');
+  const [companyname, setCompanyname] =useState('');
   const [companynum, setCompanynum] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -19,12 +19,20 @@ export default function CreateUser() {
   const [lnamevalid, setLnameValid] = useState(false);
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
-  const [companynamevalid, setCompanynameValid] = useState(false);
   const [companynumvalid, setCompanyNumValid] = useState(false);
   const [phonevalid, setPhoneValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
   let navigate = useNavigate();
-
+  const authID = sessionStorage.getItem('UID') 
+  useEffect(() =>{
+  db.collection("users")
+    .get()
+    .then(doc =>{
+      const users = doc.docs;
+      const result = users.filter(user => user.id === authID)[0]
+      setCompanyname(result.data().companyname)
+    })
+  },[authID])
   const handlefirstName = (e) => {
     setFirst(e.target.value);
     setFnameValid(false);
@@ -36,10 +44,6 @@ export default function CreateUser() {
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setEmailValid(false);
-  };
-  const handlecompanyName = (e) => {
-    setCompany(e.target.value);
-    setCompanynameValid(false);
   };
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -60,9 +64,8 @@ export default function CreateUser() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companyname === '' || companynum === ''|| phone === ''|| role === '') {
+    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '') {
       setCompanyNumValid(true);
-      setCompanynameValid(true);
       setEmailValid(true);
       setPassValid(true);
       setFnameValid(true);
@@ -119,7 +122,7 @@ export default function CreateUser() {
                   </label>
                   <input 
                     type="text"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (fnamevalid ? "border bordercolor" : "border border-gray-200")}
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (fnamevalid ? "border bordercolor" : "border border-gray-200")}
                     placeholder="Jone"
                     value={fname}
                     onChange={handlefirstName}
@@ -132,7 +135,7 @@ export default function CreateUser() {
                   </label>
                   <input 
                     type="text"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (lnamevalid ? "border bordercolor" : "border border-gray-200")}
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (lnamevalid ? "border bordercolor" : "border border-gray-200")}
                     placeholder="Doe"
                     value={lname}
                     onChange={handlelastName}
@@ -147,7 +150,7 @@ export default function CreateUser() {
                   </label>
                   <input 
                     type="password"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (passvalid ? "border bordercolor" : "border border-gray-200")}
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (passvalid ? "border bordercolor" : "border border-gray-200")}
                     placeholder="******************"
                     value={password}
                     onChange={handlePassword}
@@ -162,7 +165,7 @@ export default function CreateUser() {
                   </label>
                   <input 
                     type="email"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (emailvalid ? "border bordercolor" : "border border-gray-200")}
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (emailvalid ? "border bordercolor" : "border border-gray-200")}
                     placeholder="**@example.example"
                     value={email}
                     onChange={handleEmail}
@@ -172,17 +175,10 @@ export default function CreateUser() {
               </div>
               <div className="flex flex-wrap -mx-3">
                 <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                  <label className="block uppercase tracking-wide text-gray-700 text-center text-xs font-bold py-1">
                     Company name
                   </label>
-                  <input 
-                    type="text"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynamevalid ? "border bordercolor" : "border border-gray-200")}
-                    placeholder="Albuquerque"
-                    value={companyname}
-                    onChange={handlecompanyName}
-                  />
-                  <p className={"text-red-500 text-xs italic " + (companynamevalid ? "visible" : "invisible")}>Please fill out this field.</p>
+                  <span className="block tracking-wide text-gray-400 text-3xl text-center font-medium italic"> { companyname } </span>
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
@@ -190,11 +186,11 @@ export default function CreateUser() {
                   </label>
                   <div className="relative">
                     <select 
-                      className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynumvalid ? "border bordercolor" : "border border-gray-200")}
+                      className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynumvalid ? "border bordercolor" : "border border-gray-200")}
                       value={companynum}
+                      placeholder="select number"
                       onChange={handlecompanyNum}
                     >
-                      <option selected className="opacity 0.7">select number</option>
                       <option>1-3</option>
                       <option>4-10</option>
                       <option>11-20</option>
@@ -214,12 +210,10 @@ export default function CreateUser() {
                   </label>
                   <div className="relative">
                     <select 
-                      className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (rolevalid ? "border bordercolor" : "border border-gray-200")}
+                      className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (rolevalid ? "border bordercolor" : "border border-gray-200")}
                       value={role}
                       onChange={handleRole}
                     >
-                      <option selected className="opacity 0.7">none</option>
-                      <option>Admin</option>
                       <option>Accountant</option>
                       <option>Department Manager</option>
                       <option>User</option>
@@ -236,7 +230,7 @@ export default function CreateUser() {
                   </label>
                   <input 
                     type="text"
-                    className={"appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (phonevalid ? "border bordercolor" : "border border-gray-200")}
+                    className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (phonevalid ? "border bordercolor" : "border border-gray-200")}
                     placeholder="+1 234-567-5678"
                     value={phone}
                     onChange={handlePhone}

@@ -1,4 +1,4 @@
-import React,{ useState, useEffect , useRef}from 'react'
+import React,{ useState, useEffect }from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
@@ -19,13 +19,13 @@ export default function EditUser() {
     navigate('/user');
     toast.info("User Edit has been cancelled.")
   }
- const paras = useParams().id 
+ const edituserID = useParams().id 
   useEffect(() =>{
     db.collection("users")
-    .doc(paras)
+    .doc(edituserID)
     .get()
-    .then(docpar =>{
-      const editData = docpar.data()
+    .then(doc =>{
+      const editData = doc.data()
       setFirstname(editData.firstname)
       setLastname(editData.lastname)
       setCompanyname(editData.companyname)
@@ -33,7 +33,7 @@ export default function EditUser() {
       setRole(editData.Role)
       setPhone(editData.phone)
     })
-  }, [])
+  }, [edituserID])
 
   const handlefirstName = (e) => {
     const value = e.target.value;  
@@ -60,11 +60,10 @@ export default function EditUser() {
     setCompanynum(e.target.value)
   };
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    console.log(firstname, lastname, companyname, companynum, role, phone)
     db.collection("users")
-    .doc(paras)
+    .doc(edituserID)
     .update({
       firstname:firstname,
       lastname:lastname,
@@ -73,10 +72,9 @@ export default function EditUser() {
       role:role,
       phone: phone
     }).then(() =>{
-     navigate('/user')
-     toast.success("edit success!")
+      toast.success("Edit Success!")
+      navigate('/user')
     })
-
   }
 
   return(
