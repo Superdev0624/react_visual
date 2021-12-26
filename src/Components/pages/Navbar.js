@@ -11,7 +11,7 @@ export default function Navbar(props) {
             <div className="ml-5 flex items-center">
               <img
                 alt="logo"
-                className="object-between w-100 mt-2 h-6"
+                className="object-between w-100 h-6 mt-2 mb-1"
                 src="../logo.png"
               />
             </div>

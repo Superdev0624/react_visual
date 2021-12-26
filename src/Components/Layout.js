@@ -9,13 +9,18 @@ export default function Layout(props) {
   let navigate = useNavigate();
   const [show, setShow] = useState(false);
   const Username = sessionStorage.getItem('UserName')
+  const authToken = sessionStorage.getItem('Auth Token')
+  const logmsg = sessionStorage.getItem('loginSuccessMsg')
   // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
-    const authToken = sessionStorage.getItem('Auth Token')
+    if (logmsg === 'false'){
+      toast.success("Success");
+      sessionStorage.setItem('loginSuccessMsg', 'true');
+    } 
     if (!authToken) {
       navigate('/')
     }
-  }, [Username, navigate])
+  }, [navigate])
   const handleShow = (e) => {
     e.preventDefault();
     setShow(!show);
@@ -36,7 +41,9 @@ export default function Layout(props) {
       sidebarHide={handleHide} 
       value={show}
     />
-    {props.child}
+    <div>
+      {props.child}
+    </div>
    </div>
   )
 }

@@ -37,15 +37,13 @@ export default function Login() {
             sessionStorage.setItem('Roll', doc.data().Role);
             sessionStorage.setItem('UserName', doc.data().firstname)
             sessionStorage.setItem('UID', doc.id);
+            sessionStorage.setItem('loginSuccessMsg', 'false');
             if(doc.data().Role === 'Admin' ){
-              toast.success("Success!")
               navigate('/admindashboard')
             } else if( doc.data().Role === 'Accountant'){
               navigate('/accountantdashboard')
-              toast.success("Success!")
             } else {
               navigate('/userdashboard')
-              toast.success("Success!")
             } 
           })
       }).catch((error) => {
@@ -77,39 +75,37 @@ export default function Login() {
             </label>
             <form onSubmit={handleSubmit}>
               <label
-                className="mb-1 block text-lg pl-3 text-gray-600">
+                className="text-xm font-bold text-gray-700 tracking-wide">
                 Email:
               </label>
               <input
                 type="text"
-                className={"block w-full p-1 pl-3 rounded " + (emailborder ? "border-2 bordercolor" : "border border-gray-light")}
-                placeholder="Work Email"
+                className={"w-full text-lg border-b focus:outline-none focus:border-indigo-500 " + (emailborder ? "bordercolor" : "border-gray-300")}
+                placeholder="mike@gmail.com"
                 value={email}
                 onChange={handleEmail}
               />
-              <p className={"inputcolor text-xm italic mb-1 mt-1 ml-1 " + (emailborder ? "visible" : "invisible")}>please choose email</p>
-              <label
-                className="mb-1 block text-lg pl-3 text-gray-600">
-                Password:
-              </label>
+              <p className={"inputcolor text-xm italic mt-1 ml-1 " + (emailborder ? "visible" : "invisible")}>please choose email</p>
+              <div className='flex justify-between items-center'>
+                <label
+                  className="text-xm font-bold text-gray-700 tracking-wide">
+                  Password:
+                </label>
+                <Link className="font-medium text-green-500 hover:text-xl" to="/confirmEmail">
+                  Forgot Password?
+                </Link>
+              </div>
               <input
                 type="password"
-                className={"block w-full p-1 pl-3 rounded " + (passborder ? "border-2 bordercolor" : "border border-gray-light")}
+                className={"w-full text-lg border-b focus:outline-none focus:border-indigo-500 " + (passborder ? "bordercolor" : "border-gray-300")}
                 placeholder="Password"
                 value={password}
                 onChange={handlePassword}
               />
               <p className={"inputcolor text-xm italic mb-1 mt-1 ml-1 " + (passborder ? "visible" : "invisible")}>please choose password</p>
-              <div className="flex items-center justify-between">
-                <div className="flex item-center">
-                  <Link className="font-medium text-green-500 hover:text-xl" to="/confirmEmail">
-                    Forgot Password?
-                  </Link>
-                </div>
-              </div>
               <button
                 type="submit"
-                className="mt-6 mb-2 flex justify-center py-2 px-4 border border-transparent text-md font-medium rounded-md text-white bg-green-500 focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                className="mt-3 mb-2 bg-green-500 text-gray-100 p-2 w-full rounded tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-green-600 shadow-lg"
               >
                 Log In
               </button>
