@@ -12,9 +12,6 @@ export default function Layout(props) {
   // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
     const authToken = sessionStorage.getItem('Auth Token')
-    // if (authToken) {
-    //   toast.success('Welcome ' + Username + ' to WEPULL!')
-    // }
     if (!authToken) {
       navigate('/')
     }

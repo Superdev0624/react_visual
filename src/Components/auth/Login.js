@@ -38,11 +38,14 @@ export default function Login() {
             sessionStorage.setItem('UserName', doc.data().firstname)
             sessionStorage.setItem('UID', doc.id);
             if(doc.data().Role === 'Admin' ){
+              toast.success("Success!")
               navigate('/admindashboard')
             } else if( doc.data().Role === 'Accountant'){
               navigate('/accountantdashboard')
+              toast.success("Success!")
             } else {
               navigate('/userdashboard')
+              toast.success("Success!")
             } 
           })
       }).catch((error) => {
