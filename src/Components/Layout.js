@@ -14,7 +14,7 @@ export default function Layout(props) {
   // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
     if (logmsg === 'false'){
-      toast.success("Success");
+      toast.success("Login Successfully");
       sessionStorage.setItem('loginSuccessMsg', 'true');
     } 
     if (!authToken) {
