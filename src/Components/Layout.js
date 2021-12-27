@@ -14,13 +14,13 @@ export default function Layout(props) {
   // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
     if (logmsg === 'false'){
-      toast.success("Login Successfully");
+      toast.success("Welcome login in " + Username +"website successfully");
       sessionStorage.setItem('loginSuccessMsg', 'true');
     } 
     if (!authToken) {
       navigate('/')
     }
-  }, [navigate])
+  }, [authToken,logmsg,navigate,Username])
   const handleShow = (e) => {
     e.preventDefault();
     setShow(!show);

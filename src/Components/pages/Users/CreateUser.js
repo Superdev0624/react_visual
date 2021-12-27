@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import '../assets/main.css'
 import { useNavigate } from 'react-router-dom'
-import { db, auth } from '../../firebase-config'
+import { db, auth } from '../../../firebase-config'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../assets/main.css'
+import '../../assets/main.css'
 
 export default function CreateUser() {
   const [fname, setFirst] = useState('');
@@ -267,6 +266,6 @@ export default function CreateUser() {
         </form>
       </div>
     </div>
-  </div>
+    </div>
   )
 }

@@ -13,8 +13,10 @@ import Profile from './Layout/User/Profile'
 import Edit from './Layout/User/Edit'
 import { Routes, Route } from 'react-router-dom'
 import AdminNotification from "./Layout/Admin/AdminNotification"
-import CreateUser from './Components/pages/CreateUser'
-import EditUser from './Components/pages/EditUser'
+import CreateUser from './Components/pages/Users/CreateUser'
+import EditUser from './Components/pages/Users/EditUser'
+import CreateDepartment from './Components/pages/department/CreatDepartment'
+import EditDepartment from './Components/pages/department/EditDepartment'
 import './App.css';
 function App() {
   return (
@@ -26,13 +28,17 @@ function App() {
 
         <Route path='/admindashboard' element={ <Layout child={<AdminDashboard />} />} />
         <Route path='/company' element={ <Layout child={<Company />} />} />
-        <Route path='/department' element={ <Layout child={<Department />} />} />
         <Route path='/billSub' element={ <Layout child={<Bill />} />} />
         <Route path='/app' element={ <Layout child={<Apps />} />} />
         <Route path='/adminnotification' element={ <Layout child={<AdminNotification />} />} />
+        
         <Route path='/user' element={ <Layout child={<Users />} />} />
         <Route path='/createuser' element={<Layout child={<CreateUser />} /> } />
         <Route path='/edituser/:id' element={<Layout child={<EditUser/>} /> } />
+       
+        <Route path='/department' element={ <Layout child={<Department />} />} />
+        <Route path='/createdepartment' element={<Layout child={<CreateDepartment />} /> } />
+        <Route path='/editdepartment/:id' element={<Layout child={<EditDepartment />} /> } />
 
         <Route path='/accountantdashboard' element={ <Layout child={<Accountantdashboard />} />} />
         

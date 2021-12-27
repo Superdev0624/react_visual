@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
-import { db } from '../../firebase-config'
+import { db } from '../../../firebase-config'
 import 'react-toastify/dist/ReactToastify.css';
-import '../assets/main.css'
+import '../../assets/main.css'
 export default function EditUser() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
