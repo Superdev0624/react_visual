@@ -102,8 +102,11 @@ export default function CreateDepartment() {
                   <p className={"inputcolor text-xs italic ml-1 " + (descriptionvalid ? "visible" : "invisible")}>Description required</p>
                 </div>
                 <textarea 
-                  className="form-textarea mt-1 block w-full border-blue-500" 
+                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (partmanagevalid ? "border bordercolor" : "border border-gray-200")}
                   rows="5" 
+                  minLength="20"
+                  maxLength="1000"
+                  size="150"
                   placeholder="Write about department..."
                   value={description}
                   onChange={handleDescription}

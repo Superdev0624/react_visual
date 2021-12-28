@@ -14,6 +14,7 @@ export default function EditUser() {
   const [department, setDepartment] = useState('');
   const [role, setRole] = useState("");
   const [phone, setPhone] = useState("");
+  const [part, setPart] = useState([]);
   // const [error, setError] = useState("")
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID')
@@ -44,6 +45,15 @@ export default function EditUser() {
         setRole(editData.Role)
         setPhone(editData.phone)
       })
+    db.collection("departments")
+      .get()
+      .then(doc =>{
+        for(let i = 0; i< doc.docs.length; i++) {
+          const partdata = doc.docs[i]
+          const itemdata = partdata.data().departmentname
+          setPart(arr =>[...arr, itemdata])      
+        }
+      })  
   }, [authID, edituserID])
 
   const handlefirstName = (e) => {
@@ -116,7 +126,6 @@ export default function EditUser() {
                   value={firstname}
                   onChange={handlefirstName}
                 />
-                {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1 mb-1">
@@ -129,7 +138,6 @@ export default function EditUser() {
                   value={lastname}
                   onChange={handlelastName}
                 />
-                {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-2">
@@ -144,7 +152,6 @@ export default function EditUser() {
                   value={password}
                   onChange={handlePassword}
                 />
-                {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-2 ">
@@ -152,14 +159,14 @@ export default function EditUser() {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1 mb-1">
                   Department name
                 </label>
-                <input
-                  type="text"
+                <select 
                   className="appearance-none block w-full text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   placeholder="IT Department"
                   value={department}
                   onChange={handleDepartment}
-                />
-                {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
+                >
+                  {part.map((e, id) =><option key={id}>{e}</option>)}
+                </select>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1 mb-1">
@@ -176,7 +183,6 @@ export default function EditUser() {
                     <option>11-20</option>
                     <option>20+</option>
                   </select>
-                  {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                   </div>
@@ -194,11 +200,11 @@ export default function EditUser() {
                     value={role}
                     onChange={handlerole}
                   >
+                    <option selected>Select Role</option>
                     <option>Accountant</option>
                     <option>Department Manager</option>
                     <option>User</option>
                   </select>
-                  {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                   </div>
@@ -215,7 +221,6 @@ export default function EditUser() {
                   value={phone}
                   onChange={handlephone}
                 />
-                {/* <p className="text-red-500 text-xs italic">{error && error}</p> */}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-2">

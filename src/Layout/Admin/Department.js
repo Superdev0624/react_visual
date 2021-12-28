@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import '../../Components/assets/main.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams} from 'react-router-dom'
 import { db } from '../../firebase-config'
 import { toast } from 'react-toastify';
 
 export default function Department() {
   const [departmentdata, setDepartmentData] = useState('');
+  const [num, setNum] = useState();
   let navigate = useNavigate();
+  const editID = useParams().id
   useEffect(() =>{
     db.collection("departments")
     .get()
-    .then(doc=>{
-      const departments = doc.docs.map((part) =>{
+    .then(async (doc)=>{
+      let departments = doc.docs.map((part) =>{
         return{...part.data(), id: part.id}
       })
+      for (let i = 0; i<departments.length; i++){
+        const partdata = departments[i]
+        const doc = await db.collection("users").where("department", "==", partdata.departmentname)
+        .get();
+        departments[i].usenum = doc.docs.length
+      }
       setDepartmentData(departments)
     })
-
   },[])
   function onEdit(event) {
     const departmentId = departmentdata[event].id
@@ -29,6 +36,7 @@ export default function Department() {
       .doc(event)
       .delete().then(() => {
         toast.info("delete successfully!")
+        window.location.reload();
       }).catch((error) => {
         console.log("delete", error)
       })
@@ -86,7 +94,7 @@ export default function Department() {
                       <div className="text-xl font-medium text-center text-gray-900">{part.departmentname}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <div className="text-xl leading-5 text-gray-500 text-center">10</div>
+                      <div className="text-xl leading-5 text-gray-500 text-center">{part.usenum}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                       <div className="text-xl leading-5 text-gray-500 text-center">{part.departmentmanager}</div>

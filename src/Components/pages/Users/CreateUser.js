@@ -23,6 +23,7 @@ export default function CreateUser() {
   const [companynumvalid, setCompanyNumValid] = useState(false);
   const [phonevalid, setPhoneValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
+  const [part, setPart] = useState([]);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
   useEffect(() =>{
@@ -33,6 +34,15 @@ export default function CreateUser() {
       const result = users.filter(user => user.id === authID)[0]
       setCompanyname(result.data().companyname)
     })
+  db.collection("departments")
+  .get()
+  .then(doc =>{
+    for(let i = 0; i< doc.docs.length; i++) {
+      const partdata = doc.docs[i]
+      const itemdata = partdata.data().departmentname
+      setPart(arr =>[...arr, itemdata])      
+    }
+  })
   },[authID])
   const handlefirstName = (e) => {
     setFirst(e.target.value);
@@ -184,13 +194,14 @@ export default function CreateUser() {
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                 Department name
               </label>
-              <input 
-                type="text"
+              <select 
                 className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (departmentvalid ? "border bordercolor" : "border border-gray-200")}
                 placeholder="IT Department"
                 value={department}
                 onChange={handleDepartment}
-              />
+              >
+                {part.map((e, id) =><option key={id}>{e}</option>)}
+              </select>
               <p className={"text-red-500 text-xs italic " + (departmentvalid ? "visible" : "invisible")}>Please fill out this field.</p>
             </div>
             <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
@@ -226,9 +237,10 @@ export default function CreateUser() {
                   className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (rolevalid ? "border bordercolor" : "border border-gray-200")}
                   value={role}
                   onChange={handleRole}
-                >
-                  <option>Accountant</option>
+                > 
+                  <option selected >Select Role</option>
                   <option>Department Manager</option>
+                  <option>Accountant</option>
                   <option>User</option>
                 </select>
                 <p className={"text-red-500 text-xs italic " + (rolevalid ? "visible" : "invisible")}>Please fill out this field.</p>
