@@ -202,7 +202,6 @@ export default function EditUser() {
                   >
                     <option selected>Select Role</option>
                     <option>Accountant</option>
-                    <option>Department Manager</option>
                     <option>User</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

@@ -34,13 +34,13 @@ export default function Login() {
           .get()
           .then(doc => {
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('Roll', doc.data().Role);
+            sessionStorage.setItem('Roll', doc.data().role);
             sessionStorage.setItem('UserName', doc.data().firstname)
             sessionStorage.setItem('UID', doc.id);
             sessionStorage.setItem('loginSuccessMsg', 'false');
-            if(doc.data().Role === 'Admin' ){
+            if(doc.data().role === 'Admin' ){
               navigate('/admindashboard')
-            } else if( doc.data().Role === 'Accountant'){
+            } else if( doc.data().role === 'Accountant'){
               navigate('/accountantdashboard')
             } else {
               navigate('/userdashboard')

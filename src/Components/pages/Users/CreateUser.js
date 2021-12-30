@@ -108,7 +108,7 @@ export default function CreateUser() {
             phone: phone,
             department:department,
             useremail: email,
-            Role: role
+            role: role
           })
           .then(() =>{
             toast.success("add member successfully!")
@@ -240,7 +240,6 @@ export default function CreateUser() {
                   onChange={handleRole}
                 > 
                   <option selected >Select Role</option>
-                  <option>Department Manager</option>
                   <option>Accountant</option>
                   <option>User</option>
                 </select>

@@ -38,7 +38,6 @@ function Users() {
   function onDelete(event) {
     if (window.confirm('Are you sure to delete this user?')) {
       if (authID !== event) {
-        auth()
         db.collection("users")
           .doc(event)
           .delete().then(() => {
@@ -140,7 +139,7 @@ function Users() {
                             <div className="text-xl leading-5 text-gray-500 text-center">{user.companyname}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <div className="text-xl leading-5 text-gray-500 text-center">{user.Role}</div>
+                            <div className="text-xl leading-5 text-gray-500 text-center">{user.role}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-blue-400 hover:text-blue-600 cursor-pointer" fill="none"

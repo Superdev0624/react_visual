@@ -112,7 +112,7 @@ export default function Signup() {
                   companynum: companynum,
                   department: "",
                   phone: phone,
-                  Role: "Admin"
+                  role: "Admin"
                 })
             } else if (doc.docs.length === 1) {
               db.collection("users")
@@ -126,7 +126,7 @@ export default function Signup() {
                   companynum: companynum,
                   department: "",
                   phone: phone,
-                  Role: "Accountant"
+                  role: "Accountant"
                 })
             } else if (doc.docs.length > 1) {
               db.collection("users")
@@ -140,7 +140,7 @@ export default function Signup() {
                   companynum: companynum,
                   department: "",
                   phone: phone,
-                  Role: "User"
+                  role: "User"
                 })
             }
           })
