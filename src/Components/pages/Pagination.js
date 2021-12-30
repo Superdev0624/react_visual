@@ -31,11 +31,11 @@ export default function Pagination({
       <nav className='block'>
         <ul className='flex pl-0 rounded list-none flex-wrap'>
           <li className={"bg-blue border-red-300 text-red-500 hover:bg-blue-200 mr-10 relative inline-flex items-center px-4 py-2 border text-sm font-medium "+ (currentPage === 1 ? 'disabled' : '')}>
-              <a onClick={() => paginate(1)}>First</a>
+              <button onClick={() => paginate(1)}>First</button>
           </li>
           <li className="w-12 md:flex justify-center items-center hidden  cursor-pointer leading-5 transition duration-150 ease-in  rounded-full bg-teal-600 text-white">
             {pageNumbers.map((number) => (
-              <a onClick={() => {paginate(number);}} 
+              <button onClick={() => {paginate(number);}} 
                 className={
                   currentPage === number
                     ? "bg-blue border-red-300 text-red-500 hover:bg-blue-200 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
@@ -43,11 +43,11 @@ export default function Pagination({
                 }
               >
                 {number}
-              </a>
+              </button>
             ))}
           </li>
           <li className={"bg-blue border-red-300 text-red-500 hover:bg-blue-200 ml-10 relative inline-flex items-center px-4 py-2 border text-sm font-medium "+ (currentPage === 1 ? 'disabled' : '')}>
-              <a onClick={() => paginate(totalPosts)}>Last</a>
+              <button onClick={() => paginate(totalPosts)}>Last</button>
           </li>
         </ul>
       </nav>

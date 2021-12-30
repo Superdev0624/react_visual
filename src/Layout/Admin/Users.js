@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../Components/assets/main.css'
 import { Link, useNavigate } from 'react-router-dom'
-import { db, auth } from '../../firebase-config'
+import { db } from '../../firebase-config'
 import { toast } from 'react-toastify';
 import Pagination from '../../Components/pages/Pagination'
 function Users() {
