@@ -114,7 +114,7 @@ export default function Sidebar(props) {
 
   return (
     <div className={"transition duration-1000 w-full h-full transform " + (props.value ? " absolute z-50 translate-x-0 " : " absolute z-40 -translate-x-full")}>
-      <div className="bg-gray-400 opacity-80 inset-0 fixed w-full h-full" onClick={props.sidebarHide} />
+      <div className="bg-gray-300 opacity-80 inset-0 fixed w-full h-full" onClick={props.sidebarHide} />
       <div className="w-80 z-20 absolute right-0 z-40 top-0  shadow flex-col usecolor justify-between h-full transition-all duration-300">
         <div className="flex flex-col justify-between h-full">
           <div className="px-6 pt-4">

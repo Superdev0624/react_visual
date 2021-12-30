@@ -79,7 +79,7 @@ export default function CreateUser() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '' || department === '') {
+    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '' || department === ''|| email === ''|| password === '') {
       setCompanyNumValid(true);
       setEmailValid(true);
       setPassValid(true);
@@ -91,6 +91,7 @@ export default function CreateUser() {
       toast.error('All fields required!')
       return
     }
+    console.log(fname, lname, companynum, phone,role,department, email, password)
     auth.createUserWithEmailAndPassword(email, password)
     .then(res => {
       db.collection("users").where("useremail", "==" , email)
@@ -129,7 +130,7 @@ export default function CreateUser() {
     <div className="container max-w-3xl mx-auto bg-gray-50 rounded-xl shadow-xl overflow-hidden sm:max-w-xl pt-3 mt-10 pb-3  flex-1 flex flex-col items-center justify-center">
       <div className="px-2 py-1">
       <span className="block tracking-wide text-gray-400 text-4xl text-center font-medium italic">COMPANY  :   { companyname } </span>
-        <div className="uppercase text-3xl textstylecolor font-semibold text-center">Add User</div>
+        <div className="uppercase text-3xl textstylecolor font-semibold text-center">Create User</div>
         <form className="w-full max-w-lg" onSubmit={handleSubmit}>
           <div className="flex flex-wrap -mx-3">
             <div className="w-full md:w-1/2 px-3">

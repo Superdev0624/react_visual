@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import '../../Components/assets/main.css'
-import { Link, useNavigate, useParams} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { db } from '../../firebase-config'
 import { toast } from 'react-toastify';
 
 export default function Department() {
   const [departmentdata, setDepartmentData] = useState('');
-  const [num, setNum] = useState();
   let navigate = useNavigate();
-  const editID = useParams().id
   useEffect(() =>{
     db.collection("departments")
     .get()
@@ -43,7 +41,7 @@ export default function Department() {
     }
   }
   return(
-    <div className="min-w-screen min-h-screen flex bg-indigo-50 justify-center px-5 py-5">
+    <div className="min-w-screen min-h-screen flex justify-center px-5 py-5">
       <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div className="flex justify-between ">
           <h2 className="text-5xl text-gray-500 font-medium italic ">Department Data</h2>
@@ -87,11 +85,11 @@ export default function Department() {
                 {departmentdata.length > 0 ? (
                   departmentdata.map((part, id) => (
                   <tr key={id}>
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center text-xl">
-                      {id + 1}
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                      <div className="text-xl leading-5 text-gray-500 text-center">{id + 1}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-center">
-                      <div className="text-xl font-medium text-center text-gray-900">{part.departmentname}</div>
+                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                     <div className="text-xl leading-5 text-gray-500 text-center">{part.departmentname}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                       <div className="text-xl leading-5 text-gray-500 text-center">{part.usenum}</div>
