@@ -1,9 +1,11 @@
+import { Routes, Route } from 'react-router-dom'
 import Login from "./Components/auth/Login"
 import Signup from "./Components/auth/Signup"
 import ConfirmEmail from './Components/auth/ConfirmEmail'
 import Layout from './Components/Layout'
 import AdminDashboard from './Layout/Admin/AdminDashboard'
-import Accountantdashboard from './Layout/Account/Accountantdashboard'
+import AccountantDashboard from './Layout/Account/Accountantdashboard'
+import UserDashboard from './Layout/User/UserDashboard'
 import Company from './Layout/Admin/Company'
 import Department from './Layout/Admin/Department'
 import Users from './Layout/Admin/Users'
@@ -11,13 +13,13 @@ import Bill from './Layout/Admin/Bill'
 import Apps from './Layout/Admin/Application'
 import Profile from './Layout/User/Profile'
 import Edit from './Layout/User/Edit'
-import { Routes, Route } from 'react-router-dom'
 import AdminNotification from "./Layout/Admin/AdminNotification"
 import CreateUser from './Components/pages/Users/CreateUser'
 import EditUser from './Components/pages/Users/EditUser'
 import CreateDepartment from './Components/pages/department/CreatDepartment'
 import EditDepartment from './Components/pages/department/EditDepartment'
 import './App.css';
+import Displaydata from './Components/Displaydata'
 function App() {
   return (
     <div>
@@ -25,6 +27,7 @@ function App() {
         <Route path='/' element={ <Login /> } />
         <Route path='/signup' element={ <Signup /> } />
         <Route path='/confirmEmail' element={ <ConfirmEmail /> } />
+        <Route path='/displaydata' element={ <Displaydata /> } />
 
         <Route path='/admindashboard' element={ <Layout child={<AdminDashboard />} />} />
         <Route path='/company' element={ <Layout child={<Company />} />} />
@@ -40,9 +43,9 @@ function App() {
         <Route path='/createdepartment' element={<Layout child={<CreateDepartment />} /> } />
         <Route path='/editdepartment/:id' element={<Layout child={<EditDepartment />} /> } />
 
-        <Route path='/accountantdashboard' element={ <Layout child={<Accountantdashboard />} />} />
+        <Route path='/accountantdashboard' element={ <Layout child={<AccountantDashboard />} />} />
         
-        <Route path='/userdashboard' element={ <Layout child={<userDashboard />} />} />
+        <Route path='/userdashboard' element={ <Layout child={<UserDashboard />} />} />
         <Route path='/profile' element={ <Layout child={<Profile />} />} />
         <Route path='/edit' element={ <Layout child={<Edit />} />} />
         

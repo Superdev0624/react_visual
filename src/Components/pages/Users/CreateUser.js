@@ -10,7 +10,6 @@ export default function CreateUser() {
   const [lname, setSecond] = useState('');
   const [email, setEmail] = useState('');
   const [companyname, setCompanyname] =useState('');
-  const [companynum, setCompanynum] = useState('');
   const [department, setDepartment] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -20,30 +19,28 @@ export default function CreateUser() {
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
   const [departmentvalid, setDepartmentValid] = useState(false);
-  const [companynumvalid, setCompanyNumValid] = useState(false);
   const [phonevalid, setPhoneValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
   const [part, setPart] = useState([]);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
   useEffect(() =>{
-  db.collection("users")
+  db.collection("UserRole").where("userId", "==", authID)
     .get()
     .then(doc =>{
-      const users = doc.docs;
-      const result = users.filter(user => user.id === authID)[0]
-      setCompanyname(result.data().companyname)
+      var comname=doc.docs[0].data().companyId
+      setCompanyname(comname)
     })
-  db.collection("departments")
-  .get()
-  .then(doc =>{
-    for(let i = 0; i< doc.docs.length; i++) {
-      const partdata = doc.docs[i]
-      const itemdata = partdata.data().departmentname
-      setPart(arr =>[...arr, itemdata])      
-    }
-  })
-  },[authID])
+  // db.collection("departments")
+  // .get()
+  // .then(doc =>{
+  //   for(let i = 0; i< doc.docs.length; i++) {
+  //     const partdata = doc.docs[i]
+  //     const itemdata = partdata.data().departmentname
+  //     setPart(arr =>[...arr, itemdata])      
+  //   }
+  // })
+  },[])
   const handlefirstName = (e) => {
     setFirst(e.target.value);
     setFnameValid(false);
@@ -64,10 +61,6 @@ export default function CreateUser() {
     setPassword(e.target.value);
     setPassValid(false);
   };
-  const handlecompanyNum = (e) => {
-    setCompanynum(e.target.value)
-    setCompanyNumValid(false);
-  };
   const handleRole = (e) => {
     setRole(e.target.value)
     setRoleValid(false);
@@ -79,46 +72,58 @@ export default function CreateUser() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === '' || lname === '' || companynum === ''|| phone === ''|| role === '' || department === ''|| email === ''|| password === '') {
-      setCompanyNumValid(true);
-      setEmailValid(true);
-      setPassValid(true);
+    let isValid = true;
+    if (fname === '') {
       setFnameValid(true);
-      setLnameValid(true);
-      setPhoneValid(true);
-      setRoleValid(true);
-      setDepartmentValid(true);
-      toast.error('All fields required!')
-      return
+      toast.error("firstname required")
+      isValid = false;
     }
-    console.log(fname, lname, companynum, phone,role,department, email, password)
-    auth.createUserWithEmailAndPassword(email, password)
-    .then(res => {
-      db.collection("users").where("useremail", "==" , email)
-      .get()
-      .then(doc =>{
-        if(doc.docs.length === 0) {
-          db.collection("users")
-          .doc(res.user.uid)
-          .set({
-            firstname: fname,
-            lastname: lname,
-            companyname: companyname,
-            companynum: companynum,
-            phone: phone,
-            department:department,
-            useremail: email,
-            role: role
-          })
-          .then(() =>{
-            toast.success("add member successfully!")
-            navigate('/user')
-          })
-        }
-      })
-    })
+    if (lname === '') {
+      setLnameValid(true);
+      toast.error("Lastname required")
+      isValid = false;
+    } 
+    if (phone === '') {
+      setPhoneValid(true);
+      toast.error("Phone number required")
+      isValid = false;
+    }
+    if(email === '') {
+      setEmailValid(true);
+      toast.error("Email required")
+      isValid = false;
+    }
+    if(password === ''){
+      setPassValid(true);
+      toast.error("Password required")
+      isValid = false;
+    }
+    console.log(fname,lname,password,email,phone)
+  //   auth.createUserWithEmailAndPassword(email, password)
+  //   .then(res => {
+  //     db.collection("users").where("useremail", "==" , email)
+  //     .get()
+  //     .then(doc =>{
+  //       if(doc.docs.length === 0) {
+  //         db.collection("users")
+  //         .doc(res.user.uid)
+  //         .set({
+  //           firstname: fname,
+  //           lastname: lname,
+  //           companyname: companyname,
+  //           phone: phone,
+  //           department:department,
+  //           useremail: email,
+  //           role: role
+  //         })
+  //         .then(() =>{
+  //           toast.success("add member successfully!")
+  //           navigate('/user')
+  //         })
+  //       }
+  //     })
+  //   })
   }
-
 
   function cancelButton (e) {
     e.preventDefault();
@@ -191,8 +196,8 @@ export default function CreateUser() {
             </div>
           </div>
           <div className="flex flex-wrap -mx-3">
-            <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+            <div className="w-full px-3">
+            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                 Department name
               </label>
               <select 
@@ -204,28 +209,6 @@ export default function CreateUser() {
                 {part.map((e, id) =><option key={id}>{e}</option>)}
               </select>
               <p className={"text-red-500 text-xs italic " + (departmentvalid ? "visible" : "invisible")}>Please fill out this field.</p>
-            </div>
-            <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
-                number of company
-              </label>
-              <div className="relative">
-                <select 
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (companynumvalid ? "border bordercolor" : "border border-gray-200")}
-                  value={companynum}
-                  placeholder="select number"
-                  onChange={handlecompanyNum}
-                >
-                  <option>1-3</option>
-                  <option>4-10</option>
-                  <option>11-20</option>
-                  <option>20+</option>
-                </select>
-                <p className={"text-red-500 text-xs italic " + (companynumvalid ? "visible" : "invisible")}>Please fill out this field.</p>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg className="fill-current h-4 w-4"xmlns="http://www.w3.org/2000/svg"viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
             </div>
           </div>
           <div className="flex flex-wrap -mx-3">

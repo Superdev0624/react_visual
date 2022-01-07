@@ -29,22 +29,25 @@ export default function Login() {
     }
     auth.signInWithEmailAndPassword(email, password)
       .then(authUser => {
-        db.collection("users")
+        db.collection("Users")
           .doc(authUser.user.uid)
           .get()
           .then(doc => {
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
-            sessionStorage.setItem('Roll', doc.data().role);
             sessionStorage.setItem('UserName', doc.data().firstname)
             sessionStorage.setItem('UID', doc.id);
-            sessionStorage.setItem('loginSuccessMsg', 'false');
-            if(doc.data().role === 'Admin' ){
-              navigate('/admindashboard')
-            } else if( doc.data().role === 'Accountant'){
-              navigate('/accountantdashboard')
-            } else {
-              navigate('/userdashboard')
-            } 
+            sessionStorage.setItem('loginSuccessMsg', 'false')            
+              db.collection("UserRole").where("userId","==", doc.id)
+              .get()
+              .then(doc=>{
+                if(doc.docs.length === 1) {
+                  sessionStorage.setItem('Role', doc.docs[0].data().Role)
+                  navigate('/admindashboard')
+                } 
+                else {
+                 navigate("/displaydata")
+                }
+              })
           })
       }).catch((error) => {
         if (error.code === 'auth/wrong-password') {

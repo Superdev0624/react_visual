@@ -11,16 +11,15 @@ export default function Layout(props) {
   const Username = sessionStorage.getItem('UserName')
   const authToken = sessionStorage.getItem('Auth Token')
   const logmsg = sessionStorage.getItem('loginSuccessMsg')
-  // const Username = sessionStorage.getItem('UserName')
   useEffect(() => {
     if (logmsg === 'false'){
-      toast.success("Welcome login in " + Username +"website successfully");
+      toast.success("Welcome login in " + Username +" website successfully");
       sessionStorage.setItem('loginSuccessMsg', 'true');
     } 
     if (!authToken) {
       navigate('/')
     }
-  }, [authToken,logmsg,navigate,Username])
+  }, [])
   const handleShow = (e) => {
     e.preventDefault();
     setShow(!show);

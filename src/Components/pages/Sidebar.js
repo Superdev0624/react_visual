@@ -7,7 +7,7 @@ import '../assets/main.css'
 export default function Sidebar(props) {
   const [product, setProduct] = useState(false);
   const Username = sessionStorage.getItem('UserName')
-  const Roll = sessionStorage.getItem('Roll');
+  const Roll = sessionStorage.getItem('Role');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
     toast.info('Log out!')
