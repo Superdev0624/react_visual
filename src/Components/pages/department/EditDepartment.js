@@ -18,7 +18,6 @@ export default function EditDepartment() {
     .then(doc =>{
       console.log(doc)
       const editData = doc.data()
-      console.log(editData)
       setPartname(editData.departmentmanager)
       setPartmanage(editData.departmentname)
       setDescription(editData.description)

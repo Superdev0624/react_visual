@@ -31,16 +31,16 @@ export default function Department() {
     })
   },[])
   function onEdit(event) {
-    console.log("sdfsdf")
     const editId = departmentdata[event].departmentname
     db.collection("departments").where("departmentname","==",editId)
     .get()
     .then(doc=>{
-      const role = doc.docs[0].id 
-      const roleId = doc.docs[0].data().Basic 
-       if ( role = "1" ) {
-        navigate(`/editdepartment/${roleId}`)
-      } else if(role = "0"){
+      const roleqwe = doc.docs[0].id 
+      // const roleId = doc.docs[0].data().Basic 
+      if( doc.docs[0].data().Basic  === "1") {
+          navigate(`/editdepartment/${roleqwe}`)
+          return
+      } else {
         toast.warn("You are not a superadmin,so can't edit data for this department.")
         return
       }
@@ -48,6 +48,7 @@ export default function Department() {
   }
 
   function onDelete(event) {
+    console.log("sdfsdf")
     if (window.confirm('Are you sure to delete this department?')) {
       db.collection("departments").where("departmentname","==",event)
       .get()
