@@ -19,19 +19,17 @@ function Users() {
         const companyRole=users[0].data().companyId
         db.collection("UserRole").where("companyId", "==", companyRole)
         .get()
-        .then(doc=>{
+        .then(async doc=>{
           var arr = [];
           for(let i =0 ; i< doc.docs.length ; i++){
             var userinfo = doc.docs[i].data().userId 
-            db.collection("Users")
-            .doc(userinfo)
-            .get()
-            .then(doc=>{
-              var users = doc.data()
-              arr.push(users);
-            })
+            console.log(userinfo)
+            // const doc1 = await db.collection("Users")
+            // .doc(userinfo)
+            // .get();
+            // var users = doc1.data()
+            // arr.push(users);
           }
-          console.log(arr)
           setUsersData(arr)
         })
       })
@@ -45,20 +43,21 @@ function Users() {
   const paginateBack = () => setCurrentPage(currentPage - 1);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   function onDelete(event) {
-    if (window.confirm('Are you sure to delete this user?')) {
-      if (authID !== event) {
-        db.collection("users")
-          .doc(event)
-          .delete().then(() => {
-            toast.info("delete successfully!")
-            window.location.reload();
-          }).catch((error) => {
-            console.log("delete", error)
-          })
-      } else {
-        toast.error("you can't delete this user, becasue same user!")
-      }
-    }
+    // if (window.confirm('Are you sure to delete this user?')) {
+    //   if (authID !== event) {
+    //     db.collection("users")
+    //       .doc(event)
+    //       .delete().then(() => {
+    //         toast.info("delete successfully!")
+    //         window.location.reload();
+    //       }).catch((error) => {
+    //         console.log("delete", error)
+    //       })
+    //   } else {
+    //     toast.error("you can't delete this user, becasue same user!")
+    //   }
+    // }
+    console.log(event)
   }
   function onEdit(event) {
     const userId = usersdata[event].id
@@ -107,9 +106,6 @@ function Users() {
                         Email</th>
                       <th
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Department</th>
-                      <th
-                        className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         phone</th>
                       <th
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
@@ -120,32 +116,28 @@ function Users() {
                     </tr>
                   </thead>
                   <tbody>
-                  { console.log('sdf',usersdata),
-                  usersdata.length > 0 ?(
+                  { usersdata.length > 0 ?(
                       usersdata.map((part, id) => (
                         
                       <tr key={id} className="hover:bg-gray-100 border-b border-gray-200 py-10">
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          <div className="text-xl leading-5 text-gray-500 text-center">{part.firstname}</div>
+                          <div className="text-xl leading-5 text-gray-500 text-center">{id + 1}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          <div className="text-xl leading-5 text-gray-500 text-center">asd</div>
+                          <div className="text-xl leading-5 text-gray-500 text-center">{part.firstname}{""}{part.lastname}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          <div className="text-xl leading-5 text-gray-500 text-center">asd</div>
+                          <div className="text-xl leading-5 text-gray-500 text-center">{part.useremail}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          <div className="text-xl leading-5 text-gray-500 text-center">asd</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          <div className="text-xl leading-5 text-gray-500 text-center">asd</div>
+                          <div className="text-xl leading-5 text-gray-500 text-center">{part.phone}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                           <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-blue-400 hover:text-blue-600 cursor-pointer" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                              // onClick={() => onEdit(id)}
+                              onClick={() => onEdit(id)}
                             />
                           </svg>
                         </td>
@@ -154,14 +146,14 @@ function Users() {
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                               d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              // onClick={() => onDelete(user.id)}
+                              onClick={() => onDelete(id)}
                             />
                           </svg>
                         </td>
                       </tr>
                         ))
                     ):(
-                      <tr><td>No Users</td></tr>
+                      <tr><td>No Data</td></tr>
                     )
                   } 
                   </tbody>

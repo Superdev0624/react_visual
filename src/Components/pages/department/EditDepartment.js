@@ -16,13 +16,14 @@ export default function EditDepartment() {
     .doc(editID)
     .get()
     .then(doc =>{
+      console.log(doc)
       const editData = doc.data()
       console.log(editData)
       setPartname(editData.departmentmanager)
       setPartmanage(editData.departmentname)
       setDescription(editData.description)
     })
-  },[editID])
+  },[])
   function onCancel (e) {
     e.preventDefault();
     navigate('/department');

@@ -11,6 +11,7 @@ export default function CreateDepartment() {
   const [partmanagevalid, setPartmanageValid] = useState(false);
   const [descriptionvalid, setDescriptionValid] = useState(false);
   let navigate=useNavigate();
+  const authID = sessionStorage.getItem('UID')
   function onCancel (e) {
     e.preventDefault();
     navigate('/department');
@@ -30,30 +31,58 @@ export default function CreateDepartment() {
   }
   function handleSubmit (e) {
     e.preventDefault();
-    if (partname === ''|| partmanage === '' || description === '') {
+    let isValid = true;
+    if (partname === '') {
       setPartnameValid(true);
+      toast.error("Department Name required")
+      isValid = false;
+    }
+    if (partmanage === '') {
       setPartmanageValid(true);
+      toast.error("Department Manager required")
+      isValid = false;
+    }
+    if (description === '') {
       setDescriptionValid(true);
-      toast.error("All field are required!")
-      return
-    } 
-    db.collection("departments").where("departmentname","==", partname)
+      toast.error("About department description required")
+      isValid = false;
+    }
+    db.collection("departments").where("departmentname","==",partname)
     .get()
-    .then(res =>{
-      if(res.docs.length === 0){
+    .then(doc=>{
+      if(doc.docs.length === 0) {
         db.collection("departments")
         .doc()
         .set({
-        departmentname: partname, 
-        departmentmanager: partmanage,
-        description: description
+          Basic:"1",
+          departmentname: partname,
+          departmentmanager: partmanage,
+          description: description
+        })
+        db.collection("departments").where("departmentname","==",partname)
+        .get()
+        .then(ref=>{
+          const departmentrole = ref.docs[0].id
+          db.collection("UserRole").where("userId", "==", authID)
+          .get()
+          .then(doc=>{
+            const users = doc.docs;
+            const companyRole=users[0].data().companyId
+            db.collection("DepartmentRole")
+            .doc()
+            .set({
+              companyId:companyRole,
+              departmentId: departmentrole
+            })
+          })
         })
         .then(() =>{
-        toast.success("create Department successfully!")
-        navigate('/department')
+          toast.success("create Department Successfully")
+          navigate("/department")
         })
       } else{
-        toast.warn("Same Department exist.")
+        toast.warn("Same Department already exist")
+        return
       }
     })
   }

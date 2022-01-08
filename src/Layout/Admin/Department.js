@@ -5,38 +5,69 @@ import { db } from '../../firebase-config'
 import { toast } from 'react-toastify';
 
 export default function Department() {
-  const [departmentdata, setDepartmentData] = useState('');
+  const [departmentdata, setDepartmentData] = useState([]);
+  const authID = sessionStorage.getItem('UID')
   let navigate = useNavigate();
   useEffect(() =>{
-    db.collection("departments")
+    db.collection("UserRole").where("userId", "==", authID)
     .get()
-    .then(async (doc)=>{
-      let departments = doc.docs.map((part) =>{
-        return{...part.data(), id: part.id}
+    .then(doc=>{
+      const users = doc.docs;
+      const companyRole=users[0].data().companyId
+      db.collection("DepartmentRole").where("companyId","==",companyRole)
+      .get()
+      .then(async doc=>{
+        var arr = [];
+        for(let i =0 ; i< doc.docs.length ; i++){
+          var departmentinfo = doc.docs[i].data().departmentId
+          const doc1 = await db.collection("departments")
+          .doc(departmentinfo)
+          .get();
+          var users = doc1.data()
+          if (!!users) arr.push(users);
+        }
+        setDepartmentData(arr)
       })
-      for (let i = 0; i<departments.length; i++){
-        const partdata = departments[i]
-        const doc = await db.collection("users").where("department", "==", partdata.departmentname)
-        .get();
-        departments[i].usenum = doc.docs.length
-      }
-      setDepartmentData(departments)
     })
   },[])
   function onEdit(event) {
-    const departmentId = departmentdata[event].id
-    navigate(`/editdepartment/${departmentId}`)
+    console.log("sdfsdf")
+    const editId = departmentdata[event].departmentname
+    db.collection("departments").where("departmentname","==",editId)
+    .get()
+    .then(doc=>{
+      const role = doc.docs[0].id 
+      const roleId = doc.docs[0].data().Basic 
+       if ( role = "1" ) {
+        navigate(`/editdepartment/${roleId}`)
+      } else if(role = "0"){
+        toast.warn("You are not a superadmin,so can't edit data for this department.")
+        return
+      }
+    })
   }
 
   function onDelete(event) {
     if (window.confirm('Are you sure to delete this department?')) {
-      db.collection("departments")
-      .doc(event)
-      .delete().then(() => {
-        toast.info("delete successfully!")
-        window.location.reload();
-      }).catch((error) => {
-        console.log("delete", error)
+      db.collection("departments").where("departmentname","==",event)
+      .get()
+      .then(doc=>{
+        const removedepartmentId = doc.docs[0].id
+        db.collection("DepartmentRole").where("departmentId","==",removedepartmentId)
+        .get()
+        .then(doc=>{
+          const removeroleId = doc.docs[0].id
+          db.collection("DepartmentRole")
+          .doc(removeroleId)
+          .delete()
+          .then(()=>{
+            toast.info("delete successfully!")
+            window.location.reload();
+            db.collection("departments")
+            .doc(removedepartmentId)
+            .delete()
+          })
+        })
       })
     }
   }
@@ -66,9 +97,6 @@ export default function Department() {
                       Department name</th>
                     <th
                       className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                      Users</th>
-                    <th
-                      className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                       Department manager</th>
                     <th
                       className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
@@ -92,9 +120,6 @@ export default function Department() {
                      <div className="text-xl leading-5 text-gray-500 text-center">{part.departmentname}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                      <div className="text-xl leading-5 text-gray-500 text-center">{part.usenum}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                       <div className="text-xl leading-5 text-gray-500 text-center">{part.departmentmanager}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -114,7 +139,7 @@ export default function Department() {
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          onClick={() => onDelete(part.id)}
+                          onClick={() => onDelete(part.departmentname)}
                         />
                       </svg>
                     </td>
@@ -122,7 +147,7 @@ export default function Department() {
                   ))
                   ) :(
                     <tr>
-                    <td>No Users</td>
+                    <td>No Data</td>
                   </tr>
                   )
                 }

@@ -98,7 +98,12 @@ export default function CreateUser() {
       toast.error("Password required")
       isValid = false;
     }
-    console.log(fname,lname,password,email,phone)
+    if(role === ''){
+      setRoleValid(true)
+      toast.error("Role required")
+      isValid= false;
+    }
+    console.log(fname,lname,password,email,phone,role)
   //   auth.createUserWithEmailAndPassword(email, password)
   //   .then(res => {
   //     db.collection("users").where("useremail", "==" , email)

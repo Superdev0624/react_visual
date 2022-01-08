@@ -25,7 +25,7 @@ export default function EditUser() {
     toast.info("User Edit has been cancelled.")
   }
   useEffect(() => {
-    db.collection("users")
+    db.collection("Users")
       .get()
       .then(doc => {
         const users = doc.docs;
