@@ -48,7 +48,6 @@ export default function Department() {
   }
 
   function onDelete(event) {
-    console.log("sdfsdf")
     if (window.confirm('Are you sure to delete this department?')) {
       db.collection("departments").where("departmentname","==",event)
       .get()

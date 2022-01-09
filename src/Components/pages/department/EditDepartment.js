@@ -16,7 +16,6 @@ export default function EditDepartment() {
     .doc(editID)
     .get()
     .then(doc =>{
-      console.log(doc)
       const editData = doc.data()
       setPartname(editData.departmentmanager)
       setPartmanage(editData.departmentname)

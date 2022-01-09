@@ -40,12 +40,18 @@ export default function Login() {
               db.collection("UserRole").where("userId","==", doc.id)
               .get()
               .then(doc=>{
-                if(doc.docs.length === 1) {
-                  sessionStorage.setItem('Role', doc.docs[0].data().Role)
-                  navigate('/admindashboard')
-                } 
-                else {
-                 navigate("/displaydata")
+                sessionStorage.setItem('Role', doc.docs[0].data().Role)
+                const accessrole = doc.docs[0].data().Role
+              if (doc.docs.length === 1) {
+                  if(accessrole === "Admin") {
+                    navigate('/admindashboard')
+                  } else if (accessrole === "Accountant"){
+                    navigate('/accountantdashboard')
+                  } else if( accessrole === "User") {
+                    navigate('/userdashboard')
+                  }
+                } else {
+                  navigate('/displaydata')
                 }
               })
           })
