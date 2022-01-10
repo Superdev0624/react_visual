@@ -9,7 +9,9 @@ export default function EditDepartment() {
   const [partname, setPartname] = useState('');
   const [partmanage, setPartmanage] = useState('');
   const [description, setDescription] = useState('');
+  const [selectmanager, setSelectManager] = useState([]);
   const editID = useParams().id
+  const authID = sessionStorage.getItem('UID')
   let navigate = useNavigate();
   useEffect(() =>{
     db.collection("departments")
@@ -20,6 +22,28 @@ export default function EditDepartment() {
       setPartname(editData.departmentmanager)
       setPartmanage(editData.departmentname)
       setDescription(editData.description)
+    })
+    db.collection("UserRole").where('userId',"==",authID).where('Role',"==","Admin")
+    .get()
+    .then(doc=>{
+      const currentusercompany = doc.docs[0].data().companyId
+      db.collection("UserRole").where("companyId","==", currentusercompany)
+      .get()
+      .then(doc=>{
+        var arr = [];
+        for(let i = 0; i<doc.docs.length; i++) {
+          const companyusers = doc.docs[i]
+          const useruid = companyusers.data().userId
+          db.collection("Users")
+          .doc(useruid)
+          .get()
+          .then(doc=>{
+            const users = doc.data()
+            arr.push(users)
+          })
+        }
+        setSelectManager(arr)
+      })
     })
   },[])
   function onCancel (e) {
@@ -54,7 +78,7 @@ export default function EditDepartment() {
     })
   }
   return(
-    <div className="min-w-screen min-h-screen bg-blue-50 flex justify-center px-5 py-5">
+    <div className="bg-blue-50 flex justify-center items-center px-5 py-5">
       <div className="py-2 flex justify-center align-top bg-blue-50">
         <div className="px-2 py-1">
         <div className="uppercase text-3xl textstylecolor font-semibold text-center">Edit Department</div>
@@ -78,13 +102,20 @@ export default function EditDepartment() {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   department manager
                 </label>
-                <input 
-                  type="text"
+                <select
                   className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
-                  placeholder="Jack Smith"
                   value={partmanage}
                   onChange={handlepartmanage}
-                />
+                >
+                  {selectmanager.length > 0 ? (
+                      selectmanager.map((part) => (
+                        <option>{part.firstname}{" "}{part.lastname}</option>
+                      ))
+                    ) : (
+                      <option>Select Manager</option>
+                    )
+                    }
+                </select>
               </div>
               <div className="w-full px-3">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -102,7 +133,7 @@ export default function EditDepartment() {
             <div className="flex flex-wrap -mx-3 mt-3">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                 <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight">
-                  <span className="mr-2 uppercase">Edit</span>
+                  <span className="mr-2 uppercase">SAVE</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">

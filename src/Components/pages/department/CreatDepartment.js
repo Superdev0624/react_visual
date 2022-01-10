@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../../firebase-config'
 import { toast } from 'react-toastify';
@@ -10,8 +10,33 @@ export default function CreateDepartment() {
   const [partnamevalid, setPartnameValid] = useState(false);
   const [partmanagevalid, setPartmanageValid] = useState(false);
   const [descriptionvalid, setDescriptionValid] = useState(false);
+  const [selectmanager, setSelectManager] = useState([]);
   let navigate=useNavigate();
   const authID = sessionStorage.getItem('UID')
+  useEffect(() => {
+    db.collection("UserRole").where('userId',"==",authID).where('Role',"==","Admin")
+    .get()
+    .then(doc=>{
+      const currentusercompany = doc.docs[0].data().companyId
+      db.collection("UserRole").where("companyId","==", currentusercompany)
+      .get()
+      .then(doc=>{
+        var arr = [];
+        for(let i = 0; i<doc.docs.length; i++) {
+          const companyusers = doc.docs[i]
+          const useruid = companyusers.data().userId
+          db.collection("Users")
+          .doc(useruid)
+          .get()
+          .then(doc=>{
+            const users = doc.data()
+            arr.push(users)
+          })
+        }
+        setSelectManager(arr)
+      })
+    })
+  },[])
   function onCancel (e) {
     e.preventDefault();
     navigate('/department');
@@ -124,13 +149,20 @@ export default function CreateDepartment() {
                   </label>
                   <p className={"inputcolor text-xs italic ml-1 " + (partmanagevalid ? "visible" : "invisible")}>Department Manager required</p>
                 </div>
-                <input 
-                  type="text"
+                <select
                   className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (partmanagevalid ? "border bordercolor":"border border-gray-200")}
-                  placeholder="Jack Smith"
                   value={partmanage}
                   onChange={handlepartmanage}
-                />
+                >
+                  {selectmanager.length > 0 ? (
+                      selectmanager.map((part) => (
+                        <option>{part.firstname}{" "}{part.lastname}</option>
+                      ))
+                    ) : (
+                      <option>Select Manager</option>
+                    )
+                    }
+                </select>
               </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">

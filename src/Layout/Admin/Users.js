@@ -5,25 +5,27 @@ import { db } from '../../firebase-config'
 import 'firebase/auth';
 import 'firebase/firestore';
 import { toast } from 'react-toastify';
-import Pagination from '../../Components/pages/Pagination'
+// import Pagination from '../../Components/pages/Pagination'
 function Users() {
   const [usersdata, setUsersData] = useState([]);
+  const [currentcompanyname, setCurrentCompanyName] = useState('');
   const authID = sessionStorage.getItem('UID')
-  const [currentPage, setCurrentPage] = useState(1);
-  // const [postsPerPage] = us
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [postsPerPage] =('5');
   useEffect(() => {
     db.collection("UserRole").where("userId", "==", authID)
       .get()
       .then(doc => {
         const users = doc.docs;
         const companyRole = users[0].data().companyId
+        setCurrentCompanyName(companyRole)
         db.collection("UserRole").where("companyId", "==", companyRole)
           .get()
           .then(async doc => {
             var arr = [];
             for (let i = 0; i < doc.docs.length; i++) {
               var userId = doc.docs[i].data().userId
-                db.collection("UserRole").where("userId", "==", userId)
+              db.collection("UserRole").where("userId", "==", userId)
                 .get()
                 .then(async doc => {
                   var roledata = doc.docs[0].data().Role
@@ -37,7 +39,7 @@ function Users() {
                     role: roledata
                   });
                   var alldatas = arr.map((word) => {
-                    return {...word}
+                    return { ...word }
                   })
                   setUsersData(alldatas)
                 })
@@ -50,99 +52,88 @@ function Users() {
   // const indexOfFirstPost = indexOfLastPost - postsPerPage;
   // const currentPosts = usersdata.slice(indexOfFirstPost, indexOfLastPost);
 
-  const paginateFront = () => setCurrentPage(currentPage + 1);
-  const paginateBack = () => setCurrentPage(currentPage - 1);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginateFront = () => setCurrentPage(currentPage + 1);
+  // const paginateBack = () => setCurrentPage(currentPage - 1);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   function onDelete(event) {
     if (window.confirm('Are you sure to delete this department?')) {
-      db.collection("UserRole").where("userId","==",authID)
-      .get()
-      .then(doc=>{
-        const adminrole = doc.docs[0].data().Role
-        db.collection("Users").where("useremail","==",event)
+      db.collection("UserRole").where("userId", "==", authID)
         .get()
-        .then(doc=>{
-          const conditionrole = doc.docs[0].id
-          db.collection("UserRole").where("userId","==",conditionrole)
-          .get()
-          .then(doc=>{
-            const removerole = doc.docs[0].data().Role
-              if(adminrole === removerole){
-                toast.warn("You can't delete this user data, because same user.")
-                return
-              } else{
-                db.collection("UserRole").where("userId","==",conditionrole)
+        .then(doc => {
+          const adminrole = doc.docs[0].data().Role
+          db.collection("Users").where("useremail", "==", event)
+            .get()
+            .then(doc => {
+              const conditionrole = doc.docs[0].id
+              db.collection("UserRole").where("userId", "==", conditionrole)
                 .get()
-                .then(doc=>{
-                  const removeId = doc.docs[0].id
-                  db.collection("UserRole")
-                  .doc(removeId)
-                  .delete()
-                  .then(()=>{
-                    toast.info("Selete user delete successfully")
-                    window.location.reload();
-                    db.collection("Users").where("useremail","==",event)
-                    .get()
-                    .then(doc=>{
-                      const removeuser = doc.docs[0].id
-                      db.collection("Users")
-                      .doc(removeuser)
-                      .delete()
-                    })
-                  })
+                .then(doc => {
+                  const removerole = doc.docs[0].data().Role
+                  if (adminrole === removerole) {
+                    toast.warn("You can't delete this user data, because same user.")
+                    return
+                  } else {
+                    db.collection("UserRole").where("userId", "==", conditionrole)
+                      .get()
+                      .then(doc => {
+                        const removeId = doc.docs[0].id
+                        db.collection("UserRole")
+                          .doc(removeId)
+                          .delete()
+                          .then(() => {
+                            toast.info("User Deleted.")
+                            window.location.reload();
+                            db.collection("Users").where("useremail", "==", event)
+                              .get()
+                              .then(doc => {
+                                const removeuser = doc.docs[0].id
+                                db.collection("Users")
+                                  .doc(removeuser)
+                                  .delete()
+                              })
+                          })
+                      })
+                  }
                 })
-                // .get()
-                // .then(doc=>{
-                //   console.log(doc)
-                // })
-                // .delete()
-                // .then(()=>{
-                //   toast.info("User delete successfully")
-                //   window.location.reload();
-                //   db.collection("Users")
-                //   .doc(event)
-                //   .delete()
-                // })
-              }
-          })
+            })
         })
-      })
     }
   }
-  function onEdit(event){ 
-  db.collection("Users").where("useremail","==",event)
-  .get()
-  .then(doc=>{
-    const editroleId = doc.docs[0].id
-    navigate(`/edituser/${editroleId}`)
-  })
-    // const userId = usersdata[event].id
-    // navigate(`/edituser/${userId}`)
+  function onEdit(event) {
+    db.collection("Users").where("useremail", "==", event)
+      .get()
+      .then(doc => {
+        const editroleId = doc.docs[0].id
+        navigate(`/edituser/${editroleId}`)
+      })
+
   }
   return (
     <div>
       <div className="min-w-screen min-h-screen flex justify-center px-5 py-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-6">
-          <div className="flex justify-between w-full">
-            <p className="ml-3 font-medium text-5xl text-blue-500">Users Table</p>
-            <Pagination
-              // postsPerPage={postsPerPage}
-              // totalPosts={usersdata.length}
+        <div className="text-5xl leading-5 textstylecolor text-center font-bold uppercase mb-5">company:{ currentcompanyname }</div>
+          <div className="flex justify-between">
+            <p className="text-5xl themeusercolor font-medium italic ">Users</p>
+            {/* <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={usersdata.length}
               paginateBack={paginateBack}
               paginateFront={paginateFront}
               paginate={paginate}
               currentPage={currentPage}
-            />
+            /> */}
             <Link
               to='/createuser'
-              className="uppercase text-xl bg-green-500 hover:bg-green-700 text-white py-3 px-2 rounded focus:outline-none focus:shadow-outline"
+              className="uppercase text-xl usecolor flex justify-between hover:bg-green-700 text-white py-3 px-2 rounded focus:outline-none focus:shadow-outline"
             >
-              <svg className="h-8 w-8 justify-center items-center" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              + add User
+              {/* <svg className="h-8 w-8 justify-center items-center" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                 <circle cx="8.5" cy="7" r="4" />
                 <line x1="20" y1="8" x2="20" y2="14" />
                 <line x1="23" y1="11" x2="17" y2="11" />
-              </svg>
+              </svg> */}
             </Link>
           </div>
           <div className="flex flex-col mt-2">
@@ -168,10 +159,7 @@ function Users() {
                         Role</th>
                       <th
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Edit</th>
-                      <th
-                        className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Delete</th>
+                        Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -194,17 +182,15 @@ function Users() {
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <div className="text-xl leading-5 text-gray-500 text-center">{part.role}</div>
                           </td>
-                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-blue-400 hover:text-blue-600 cursor-pointer" fill="none"
+                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 flex justify-between">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 textstylecolor hover:text-blue-600 cursor-pointer" fill="none"
                               viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                 onClick={() => onEdit(part.useremail)}
                               />
                             </svg>
-                          </td>
-                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-red-400 hover:text-red-600 cursor-pointer" fill="none"
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 deletestylecolor hover:text-red-500 cursor-pointer" fill="none"
                               viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"

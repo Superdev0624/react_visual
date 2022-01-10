@@ -57,55 +57,43 @@ export default function Signup() {
     if(check === true){
       setCheck(false)
       setCheckValid(false)
+      return
     } else{
       setCheck(true)
       setCheckValid(true)
+      return
     }
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    let isValid = true;
-    if (fname === '') {
-      setFnameValid(true);
-      toast.error("firstname required")
-      isValid = false;
+    if(fname === ''|| lname === ''||phone === ''|| email === ''|| password === ''||companyname === ''||companynum === ''||check === ''){
+      toast.error("All fields value are required")
+      if(fname === ''){
+        setFnameValid(true)
+      }
+      if(lname === ''){
+        setLnameValid(true)
+      }
+      if(phone === ''){
+        setPhoneValid(true)
+      }
+      if(email === ''){
+        setEmailValid(true)
+      }
+      if(password === ''){
+        setPassValid(true)
+      }
+      if (companyname === '') {
+        setCompanynameValid(true);
+      }
+      if (companynum === '') {
+        setCompanyNumValid(true);
+      }
+      if (check === '') {
+        setCheckValid(true);
+      }
+      return
     }
-    if (lname === '') {
-      setLnameValid(true);
-      toast.error("Lastname required")
-      isValid = false;
-    } 
-    if (companyname === '') {
-      setCompanynameValid(true);
-      toast.error("Companyname required")
-      isValid = false;
-    }
-    if (companynum === '') {
-      setCompanyNumValid(true);
-      toast.error("Number of company required")
-      isValid = false;
-    }
-    if (phone === '') {
-      setPhoneValid(true);
-      toast.error("Phone number required")
-      isValid = false;
-    }
-    if (check === '') {
-      setCheckValid(true);
-      toast.error("Please agree terms and services")
-      isValid = false;
-    }
-    if(email === '') {
-      setEmailValid(true);
-      toast.error("Email required")
-      isValid = false;
-    }
-    if(password === ''){
-      setPassValid(true);
-      toast.error("Password required")
-      isValid = false;
-    }
-    if (!isValid) return;
     db.collection("Companies").where("companyname", "==", companyname)
     .get()
     .then(doc=>{
@@ -329,7 +317,7 @@ export default function Signup() {
                     onChange={handleCheck}
                   />
                     <span 
-                      className={"ml-2 " +(checkvalid ? "bg-white":"bg-yellow-300")}
+                      className={"ml-2 " +(checkvalid ? "bg-yellow-300": "")}
                     >
                       I agree to the 
                       <a className="text-green-500 " href="../">&nbsp;Terms of Service</a>&nbsp;and&nbsp;

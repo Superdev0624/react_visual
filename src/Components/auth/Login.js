@@ -36,7 +36,8 @@ export default function Login() {
             sessionStorage.setItem('Auth Token', authUser.user.refreshToken)
             sessionStorage.setItem('UserName', doc.data().firstname)
             sessionStorage.setItem('UID', doc.id);
-            sessionStorage.setItem('loginSuccessMsg', 'false')            
+            const authID = doc.id
+            sessionStorage.setItem('loginSuccessMsg', 'false')   
               db.collection("UserRole").where("userId","==", doc.id)
               .get()
               .then(doc=>{

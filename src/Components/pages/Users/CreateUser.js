@@ -77,37 +77,6 @@ export default function CreateUser() {
       }
       return
     }
-    // let isValid = true;
-    // if (fname === '') {
-    //   setFnameValid(true);
-    //   toast.error("firstname required")
-    //   isValid = false;
-    // }
-    // if (lname === '') {
-    //   setLnameValid(true);
-    //   toast.error("Lastname required")
-    //   isValid = false;
-    // } 
-    // if (phone === '') {
-    //   setPhoneValid(true);
-    //   toast.error("Phone number required")
-    //   isValid = false;
-    // }
-    // if(email === '') {
-    //   setEmailValid(true);
-    //   toast.error("Email required")
-    //   isValid = false;
-    // }
-    // if(password === ''){
-    //   setPassValid(true);
-    //   toast.error("Password required")
-    //   isValid = false;
-    // }
-    // if(role === ''){
-    //   setRoleValid(true)
-    //   toast.error("Role required")
-    //   isValid= false;
-    // }
     db.collection("Users").where("useremail","==", email)
     .get()
     .then(doc=>{
