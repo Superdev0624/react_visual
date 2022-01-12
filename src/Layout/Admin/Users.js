@@ -5,6 +5,7 @@ import { db } from '../../firebase-config'
 import 'firebase/auth';
 import 'firebase/firestore';
 import { toast } from 'react-toastify';
+import Axios from "axios";
 // import Pagination from '../../Components/pages/Pagination'
 function Users() {
   const [usersdata, setUsersData] = useState([]);
@@ -46,6 +47,7 @@ function Users() {
             }
           })
       })
+      // eslint-disable-next-line
   }, [])
   let navigate = useNavigate();
   // const indexOfLastPost = currentPage * postsPerPage;
@@ -56,7 +58,7 @@ function Users() {
   // const paginateBack = () => setCurrentPage(currentPage - 1);
   // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   function onDelete(event) {
-    if (window.confirm('Are you sure to delete this department?')) {
+    if (window.confirm('Are you sure you want to delete this user?')) {
       db.collection("UserRole").where("userId", "==", authID)
         .get()
         .then(doc => {
@@ -79,18 +81,23 @@ function Users() {
                         const removeId = doc.docs[0].id
                         db.collection("UserRole")
                           .doc(removeId)
-                          .delete()
+                          .get()
+                          // .delete()
                           .then(() => {
-                            toast.info("User Deleted.")
-                            window.location.reload();
+                            // toast.info("User Deleted.")
+                            // window.location.reload();
                             db.collection("Users").where("useremail", "==", event)
                               .get()
                               .then(doc => {
                                 const removeuser = doc.docs[0].id
-                                db.collection("Users")
-                                  .doc(removeuser)
-                                  .delete()
+                                console.log(removeuser)
+                                Axios.delete(`http://localhost:3001/${removeuser}`).then((res) => {
+                                // db.collection("Users")
+                                //   .doc(removeuser)
+                                //   .delete() 
+                                toast.info("User Deleted")
                               })
+                            })
                           })
                       })
                   }

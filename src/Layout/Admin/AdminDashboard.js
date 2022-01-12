@@ -10,6 +10,7 @@ export default function AdminDashboard() {
     .then(doc=>{
       setCompanyname(doc.docs[0].data().companyId)
     })
+    // eslint-disable-next-line
   },[])
   return(
     <div className="min-w-screen min-h-screen flex justify-center px-5 py-5">

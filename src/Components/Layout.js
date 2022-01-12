@@ -11,6 +11,7 @@ export default function Layout(props) {
   const Username = sessionStorage.getItem('UserName')
   const authToken = sessionStorage.getItem('Auth Token')
   const logmsg = sessionStorage.getItem('loginSuccessMsg')
+  const authID = sessionStorage.getItem('UID')
   useEffect(() => {
     if (logmsg === 'false'){
       toast.success("Welcome login in " + Username +" website successfully");
@@ -19,6 +20,7 @@ export default function Layout(props) {
     if (!authToken) {
       navigate('/')
     }
+  // eslint-disable-next-line
   }, [])
   const handleShow = (e) => {
     e.preventDefault();
@@ -30,17 +32,18 @@ export default function Layout(props) {
     setShow(false);
   };
   return (
-   <div>
+   <div >
     <ToastContainer />
     <Navbar 
       sidebarShow={handleShow}
+      userID = {authID}
 
     />
     <Sidebar 
       sidebarHide={handleHide} 
       value={show}
     />
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center">
       {props.child}
     </div>
    </div>

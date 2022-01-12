@@ -12,7 +12,6 @@ import Users from './Layout/Admin/Users'
 import Bill from './Layout/Admin/Bill'
 import Apps from './Layout/Admin/Application'
 import Profile from './Layout/User/Profile'
-import Edit from './Layout/User/Edit'
 import AdminNotification from "./Layout/Admin/AdminNotification"
 import CreateUser from './Components/pages/Users/CreateUser'
 import EditUser from './Components/pages/Users/EditUser'
@@ -47,7 +46,6 @@ function App() {
         
         <Route path='/userdashboard' element={ <Layout child={<UserDashboard />} />} />
         <Route path='/profile' element={ <Layout child={<Profile />} />} />
-        <Route path='/edit' element={ <Layout child={<Edit />} />} />
         
       </Routes>
     </div>

@@ -6,11 +6,13 @@ import '../../assets/main.css'
 export default function CreateDepartment() {
   const [partname, setPartname] = useState('');
   const [partmanage, setPartmanage] = useState('');
+  const [superpartname, setSuperPartname] = useState('');
   const [description, setDescription] = useState('');
   const [partnamevalid, setPartnameValid] = useState(false);
   const [partmanagevalid, setPartmanageValid] = useState(false);
-  const [descriptionvalid, setDescriptionValid] = useState(false);
+  const [superpartnamevalid, setSuperpartnameValid] = useState(false);
   const [selectmanager, setSelectManager] = useState([]);
+  const [depart, setDepart] = useState([]);
   let navigate=useNavigate();
   const authID = sessionStorage.getItem('UID')
   useEffect(() => {
@@ -18,24 +20,32 @@ export default function CreateDepartment() {
     .get()
     .then(doc=>{
       const currentusercompany = doc.docs[0].data().companyId
-      db.collection("UserRole").where("companyId","==", currentusercompany)
+      db.collection('UserRole').where('companyId',"==", currentusercompany)
       .get()
-      .then(doc=>{
+      .then(async doc=>{
         var arr = [];
         for(let i = 0; i<doc.docs.length; i++) {
-          const companyusers = doc.docs[i]
-          const useruid = companyusers.data().userId
-          db.collection("Users")
+          var useruid = doc.docs[i].data().userId
+          const doc1 = await db.collection("Users")
           .doc(useruid)
           .get()
-          .then(doc=>{
-            const users = doc.data()
-            arr.push(users)
-          })
+          var users = doc1.data()
+          if (!!users) arr.push(users);
         }
         setSelectManager(arr)
       })
     })
+    db.collection('departments').where('Basic',"==", "0")
+    .get()
+    .then(doc=>{
+      var superarr = [];
+      for(let i = 0; i < doc.docs.length; i++){
+        const partdata = doc.docs[i].data().departmentname
+        superarr.push(partdata)
+      }
+      setDepart(superarr)
+    })
+    // eslint-disable-next-line 
   },[])
   function onCancel (e) {
     e.preventDefault();
@@ -44,45 +54,33 @@ export default function CreateDepartment() {
   }
   const handlepartName =(e) =>{
     setPartname(e.target.value);
-    if(partname === ''){
-      setPartnameValid(true);
-      return
-    } else{
       setPartnameValid(false);
-    }
   }
   const handlepartmanage = (e) => {
     setPartmanage(e.target.value);
-    if(partmanage === ''){
-      setPartmanageValid(true);
-      return
-    } else{
-      setPartmanageValid(false);
-    }
+    setPartmanageValid(false);
+  }
+  const handlesuperpart = (e) => {
+    setSuperPartname(e.target.value);
+    setSuperpartnameValid(false);
   }
   const handleDescription =(e) =>{
     setDescription(e.target.value);
-    if(description === ''){
-      setDescriptionValid(true);
-      return
-    } else{
-      setDescriptionValid(false);
-    }
   }
   function handleSubmit (e) {
     e.preventDefault();
-    if(partname === ''|| partmanage ==='' || description ===''){
+    if(superpartname === '' || partname === ''|| partmanage ===''){
       toast.error("All fields value are required")
+      if( superpartname === '') {
+        setSuperPartname(true);
+      }
       if( partname === ''){
         setPartnameValid(true);
       }
       if( partmanage === ''){
         setPartmanageValid(true)
       }
-      if(description === ''){
-        setDescriptionValid(true)
-      }
-    return
+      return
     }
       db.collection("UserRole").where("userId","==",authID)
       .get()
@@ -111,6 +109,13 @@ export default function CreateDepartment() {
                     departmentId: departmentrole
                   })
                 })
+                db.collection("Departmentdata")
+                .doc()
+                .set({
+                  superpart: superpartname,
+                  partname: partname,
+                  partmanager: partmanage
+                })
                 navigate("/department")
                 toast.success("create department Successfully!")   
             } else{
@@ -127,10 +132,32 @@ export default function CreateDepartment() {
         <div className="uppercase text-5xl textstylecolor font-Medium text-center mb-3 italic">Create Department</div>
           <form className="w-full max-w-lg object-center" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3">
+            <div className="w-full px-3">
+                <div className="flex justify-between">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                    Department
+                  </label>
+                  <p className={"inputcolor text-xs italic ml-1 " + (superpartnamevalid ? "visible" : "invisible")}>Department Manager required</p>
+                </div>
+                <select
+                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (superpartnamevalid ? "border bordercolor":"border border-gray-200")}
+                  value={superpartname}
+                  onChange={handlesuperpart}
+                >
+                  {depart.length > 0 ? (
+                      depart.map((part, id) => (
+                        <option key={id}>{part}</option>
+                      ))
+                    ) : (
+                      <option>Select Department</option>
+                    )
+                    }
+                </select>
+              </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
-                    Department name
+                    Sub Department
                   </label>
                   <p className={"inputcolor text-xs italic ml-1 " + (partnamevalid ? "visible":"invisible")}>Department Name required</p>
                 </div>
@@ -155,8 +182,8 @@ export default function CreateDepartment() {
                   onChange={handlepartmanage}
                 >
                   {selectmanager.length > 0 ? (
-                      selectmanager.map((part) => (
-                        <option>{part.firstname}{" "}{part.lastname}</option>
+                      selectmanager.map((part ,id) => (
+                        <option key={id}>{part.firstname}{" "}{part.lastname}</option>
                       ))
                     ) : (
                       <option>Select Manager</option>
@@ -169,10 +196,9 @@ export default function CreateDepartment() {
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                     Description
                   </label>
-                  <p className={"inputcolor text-xs italic ml-1 " + (descriptionvalid ? "visible" : "invisible")}>Description required</p>
                 </div>
                 <textarea 
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (descriptionvalid ? "border bordercolor":"border border-gray-200")}
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
                   rows="5" 
                   minLength="20"
                   maxLength="1000"

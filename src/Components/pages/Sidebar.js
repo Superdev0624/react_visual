@@ -16,19 +16,19 @@ export default function Sidebar(props) {
     if (Roll === 'Admin') {
       return (
         <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white headcolor">Admin</p>
+          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">Admin</p>
         </>
       )
     } else if (Roll === 'Accountant') {
       return (
         <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-indigo-700">Accountant</p>
+          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">Accountant</p>
         </>
       )
     } else if (Roll === 'User') {
       return (
         <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-indigo-700">User</p>
+          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">User</p>
         </>
       )
     }
@@ -43,7 +43,7 @@ export default function Sidebar(props) {
               <span className="uppercase text-2xl m-2 font-medium">Dashboard</span>
             </li>
           </Link>
-          <li className="flex flex-row items-center h-15 justify-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
+          <li className="flex flex-row items-center h-15 justify-center transform hover:translate-x-2 cursor-pointer transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
             <span className="uppercase ml-1 text-2xl m-2 font-medium" onClick={() => setProduct(!product)}>Account & Settings</span>
           </li>
           {product ? (
@@ -101,7 +101,6 @@ export default function Sidebar(props) {
             <div>
               <ul>
                 <Link to="/profile"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">profile</li></Link>
-                <Link to="/edit"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">edit account</li></Link>
               </ul>
             </div>
           ) : (
@@ -113,10 +112,14 @@ export default function Sidebar(props) {
   };
 
   return (
-    <div className={"transition duration-1000 w-full h-full transform " + (props.value ? " absolute z-50 translate-x-0 " : " absolute z-40 -translate-x-full")}>
-      <div className="bg-gray-300 opacity-80 inset-0 fixed w-full h-full" onClick={props.sidebarHide} />
-      <div className="w-80 z-20 absolute right-0 z-40 top-0  shadow flex-col usecolor justify-between h-full transition-all duration-300">
-        <div className="flex flex-col justify-between h-full">
+    <>    
+      <div  className={"transition transform fixed right-0 usecolor h-full ease-in-out duration-300" + (props.value ? "absolute z-30 translate-x-0 " : "absolute z-40 translate-x-full")}>
+        <div className="mt-5 ml-5 text-white" onClick={props.sidebarHide}>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+          </svg>
+        </div>
+        <div className="flex flex-col column justify-between">
           <div className="px-6 pt-4">
             <div className="px-10 pt-4 flex justify-content center">
               <p className="uppercase flex item text-white italic font-mono w-full justify-center text-3xl font-bold">Hi,{Username} </p>
@@ -125,17 +128,21 @@ export default function Sidebar(props) {
               {adminShow()}
             </div>
             <hr className="border-5 mb-2 mt-2"></hr>
-            <ul className="f-m-m">
-              {renderMenuItem()}
-              <Link to="/">
-                <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-                  <span className="uppercase text-2xl m-2 font-medium" onClick={handleLogout}>logout</span>
-                </li>
-              </Link>
-            </ul>
+              <ul className="f-m-m">
+                {renderMenuItem()}
+                <Link to="/">
+                  <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
+                    <span className="uppercase text-2xl m-2 font-medium" onClick={handleLogout}>logout</span>
+                  </li>
+                </Link>
+              </ul>
+          </div>
+          <div className="">
+            <p className="mb-14 px-5 py-3 hidden md:block text-center text-lg font-bold italic textstylecolor">Hello, {Username}</p>
           </div>
         </div>
       </div>
-    </div>
+    {/* </div> */}
+    </>
   )
 }

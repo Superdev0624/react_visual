@@ -15,7 +15,15 @@ export default function Displaydata() {
   })
   function onChooseRoute(event) {
     sessionStorage.setItem('Role', event)
-    if(event === "Accountant"){
+    if(event === "Admin"){
+      db.collection("UserRole").where("userId","==",authID).where("Role","==",event)
+    .get()
+    .then(doc=>{
+        const conditionusers = doc.docs[0].data().companyId
+        sessionStorage.setItem('conditionusers', conditionusers)
+    })
+     navigate('/admindashboard')
+  }else if(event === "Accountant"){
       db.collection("UserRole").where("userId","==",authID).where("Role","==",event)
     .get()
     .then(doc=>{

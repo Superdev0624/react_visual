@@ -8,20 +8,31 @@ import '../../assets/main.css'
 export default function EditDepartment() {
   const [partname, setPartname] = useState('');
   const [partmanage, setPartmanage] = useState('');
-  const [description, setDescription] = useState('');
+  const [superpartname, setSuperPartname] = useState('');
   const [selectmanager, setSelectManager] = useState([]);
+  const [depart, setDepart] = useState([]);
   const editID = useParams().id
   const authID = sessionStorage.getItem('UID')
   let navigate = useNavigate();
   useEffect(() =>{
-    db.collection("departments")
+    db.collection('departments').where('Basic',"==", "0")
+    .get()
+    .then(doc=>{
+      var superarr = [];
+      for(let i = 0; i < doc.docs.length; i++){
+        const partdata = doc.docs[i].data().departmentname
+        superarr.push(partdata)
+      }
+      setDepart(superarr)
+    })
+    db.collection("Departmentdata")
     .doc(editID)
     .get()
     .then(doc =>{
       const editData = doc.data()
-      setPartname(editData.departmentmanager)
-      setPartmanage(editData.departmentname)
-      setDescription(editData.description)
+      setPartname(editData.partname)
+      setPartmanage(editData.partmanager)
+      setSuperPartname(editData.superpart)
     })
     db.collection("UserRole").where('userId',"==",authID).where('Role',"==","Admin")
     .get()
@@ -32,19 +43,19 @@ export default function EditDepartment() {
       .then(doc=>{
         var arr = [];
         for(let i = 0; i<doc.docs.length; i++) {
-          const companyusers = doc.docs[i]
-          const useruid = companyusers.data().userId
+          const useruid = doc.docs[i].data().userId
           db.collection("Users")
           .doc(useruid)
           .get()
           .then(doc=>{
             const users = doc.data()
-            arr.push(users)
+            arr.push(users)      
           })
         }
-        setSelectManager(arr)
+        setSelectManager(arr)    
       })
     })
+    // eslint-disable-next-line
   },[])
   function onCancel (e) {
     e.preventDefault();
@@ -57,17 +68,17 @@ export default function EditDepartment() {
   const handlepartmanage = (e) => {
     setPartmanage(e.target.value);
   }
-  const handleDescription =(e) =>{
-    setDescription(e.target.value);
+  const handlesuperpart = (e) => {
+    setSuperPartname(e.target.value);
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    db.collection("departments")
+    db.collection("Departmentdata")
     .doc(editID)
     .update({
-      departmentname:partname,
-      departmentmanager:partmanage,
-      description:description
+      partname:partname,
+      partmanager:partmanage,
+      superpart: superpartname
     })
     .then(() =>{
       toast.success("Edit Success!")
@@ -81,13 +92,34 @@ export default function EditDepartment() {
     <div className="bg-blue-50 flex justify-center items-center px-5 py-5">
       <div className="py-2 flex justify-center align-top bg-blue-50">
         <div className="px-2 py-1">
-        <div className="uppercase text-3xl textstylecolor font-semibold text-center">Edit Department</div>
+        <div className="uppercase text-5xl textstylecolor font-Medium text-center mb-3 italic">Edit Department</div>
           <form className="w-full max-w-lg object-center" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3">
+            <div className="w-full px-3">
+                <div className="flex justify-between">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                    Department
+                  </label>
+                </div>
+                <select
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
+                  value={superpartname}
+                  onChange={handlesuperpart}
+                >
+                  {depart.length > 0 ? (
+                      depart.map((part, id) => (
+                        <option key={id}>{part}</option>
+                      ))
+                    ) : (
+                      <option>Select Department</option>
+                    )
+                    }
+                </select>
+              </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
-                    Department name
+                    Sub Department
                   </label>
                 </div>
                 <input 
@@ -99,35 +131,25 @@ export default function EditDepartment() {
                 />
               </div>
               <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  department manager
-                </label>
+                <div className="flex justify-between">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                    department manager
+                  </label>
+                </div>
                 <select
                   className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
                   value={partmanage}
                   onChange={handlepartmanage}
                 >
                   {selectmanager.length > 0 ? (
-                      selectmanager.map((part) => (
-                        <option>{part.firstname}{" "}{part.lastname}</option>
+                      selectmanager.map((part ,id) => (
+                        <option key={id}>{part.firstname}{" "}{part.lastname}</option>
                       ))
                     ) : (
                       <option>Select Manager</option>
                     )
                     }
                 </select>
-              </div>
-              <div className="w-full px-3">
-                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                  Description
-                </label>
-                <textarea 
-                  className="form-textarea mt-1 block w-full border-blue-500" 
-                  rows="5" 
-                  placeholder="Enter some long form content."
-                  value={description}
-                  onChange={handleDescription}
-                />
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mt-3">

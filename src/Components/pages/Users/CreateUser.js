@@ -17,7 +17,6 @@ export default function CreateUser() {
   const [lnamevalid, setLnameValid] = useState(false);
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
-  const [phonevalid, setPhoneValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
@@ -28,6 +27,7 @@ export default function CreateUser() {
       var comname=doc.docs[0].data().companyId
       setCompanyname(comname)
     })
+  // eslint-disable-next-line 
   },[])
   const handlefirstName = (e) => {
     setFirst(e.target.value);
@@ -43,7 +43,6 @@ export default function CreateUser() {
   };
   const handlePhone = (e) => {
     setPhone(e.target.value);
-    setPhoneValid(false);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -55,16 +54,13 @@ export default function CreateUser() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === ''|| lname === ''||phone === ''|| email === ''|| password === ''|| role===''){
+    if(fname === ''|| lname === ''|| email === ''|| password === ''|| role===''){
       toast.error("All fields value are required")
       if(fname === ''){
         setFnameValid(true)
       }
       if(lname === ''){
         setLnameValid(true)
-      }
-      if(phone === ''){
-        setPhoneValid(true)
       }
       if(email === ''){
         setEmailValid(true)
@@ -212,6 +208,7 @@ export default function CreateUser() {
                     onChange={handleRole}
                   > 
                     <option selected >Select Role</option>
+                    <option>Admin</option>
                     <option>Accountant</option>
                     <option>User</option>
                   </select>
@@ -225,11 +222,10 @@ export default function CreateUser() {
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                   Phone
                   </label>
-                  <p className={"inputcolor text-xs italic ml-1 " + (phonevalid ? "visible" : "invisible")}>Phone Number Required</p>
                 </div>
                 <input 
                   type="text"
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (phonevalid ? "border bordercolor" : "border border-gray-200")}
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
                   placeholder="+1 234-567-5678"
                   pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"
                   value={phone}

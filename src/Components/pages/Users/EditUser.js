@@ -68,6 +68,7 @@ export default function EditUser() {
     //       setPart(arr =>[...arr, itemdata])      
     //     }
     //   })  
+    // eslint-disable-next-line 
   }, [])
 
   const handlefirstName = (e) => {
@@ -180,7 +181,7 @@ export default function EditUser() {
             <div className="flex flex-wrap -mx-3 mb-2">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                 <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                  <span className="mr-2 uppercase">Edit</span>
+                  <span className="mr-2 uppercase">Save</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
