@@ -43,7 +43,7 @@ export default function Layout(props) {
       sidebarHide={handleHide} 
       value={show}
     />
-    <div className="flex justify-center items-center">
+    <div>
       {props.child}
     </div>
    </div>

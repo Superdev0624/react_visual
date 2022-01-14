@@ -75,7 +75,7 @@ export default function Department() {
   }
   return (
     <div>
-      <div className="min-w-screen min-h-screen flex justify-center px-5 py-5">
+      <div className="min-w-screen flex justify-center px-5 py-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-6">
         <div className="text-5xl leading-5 textstylecolor text-center font-bold uppercase mb-5">company:{ currentcompanyname }</div>
           <div className="flex justify-between">

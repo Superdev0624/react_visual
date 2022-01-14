@@ -72,7 +72,7 @@ export default function CreateDepartment() {
     if(superpartname === '' || partname === ''|| partmanage ===''){
       toast.error("All fields value are required")
       if( superpartname === '') {
-        setSuperPartname(true);
+        setSuperpartnameValid(true);
       }
       if( partname === ''){
         setPartnameValid(true);
@@ -144,6 +144,7 @@ export default function CreateDepartment() {
                   value={superpartname}
                   onChange={handlesuperpart}
                 >
+                  <option selected>Select Department</option>
                   {depart.length > 0 ? (
                       depart.map((part, id) => (
                         <option key={id}>{part}</option>
@@ -181,6 +182,7 @@ export default function CreateDepartment() {
                   value={partmanage}
                   onChange={handlepartmanage}
                 >
+                  <option selected>Select Manager</option>
                   {selectmanager.length > 0 ? (
                       selectmanager.map((part ,id) => (
                         <option key={id}>{part.firstname}{" "}{part.lastname}</option>

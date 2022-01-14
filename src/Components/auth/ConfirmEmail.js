@@ -17,20 +17,22 @@ export default function Reset () {
     if ( email === '') {
       setEmailBorder(true);
       toast.error('Cannot be empty', {position: toast.POSITION.TOP_CENTER, autoClose:3000});
+      return
     } 
-    db.collection("users").where("useremail", "==", email )
+    db.collection("Users").where("useremail", "==", email )
     .get()
     .then(doc => {
       if( doc.docs.length === 0 ) {
-        toast.error(`Email doesn't exist`);
+        toast.warn("Email doesn't exist.")
+       return
+      } else{
+        auth.sendPasswordResetEmail(email)
+        .then(() =>{
+          toast.info("Password reset email sent!")
+        }).catch(error =>{
+          console.log(error)
+        })
       }
-    })
- 
-    auth.sendPasswordResetEmail(email)
-    .then(() =>{
-      toast.info("Password reset email sent!")
-    }).catch(error =>{
-      console.log(error)
     })
   }
   return (

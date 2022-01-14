@@ -1,109 +1,68 @@
-import React,{ useEffect,useState }from 'react';
+import React,{ useState,useEffect }from 'react';
 import '../assets/main.css';
 import { db } from '../../firebase-config'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Navbar(props) {
   const Roll = sessionStorage.getItem('UID')
-  const companyname = sessionStorage.getItem('conditionusers')
-  const [partmanage, setPartmanage] = useState('');
-  const [ roleData, setRoleData ] = useState([]);
-  let navigate = useNavigate()
-  useEffect(() => { 
-    db.collection("UserRole").where("userId","==",props.userID)
-    .get()
-    .then((doc) =>{
-      var arr= [];
-        for(let i = 0; i < doc.docs.length; i++){
-          const cominfo = doc.docs[i].data().companyId
-          arr.push(cominfo)
-        }
-        setRoleData(arr)
-    })
-    db.collection("UserRole").where('userId',"==",props.userID).where('companyId',"==",companyname)
-    .get()
-    .then((doc) =>{
-     
-    })
-   // eslint-disable-next-line 
-  }, [])
-  const handlepartmanage = (e) =>{
-    setPartmanage(e.target.value)
-    db.collection('UserRole').where('companyId',"==",partmanage).where('userId',"==",Roll)
-    .get()
-    .then(doc=>{
-      const comparevalue = doc.docs[0].data().Role
-      if(comparevalue === "Admin") {
-        navigate('/admindashboard')
-        console.log("admin")
-      } else if(comparevalue === "Accountant") {
-        navigate('/accountantdashboard')
-        console.log("accountant")
-      } else if(comparevalue === "User") {
-        navigate('/userdashboard')
-        console.log("User")
-      }
-      return
-    })
-  }
-  const adminShow = () => {
-    if (Roll === 'Admin') {
-      return (
-        <Link to="/admindashboard">
-          <img
-            alt="logo"
-            className="object-between w-100 h-6 mt-2 mb-1"
-            src="../logo.png"
-          />
-        </Link>
-      )
-    } else if (Roll === 'Accountant') {
-      return (
-        <Link to="/accountantdashboard">
-          <img
-            alt="logo"
-            className="object-between w-100 h-6 mt-2 mb-1"
-            src="../logo.png"
-          />
-        </Link>
-      )
-    } else if (Roll === 'User') {
-      return (
-        <Link to="/userdashboard">
-          <img
-            alt="logo"
-            className="object-between w-100 h-6 mt-2 mb-1"
-            src="../logo.png"
-          />
-        </Link>
-      )
-    }
-  }
+  const [currentcompanyname, setCurrentCompanyName] = useState('');
+  useEffect(() => {
+    db.collection("UserRole").where("userId", "==", Roll)
+      .get()
+      .then(doc => {
+        const users = doc.docs;
+        const companyRole = users[0].data().companyId
+        setCurrentCompanyName(companyRole)
+      })
+      // eslint-disable-next-line
+  },[])
+  // const adminShow = () => {
+  //   if (Roll === 'Admin') {
+  //     return (
+  //       <Link to="/admindashboard">
+  //         <img
+  //           alt="logo"
+  //           className="object-between w-100 h-6 mt-2 mb-1"
+  //           src="../logo.png"
+  //         />
+  //       </Link>
+  //     )
+  //   } else if (Roll === 'Accountant') {
+  //     return (
+  //       <Link to="/accountantdashboard">
+  //         <img
+  //           alt="logo"
+  //           className="object-between w-100 h-6 mt-2 mb-1"
+  //           src="../logo.png"
+  //         />
+  //       </Link>
+  //     )
+  //   } else if (Roll === 'User') {
+  //     return (
+  //       <Link to="/userdashboard">
+  //         <img
+  //           alt="logo"
+  //           className="object-between w-100 h-6 mt-2 mb-1"
+  //           src="../logo.png"
+  //         />
+  //       </Link>
+  //     )
+  //   }
+  // }
   return (
     <div>
       <nav className="w-full mx-auto bg-white shadow">
         <div className="flex justify-between h-16">
           <div className="h-full flex items-center">
             <div className="ml-5 flex items-center">
-              {adminShow()}
+              <img
+              alt="logo"
+              className="object-between w-100 h-6 mt-2 mb-1"
+              src="../logo.png"
+            />
             </div>
           </div>
-          <div className="flex justify-between">
-          <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">Join Other Company</span>
-          <select
-             value={partmanage}
-             onChange={handlepartmanage} 
-             className="appearance-none block text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200">
-            {roleData.length > 0 ?(
-            roleData.map((part,id) => (
-                  <option key={id}>{part}</option>
-                ))
-                ) : (
-                  <option>Select other join company</option>
-                )
-            }
-          </select>
-          </div>
+          <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">{currentcompanyname}</span>
           <div className="mr-5 h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">

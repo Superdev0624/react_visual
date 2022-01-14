@@ -24,6 +24,10 @@ export default function Signup() {
   const [phonevalid, setPhoneValid] = useState(false);
   const [checkvalid, setCheckValid] = useState(false);
   let navigate = useNavigate();
+  var actionCodeSettings = {
+    url: 'https://wepull.herokuapp.com/finishSignUp?cartId=1234',
+    handleCodeInApp: true,
+  }
   const handlefirstName = (e) => {
     setFirst(e.target.value);
     setFnameValid(false);
@@ -94,50 +98,67 @@ export default function Signup() {
       }
       return
     }
-    db.collection("Companies").where("companyname", "==", companyname)
+    db.collection("Users").where('useremail',"==", email)
     .get()
     .then(doc=>{
-      if(doc.docs.length === 0 ) {
-        db.collection("Companies")
-        .doc()
-        .set({
-          companyname: companyname,
-          companynumber: companynum,
-          companyId: companyname,
-        });
-      } else {
-        toast.warning("Company is already exist")
-        return
-      }
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(authUser =>{
-          db.collection("Users")
-          .doc(authUser.user.uid)
-          .set({
-              useremail: email,
-              password: password,
-              firstname: fname,
-              lastname: lname,
-              phone: phone
-          });
-          db.collection("UserRole")
+     if(doc.docs.length === 0) {
+      db.collection("Companies").where("companyname", "==", companyname)
+      .get()
+      .then(doc=>{
+        if(doc.docs.length === 0 ) {
+          db.collection("Companies")
           .doc()
           .set({
-            Role: "Admin",
+            companyname: companyname,
+            companynumber: companynum,
             companyId: companyname,
-            userId: authUser.user.uid
-          });  
-        })
-        .catch((error) => {
-          if (error.code === 'auth/email-already-in-use') {
-            toast.error('email already exist');
-          }
-          if (error.code === 'auth/weak-password') {
-            toast.warning('Strong Password!');
-          }
-        })
-      navigate('/')
-    })
+          });
+          auth.createUserWithEmailAndPassword(email, password)
+          .then(authUser =>{
+            db.collection("Users")
+            .doc(authUser.user.uid)
+            .set({
+                useremail: email,
+                password: password,
+                firstname: fname,
+                lastname: lname,
+                phone: phone
+            });
+            db.collection("UserRole")
+            .doc()
+            .set({
+              Role: "Admin",
+              companyId: companyname,
+              userId: authUser.user.uid
+            });  
+            console.log('email',email)
+            auth.sendSignInLinkToEmail(email, actionCodeSettings)
+            .then(()=>{
+              toast.success("THe Link was Successfully sent.Check your inbox")
+              window.localStorage.setItem('emailForSignIn', email);
+            })
+            .catch((error)=>{
+              console.log('errorCode', error.code)
+              var errorMessage = error.message;
+              console.log(errorMessage)
+            })
+          })
+          .catch((error) => {
+            if (error.code === 'auth/weak-password') {
+              toast.warning('Strong Password!');
+              return
+            }
+          })
+        } else {
+          toast.warning("Company is already exist")
+          return
+        }
+      })
+     } else{
+       toast.error("Same email already exist")
+       return
+     }
+    })  
   }
   return (
     <div className="bg-grey-lighter min-h-screen flex flex-col app">
@@ -282,7 +303,7 @@ export default function Signup() {
                 className={"w-full -ml-10 pl-10 pr-3 py-1 rounded border-2 border-gray-200 focus:border-indigo-500 " + (phonevalid ? "border bordercolor" : "border border-gray-light")}
                 name="phone"
                 placeholder="Phone number"
-                pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"
+                // pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$"
                 value={phone}
                 onChange={handlePhone}
               />

@@ -58,6 +58,7 @@ function Users() {
   // const paginateBack = () => setCurrentPage(currentPage - 1);
   // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   function onDelete(event) {
+    console.log('delete')
     if (window.confirm('Are you sure you want to delete this user?')) {
       db.collection("UserRole").where("userId", "==", authID)
         .get()
@@ -81,20 +82,20 @@ function Users() {
                         const removeId = doc.docs[0].id
                         db.collection("UserRole")
                           .doc(removeId)
-                          .get()
-                          // .delete()
+                          // .get()
+                          .delete()
                           .then(() => {
-                            // toast.info("User Deleted.")
-                            // window.location.reload();
+                            toast.info("User Deleted.")
+                            window.location.reload();
                             db.collection("Users").where("useremail", "==", event)
                               .get()
                               .then(doc => {
-                                const removeuser = doc.docs[0].id
-                                console.log(removeuser)
-                                Axios.delete(`http://localhost:3001/${removeuser}`).then((res) => {
-                                // db.collection("Users")
-                                //   .doc(removeuser)
-                                //   .delete() 
+                                const id = doc.docs[0].id
+                                console.log(id)
+                                Axios.delete(`http://localhost:3001/${id}`).then((res) => {
+                                db.collection("Users")
+                                  .doc(id)
+                                  .delete() 
                                 toast.info("User Deleted")
                               })
                             })
@@ -117,7 +118,7 @@ function Users() {
   }
   return (
     <div>
-      <div className="min-w-screen min-h-screen flex justify-center px-5 py-5">
+      <div className="min-w-screen flex justify-center px-5 py-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-6">
         <div className="text-5xl leading-5 textstylecolor text-center font-bold uppercase mb-5">company:{ currentcompanyname }</div>
           <div className="flex justify-between">

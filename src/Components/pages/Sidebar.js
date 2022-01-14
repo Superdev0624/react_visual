@@ -40,21 +40,20 @@ export default function Sidebar(props) {
         <>
           <Link to="/admindashboard">
             <li className="flex flex-row justify-center h-15 items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white" >
-              <span className="uppercase text-2xl m-2 font-medium">Dashboard</span>
+              <span className="uppercase text-xl m-2 font-medium">Dashboard</span>
             </li>
           </Link>
           <li className="flex flex-row items-center h-15 justify-center transform hover:translate-x-2 cursor-pointer transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-            <span className="uppercase ml-1 text-2xl m-2 font-medium" onClick={() => setProduct(!product)}>Account & Settings</span>
+            <span className="uppercase ml-1 text-xl m-2 font-medium" onClick={() => setProduct(!product)}>Account & Settings</span>
           </li>
           {product ? (
             <div>
               <ul>
-                <Link to="/company"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Company</li></Link>
-                <Link to="/department"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Departments</li></Link>
-                <Link to="/user"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Users</li></Link>
-                <Link to="/app"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Apps</li></Link>
-                <Link to="/adminnotification"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Notifications</li></Link>
-                <Link to="/billSub"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Billing</li></Link>
+                <Link to="/department"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Departments</li></Link>
+                <Link to="/user"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Users</li></Link>
+                <Link to="/app"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Apps</li></Link>
+                <Link to="/adminnotification"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Notifications</li></Link>
+                <Link to="/billSub"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Billing</li></Link>
               </ul>
             </div>
           ) : (
@@ -67,11 +66,11 @@ export default function Sidebar(props) {
         <>
           <Link to="/accountantdashboard">
             <li className="flex flex-row justify-center h-15 items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white" >
-              <span className="uppercase text-2xl m-2 font-medium">Dashboard</span>
+              <span className="uppercase text-xl m-2 font-medium">Dashboard</span>
             </li>
           </Link>
           <li className="flex flex-row items-center h-15 justify-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-            <span className="uppercase ml-1 text-2xl m-2 font-medium" onClick={() => setProduct(!product)}>Accountant</span>
+            <span className="uppercase ml-1 text-xl m-2 font-medium" onClick={() => setProduct(!product)}>Accountant</span>
           </li>
           {product ? (
             <div>
@@ -91,11 +90,11 @@ export default function Sidebar(props) {
         <>
           <Link to="/userdashboard">
             <li className="flex flex-row justify-center h-15 items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white" >
-              <span className="uppercase text-2xl m-2 font-medium">Dashboard</span>
+              <span className="uppercase text-xl m-2 font-medium">Dashboard</span>
             </li>
           </Link>
           <li className="flex flex-row items-center h-15 justify-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-            <span className="uppercase ml-1 text-2xl m-2 font-medium" onClick={() => setProduct(!product)}>Settings</span>
+            <span className="uppercase ml-1 text-xl m-2 font-medium" onClick={() => setProduct(!product)}>Settings</span>
           </li>
           {product ? (
             <div>
@@ -132,17 +131,13 @@ export default function Sidebar(props) {
                 {renderMenuItem()}
                 <Link to="/">
                   <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-                    <span className="uppercase text-2xl m-2 font-medium" onClick={handleLogout}>logout</span>
+                    <span className="uppercase text-xl m-2 font-medium" onClick={handleLogout}>logout</span>
                   </li>
                 </Link>
               </ul>
           </div>
-          <div className="">
-            <p className="mb-14 px-5 py-3 hidden md:block text-center text-lg font-bold italic textstylecolor">Hello, {Username}</p>
-          </div>
         </div>
       </div>
-    {/* </div> */}
     </>
   )
 }
