@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../assets/main.css'
 
@@ -10,7 +9,6 @@ export default function Sidebar(props) {
   const Roll = sessionStorage.getItem('Role');
   const handleLogout = () => {
     sessionStorage.removeItem('Auth Token');
-    toast.info('Log out!')
   }
   const adminShow = () => {
     if (Roll === 'Admin') {
@@ -49,6 +47,7 @@ export default function Sidebar(props) {
           {product ? (
             <div>
               <ul>
+                <Link to="/company"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Company</li></Link>
                 <Link to="/department"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Departments</li></Link>
                 <Link to="/user"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Users</li></Link>
                 <Link to="/app"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Apps</li></Link>
@@ -111,8 +110,9 @@ export default function Sidebar(props) {
   };
 
   return (
-    <>    
-      <div  className={"transition transform fixed right-0 usecolor h-full ease-in-out duration-300" + (props.value ? "absolute z-30 translate-x-0 " : "absolute z-40 translate-x-full")}>
+    <div className={"w-full h-full flex justify-between cursor-pointer " + (props.value ? "absolute translate-x-0 " : "hidden absolute translate-x-full")}>
+      <div className="inset-0 fixed left-0" onClick={props.sidebarHide} />
+      <div className={"w-80 transition transform fixed bottom-0 right-0 usecolor min-h-full " + (props.value ? "absolute z-9999 translate-x-0 " : "absolute translate-x-full")}>
         <div className="mt-5 ml-5 text-white" onClick={props.sidebarHide}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
@@ -127,17 +127,17 @@ export default function Sidebar(props) {
               {adminShow()}
             </div>
             <hr className="border-5 mb-2 mt-2"></hr>
-              <ul className="f-m-m">
-                {renderMenuItem()}
-                <Link to="/">
-                  <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
-                    <span className="uppercase text-xl m-2 font-medium" onClick={handleLogout}>logout</span>
-                  </li>
-                </Link>
-              </ul>
+            <ul className="f-m-m">
+              {renderMenuItem()}
+              <Link to="/">
+                <li className="flex flex-row justify-center items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white hover:bg-green-600 hover:text-white">
+                  <span className="uppercase text-xl m-2 font-medium" onClick={handleLogout}>logout</span>
+                </li>
+              </Link>
+            </ul>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

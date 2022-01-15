@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { db } from '../../../firebase-config'
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/main.css'
@@ -8,6 +7,7 @@ import '../../assets/main.css'
 export default function EditDepartment() {
   const [partname, setPartname] = useState('');
   const [partmanage, setPartmanage] = useState('');
+  const [budget, setBudget] = useState('');
   const [superpartname, setSuperPartname] = useState('');
   const [selectmanager, setSelectManager] = useState([]);
   const [depart, setDepart] = useState([]);
@@ -33,6 +33,7 @@ export default function EditDepartment() {
       setPartname(editData.partname)
       setPartmanage(editData.partmanager)
       setSuperPartname(editData.superpart)
+      setBudget(editData.partbudget)
     })
     db.collection("UserRole").where('userId',"==",authID).where('Role',"==","Admin")
     .get()
@@ -60,10 +61,12 @@ export default function EditDepartment() {
   function onCancel (e) {
     e.preventDefault();
     navigate('/department');
-    toast.info("Department Edit has been cancelled.")
   }
   const handlepartName =(e) =>{
     setPartname(e.target.value);
+  }
+  const handleBudget =(e) =>{
+    setBudget(e.target.value);
   }
   const handlepartmanage = (e) => {
     setPartmanage(e.target.value);
@@ -78,10 +81,10 @@ export default function EditDepartment() {
     .update({
       partname:partname,
       partmanager:partmanage,
-      superpart: superpartname
+      superpart: superpartname,
+      partbudget:budget
     })
     .then(() =>{
-      toast.success("Edit Success!")
       navigate('/department')
     })
     .catch((error) => {
@@ -125,9 +128,21 @@ export default function EditDepartment() {
                 <input 
                   type="text"
                   className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
-                  placeholder="IT Department"
                   value={partname}
                   onChange={handlepartName}
+                />
+              </div>
+              <div className="w-full px-3">
+                <div className="flex justify-between">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                    Budget
+                  </label>
+                </div>
+                <input 
+                  type="text"
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
+                  value={budget}
+                  onChange={handleBudget}
                 />
               </div>
               <div className="w-full px-3">

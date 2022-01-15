@@ -5,11 +5,9 @@ import { db } from '../../firebase-config'
 import 'firebase/auth';
 import 'firebase/firestore';
 import { toast } from 'react-toastify';
-import Axios from "axios";
 // import Pagination from '../../Components/pages/Pagination'
 function Users() {
   const [usersdata, setUsersData] = useState([]);
-  const [currentcompanyname, setCurrentCompanyName] = useState('');
   const authID = sessionStorage.getItem('UID')
   // const [currentPage, setCurrentPage] = useState(1);
   // const [postsPerPage] =('5');
@@ -19,7 +17,6 @@ function Users() {
       .then(doc => {
         const users = doc.docs;
         const companyRole = users[0].data().companyId
-        setCurrentCompanyName(companyRole)
         db.collection("UserRole").where("companyId", "==", companyRole)
           .get()
           .then(async doc => {
@@ -30,6 +27,7 @@ function Users() {
                 .get()
                 .then(async doc => {
                   var roledata = doc.docs[0].data().Role
+                  var partdata = doc.docs[0].data().Partname
                   var mainId = doc.docs[0].data().userId
                   const doc1 = await db.collection("Users")
                     .doc(mainId)
@@ -37,7 +35,8 @@ function Users() {
                   var users = doc1.data()
                   arr.push({
                     ...users,
-                    role: roledata
+                    role: roledata,
+                    part: partdata
                   });
                   var alldatas = arr.map((word) => {
                     return { ...word }
@@ -47,7 +46,7 @@ function Users() {
             }
           })
       })
-      // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [])
   let navigate = useNavigate();
   // const indexOfLastPost = currentPage * postsPerPage;
@@ -85,20 +84,16 @@ function Users() {
                           // .get()
                           .delete()
                           .then(() => {
-                            toast.info("User Deleted.")
                             window.location.reload();
                             db.collection("Users").where("useremail", "==", event)
                               .get()
                               .then(doc => {
                                 const id = doc.docs[0].id
-                                console.log(id)
-                                Axios.delete(`http://localhost:3001/${id}`).then((res) => {
                                 db.collection("Users")
                                   .doc(id)
-                                  .delete() 
+                                  .delete()
                                 toast.info("User Deleted")
                               })
-                            })
                           })
                       })
                   }
@@ -120,28 +115,13 @@ function Users() {
     <div>
       <div className="min-w-screen flex justify-center px-5 py-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-6">
-        <div className="text-5xl leading-5 textstylecolor text-center font-bold uppercase mb-5">company:{ currentcompanyname }</div>
           <div className="flex justify-between">
             <p className="text-5xl themeusercolor font-medium italic ">Users</p>
-            {/* <Pagination
-              postsPerPage={postsPerPage}
-              totalPosts={usersdata.length}
-              paginateBack={paginateBack}
-              paginateFront={paginateFront}
-              paginate={paginate}
-              currentPage={currentPage}
-            /> */}
             <Link
               to='/createuser'
               className="uppercase text-xl usecolor flex justify-between hover:bg-green-700 text-white py-3 px-2 rounded focus:outline-none focus:shadow-outline"
             >
               + add User
-              {/* <svg className="h-8 w-8 justify-center items-center" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="8.5" cy="7" r="4" />
-                <line x1="20" y1="8" x2="20" y2="14" />
-                <line x1="23" y1="11" x2="17" y2="11" />
-              </svg> */}
             </Link>
           </div>
           <div className="flex flex-col mt-2">
@@ -166,6 +146,9 @@ function Users() {
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Role</th>
                       <th
+                      className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                      Department</th>
+                      <th
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Actions</th>
                     </tr>
@@ -189,6 +172,9 @@ function Users() {
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <div className="text-xl leading-5 text-gray-500 text-center">{part.role}</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            <div className="text-xl leading-5 text-gray-500 text-center">{part.part}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 flex justify-between">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 textstylecolor hover:text-blue-600 cursor-pointer" fill="none"

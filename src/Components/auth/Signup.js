@@ -25,7 +25,7 @@ export default function Signup() {
   const [checkvalid, setCheckValid] = useState(false);
   let navigate = useNavigate();
   var actionCodeSettings = {
-    url: 'https://wepull.herokuapp.com/finishSignUp?cartId=1234',
+    url: 'https://wepull.herokuapp.com',
     handleCodeInApp: true,
   }
   const handlefirstName = (e) => {
@@ -71,7 +71,6 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault();
     if(fname === ''|| lname === ''||phone === ''|| email === ''|| password === ''||companyname === ''||companynum === ''||check === ''){
-      toast.error("All fields value are required")
       if(fname === ''){
         setFnameValid(true)
       }
@@ -98,6 +97,15 @@ export default function Signup() {
       }
       return
     }
+    auth.sendSignInLinkToEmail(email, actionCodeSettings)
+    .then(()=>{
+      window.localStorage.setItem('emailForSignIn', email);
+    })
+    .catch((error)=>{
+      console.log('errorCode', error.code)
+      var errorMessage = error.message;
+      console.log(errorMessage)
+    })
     db.collection("Users").where('useremail',"==", email)
     .get()
     .then(doc=>{
@@ -131,26 +139,16 @@ export default function Signup() {
               companyId: companyname,
               userId: authUser.user.uid
             });  
-            console.log('email',email)
-            auth.sendSignInLinkToEmail(email, actionCodeSettings)
-            .then(()=>{
-              toast.success("THe Link was Successfully sent.Check your inbox")
-              window.localStorage.setItem('emailForSignIn', email);
-            })
-            .catch((error)=>{
-              console.log('errorCode', error.code)
-              var errorMessage = error.message;
-              console.log(errorMessage)
-            })
+            navigate('/Credential')
           })
           .catch((error) => {
             if (error.code === 'auth/weak-password') {
-              toast.warning('Strong Password!');
+              console.log(error.code)
               return
             }
           })
         } else {
-          toast.warning("Company is already exist")
+          toast.error("Same company is already exist")
           return
         }
       })

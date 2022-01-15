@@ -16,7 +16,6 @@ export default function Reset () {
     e.preventDefault();
     if ( email === '') {
       setEmailBorder(true);
-      toast.error('Cannot be empty', {position: toast.POSITION.TOP_CENTER, autoClose:3000});
       return
     } 
     db.collection("Users").where("useremail", "==", email )

@@ -19,6 +19,7 @@ import CreateDepartment from './Components/pages/department/CreatDepartment'
 import EditDepartment from './Components/pages/department/EditDepartment'
 import './App.css';
 import Displaydata from './Components/Displaydata'
+import Credential from './Components/Credential'
 function App() {
   return (
     <div>
@@ -27,6 +28,7 @@ function App() {
         <Route path='/signup' element={ <Signup /> } />
         <Route path='/confirmEmail' element={ <ConfirmEmail /> } />
         <Route path='/displaydata' element={ <Displaydata /> } />
+        <Route path='/Credential' element={ <Credential /> } />
 
         <Route path='/admindashboard' element={ <Layout child={<AdminDashboard />} />} />
         <Route path='/company' element={ <Layout child={<Company />} />} />

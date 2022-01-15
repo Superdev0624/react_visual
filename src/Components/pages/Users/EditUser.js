@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useParams } from "react-router-dom";
 import { db } from '../../../firebase-config'
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,16 +8,16 @@ export default function EditUser() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [companyname, setCompanyname] = useState("");
+  const [superpartname, setSuperPartname] = useState('');
   const [role, setRole] = useState("");
   const [phone, setPhone] = useState("");
-  // const [error, setError] = useState("")
   let navigate = useNavigate();
+  const [depart, setDepart] = useState([]);
   const authID = sessionStorage.getItem('UID')
   const edituserID = useParams().id
   function cancelButton(e) {
     e.preventDefault();
     navigate('/user');
-    toast.info("User Edit has been cancelled.")
   }
   useEffect(() => {
     db.collection("UserRole").where("userId", "==", authID)
@@ -41,33 +40,16 @@ export default function EditUser() {
       setLastname(editUserData.lastname)
       setPhone(editUserData.phone)
     })
-    //   .then(doc => {
-    //     const users = doc.docs;
-    //     const result = users.filter(user => user.id === authID)[0]
-    //     setCompanyname(result.data().companyname)
-    //   })
-    // db.collection("users")
-    //   .doc(edituserID)
-    //   .get()
-    //   .then(doc => {
-    //     const editData = doc.data()
-    //     setFirstname(editData.firstname)
-    //     setLastname(editData.lastname)
-    //     setPassword(editData.password)
-    //     setCompanynum(editData.companynum)
-    //     setDepartment(editData.department)
-    //     setRole(editData.Role)
-    //     setPhone(editData.phone)
-    //   })
-    // db.collection("departments")
-    //   .get()
-    //   .then(doc =>{
-    //     for(let i = 0; i< doc.docs.length; i++) {
-    //       const partdata = doc.docs[i]
-    //       const itemdata = partdata.data().departmentname
-    //       setPart(arr =>[...arr, itemdata])      
-    //     }
-    //   })  
+    db.collection('Departmentdata')
+    .get()
+    .then(doc=>{
+      var superarr = [];
+      for(let i = 0; i < doc.docs.length; i++){
+        const partdata = doc.docs[i].data().partname
+        superarr.push(partdata)
+      }
+      setDepart(superarr)
+    })
     // eslint-disable-next-line 
   }, [])
 
@@ -83,6 +65,9 @@ export default function EditUser() {
   const handlerole = (e) => {
     setRole(e.target.value);
   };
+  const handlesuperpart = (e) => {
+    setSuperPartname(e.target.value);
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     db.collection("UserRole").where("userId","==", edituserID)
@@ -92,7 +77,8 @@ export default function EditUser() {
      db.collection("UserRole")
      .doc(userroleId)
      .update({
-       Role: role
+       Role: role,
+       Partname: superpartname
      })
      .then(()=>{
        db.collection("Users")
@@ -103,7 +89,6 @@ export default function EditUser() {
          phone:phone,
        })
         .then(()=>{
-         toast.success("Edit Success!")
          navigate('/user')
         })
       })
@@ -145,6 +130,30 @@ export default function EditUser() {
                 />
               </div>
             </div>
+            <div className="flex flex-wrap -mx-3">
+              <div className="w-full px-3 mb-1">
+              <div className="flex justify-between">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                  Department
+                </label>
+              </div>
+                <select
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
+                  value={superpartname}
+                  onChange={handlesuperpart}
+                >
+                  <option selected>Select Department</option>
+                  {depart.length > 0 ? (
+                      depart.map((part, id) => (
+                        <option key={id}>{part}</option>
+                      ))
+                    ) : (
+                      <option>Select Department</option>
+                    )
+                    }
+                </select>
+              </div>
+            </div>
             <div className="flex flex-wrap -mx-3 mb-5">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1 mb-1">
@@ -157,6 +166,7 @@ export default function EditUser() {
                     onChange={handlerole}
                   >
                     <option selected>Select Role</option>
+                    <option>Admin</option>
                     <option>Accountant</option>
                     <option>User</option>
                   </select>

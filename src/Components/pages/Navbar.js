@@ -2,64 +2,51 @@ import React,{ useState,useEffect }from 'react';
 import '../assets/main.css';
 import { db } from '../../firebase-config'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar(props) {
   const Roll = sessionStorage.getItem('UID')
   const [currentcompanyname, setCurrentCompanyName] = useState('');
+  const [currentadmin, setCurrentAdmin] = useState('');
+  const navigate = useNavigate();
+
   useEffect(() => {
     db.collection("UserRole").where("userId", "==", Roll)
       .get()
       .then(doc => {
         const users = doc.docs;
         const companyRole = users[0].data().companyId
+        const userrole = users[0].data().Role
         setCurrentCompanyName(companyRole)
+       setCurrentAdmin(userrole)
+       console.log(currentadmin)
       })
+  
       // eslint-disable-next-line
   },[])
-  // const adminShow = () => {
-  //   if (Roll === 'Admin') {
-  //     return (
-  //       <Link to="/admindashboard">
-  //         <img
-  //           alt="logo"
-  //           className="object-between w-100 h-6 mt-2 mb-1"
-  //           src="../logo.png"
-  //         />
-  //       </Link>
-  //     )
-  //   } else if (Roll === 'Accountant') {
-  //     return (
-  //       <Link to="/accountantdashboard">
-  //         <img
-  //           alt="logo"
-  //           className="object-between w-100 h-6 mt-2 mb-1"
-  //           src="../logo.png"
-  //         />
-  //       </Link>
-  //     )
-  //   } else if (Roll === 'User') {
-  //     return (
-  //       <Link to="/userdashboard">
-  //         <img
-  //           alt="logo"
-  //           className="object-between w-100 h-6 mt-2 mb-1"
-  //           src="../logo.png"
-  //         />
-  //       </Link>
-  //     )
-  //   }
-  // }
+  const handlelogo = (e) =>{
+  }
+  const adminShow = () => {
+    if (currentadmin === 'Admin') {
+      navigate('/admindashboard');
+    } else if (Roll === 'Accountant') {
+      navigate('/accountantdashboard')
+    } else if (Roll === 'User') {
+      navigate('/userdashboard')
+    }
+  }
   return (
     <div>
       <nav className="w-full mx-auto bg-white shadow">
         <div className="flex justify-between h-16">
           <div className="h-full flex items-center">
             <div className="ml-5 flex items-center">
-              <img
+            {<img
               alt="logo"
-              className="object-between w-100 h-6 mt-2 mb-1"
+              className="object-between w-100 h-6 mt-2 mb-1 cursor-pointer"
               src="../logo.png"
-            />
+              onClick={adminShow}
+            />}
             </div>
           </div>
           <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">{currentcompanyname}</span>

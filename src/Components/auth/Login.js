@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom'
 import { db, auth } from '../../firebase-config'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import '../assets/Login.css'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -25,7 +25,6 @@ export default function Login() {
     if (email === '' || password === '') {
       setEmailBorder(true);
       setPassBorder(true);
-      toast.error('Cannot be empty');
     }
     auth.signInWithEmailAndPassword(email, password)
       .then(authUser => {
@@ -57,10 +56,10 @@ export default function Login() {
           })
       }).catch((error) => {
         if (error.code === 'auth/wrong-password') {
-          toast.error('Please check the Password');
+          console.log(error.code)
         }
         if (error.code === 'auth/user-not-found') {
-          toast.error('Please check the Email');
+          console.log(error.code)
         }
       })
   }

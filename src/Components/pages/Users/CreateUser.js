@@ -13,11 +13,14 @@ export default function CreateUser() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
+  const [superpartname, setSuperPartname] = useState('');
   const [fnamevalid, setFnameValid] = useState(false);
   const [lnamevalid, setLnameValid] = useState(false);
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
+  const [superpartnamevalid, setSuperpartnameValid] = useState(false);
+  const [depart, setDepart] = useState([]);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
   useEffect(() =>{
@@ -27,6 +30,16 @@ export default function CreateUser() {
       var comname=doc.docs[0].data().companyId
       setCompanyname(comname)
     })
+  db.collection('Departmentdata')
+  .get()
+  .then(doc=>{
+    var superarr = [];
+    for(let i = 0; i < doc.docs.length; i++){
+      const partdata = doc.docs[i].data().partname
+      superarr.push(partdata)
+    }
+    setDepart(superarr)
+  })
   // eslint-disable-next-line 
   },[])
   const handlefirstName = (e) => {
@@ -37,6 +50,10 @@ export default function CreateUser() {
     setSecond(e.target.value);
     setLnameValid(false);
   };
+  const handlesuperpart = (e) => {
+    setSuperPartname(e.target.value);
+    setSuperpartnameValid(false);
+  }
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setEmailValid(false);
@@ -54,8 +71,7 @@ export default function CreateUser() {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === ''|| lname === ''|| email === ''|| password === ''|| role===''){
-      toast.error("All fields value are required")
+    if(fname === ''|| lname === ''|| email === ''|| password === ''|| role==='' || superpartname === ''){
       if(fname === ''){
         setFnameValid(true)
       }
@@ -70,6 +86,9 @@ export default function CreateUser() {
       }
       if(role === ''){
         setRoleValid(true)
+      }
+      if(superpartname === '') {
+       setSuperpartnameValid(true);
       }
       return
     }
@@ -93,17 +112,17 @@ export default function CreateUser() {
           .set({
             Role: role,
             companyId: companyname,
+            Partname: superpartname,
             userId: createuser.user.uid
           });
           navigate('/user');
-          toast.success("Create User Successfully")
         })
         .catch((error) => {
           if (error.code === 'auth/email-already-in-use') {
-            toast.error('email already exist');
+            console.log(error.code)
           }
           if (error.code === 'auth/weak-password') {
-            toast.warning('Strong Password!');
+            console.log(error.code)
           }
         })
       } else {
@@ -116,7 +135,6 @@ export default function CreateUser() {
   function cancelButton (e) {
     e.preventDefault();
     navigate('/user');
-    toast.info("User addition has been cancelled.")
   }
   return (
     <div className="flex justify-center items-center bg-indigo-50">
@@ -191,6 +209,31 @@ export default function CreateUser() {
                   value={email}
                   onChange={handleEmail}
                 />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3">
+              <div className="w-full px-3 mb-1">
+              <div className="flex justify-between">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                  Department
+                </label>
+                <p className={"inputcolor text-xs italic ml-1 " + (superpartnamevalid ? "visible" : "invisible")}>Department Manager required</p>
+              </div>
+                <select
+                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (superpartnamevalid ? "border bordercolor":"border border-gray-200")}
+                  value={superpartname}
+                  onChange={handlesuperpart}
+                >
+                  <option selected>Select Department</option>
+                  {depart.length > 0 ? (
+                      depart.map((part, id) => (
+                        <option key={id}>{part}</option>
+                      ))
+                    ) : (
+                      <option>Select Department</option>
+                    )
+                    }
+                </select>
               </div>
             </div>
             <div className="flex flex-wrap -mx-3">

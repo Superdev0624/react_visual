@@ -6,16 +6,12 @@ import { toast } from 'react-toastify';
 
 export default function Department() {
   const [departmentdata, setDepartmentData] = useState([]);
-  const [currentcompanyname, setCurrentCompanyName] = useState('');
   const authID = sessionStorage.getItem('UID')
   let navigate = useNavigate();
   useEffect(() => {
     db.collection("UserRole").where("userId", "==", authID)
       .get()
       .then(doc => {
-        const users = doc.docs;
-        const companyRole = users[0].data().companyId
-        setCurrentCompanyName(companyRole)
         db.collection('Departmentdata')
         .get()
         .then(doc=>{
@@ -26,20 +22,6 @@ export default function Department() {
           }
           setDepartmentData(arr)
         })
-    //     db.collection("DepartmentRole").where("companyId", "==", companyRole)
-    //       .get()
-    //       .then(async doc => {
-    //         var arr = [];
-    //         for (let i = 0; i < doc.docs.length; i++) {
-    //           var departmentinfo = doc.docs[i].data().departmentId
-    //           const doc1 = await db.collection("departments")
-    //             .doc(departmentinfo)
-    //             .get();
-    //           var users = doc1.data()
-    //           if (!!users) arr.push(users);
-    //         }
-    //         setDepartmentData(arr)
-    //       })
       })
       //eslint-disable-next-line
   }, [])
@@ -77,7 +59,6 @@ export default function Department() {
     <div>
       <div className="min-w-screen flex justify-center px-5 py-5">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-6">
-        <div className="text-5xl leading-5 textstylecolor text-center font-bold uppercase mb-5">company:{ currentcompanyname }</div>
           <div className="flex justify-between">
             <h2 className="text-5xl themeusercolor font-medium italic ">Departments</h2>
             <Link
@@ -124,7 +105,7 @@ export default function Department() {
                             <div className="text-xl leading-5 text-gray-500 text-center">{part.partname}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <div className="text-xl leading-5 text-gray-500 text-center" type="number">9999$</div>
+                            <div className="text-xl leading-5 text-gray-500 text-center" type="number">${part.partbudget}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 flex justify-between">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 textstylecolor hover:text-blue-600 cursor-pointer" fill="none"

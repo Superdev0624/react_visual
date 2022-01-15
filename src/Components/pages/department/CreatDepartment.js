@@ -1,15 +1,14 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../../firebase-config'
-import { toast } from 'react-toastify';
 import '../../assets/main.css'
 export default function CreateDepartment() {
   const [partname, setPartname] = useState('');
+  const [buget, setBudget] = useState('');
   const [partmanage, setPartmanage] = useState('');
   const [superpartname, setSuperPartname] = useState('');
   const [description, setDescription] = useState('');
   const [partnamevalid, setPartnameValid] = useState(false);
-  const [partmanagevalid, setPartmanageValid] = useState(false);
   const [superpartnamevalid, setSuperpartnameValid] = useState(false);
   const [selectmanager, setSelectManager] = useState([]);
   const [depart, setDepart] = useState([]);
@@ -50,7 +49,6 @@ export default function CreateDepartment() {
   function onCancel (e) {
     e.preventDefault();
     navigate('/department');
-    toast.info("Department create has been cancelled.")
   }
   const handlepartName =(e) =>{
     setPartname(e.target.value);
@@ -58,8 +56,10 @@ export default function CreateDepartment() {
   }
   const handlepartmanage = (e) => {
     setPartmanage(e.target.value);
-    setPartmanageValid(false);
   }
+  const handleBudget = (e) =>{
+    setBudget(e.target.value);
+  } 
   const handlesuperpart = (e) => {
     setSuperPartname(e.target.value);
     setSuperpartnameValid(false);
@@ -70,15 +70,11 @@ export default function CreateDepartment() {
   function handleSubmit (e) {
     e.preventDefault();
     if(superpartname === '' || partname === ''|| partmanage ===''){
-      toast.error("All fields value are required")
       if( superpartname === '') {
         setSuperpartnameValid(true);
       }
       if( partname === ''){
         setPartnameValid(true);
-      }
-      if( partmanage === ''){
-        setPartmanageValid(true)
       }
       return
     }
@@ -114,12 +110,11 @@ export default function CreateDepartment() {
                 .set({
                   superpart: superpartname,
                   partname: partname,
-                  partmanager: partmanage
+                  partmanager: partmanage,
+                  partbudget: buget
                 })
                 navigate("/department")
-                toast.success("create department Successfully!")   
             } else{
-              toast.warn("Same department is already exist")
               return
             }
           })
@@ -173,12 +168,25 @@ export default function CreateDepartment() {
               <div className="w-full px-3">
                 <div className="flex justify-between">
                   <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
+                    Budget
+                  </label>
+                </div>
+                <input 
+                  type="text"
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
+                  placeholder="ex: 9999"
+                  value={buget}
+                  onChange={handleBudget}
+                />
+              </div>
+              <div className="w-full px-3">
+                <div className="flex justify-between">
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                     department manager
                   </label>
-                  <p className={"inputcolor text-xs italic ml-1 " + (partmanagevalid ? "visible" : "invisible")}>Department Manager required</p>
                 </div>
                 <select
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (partmanagevalid ? "border bordercolor":"border border-gray-200")}
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
                   value={partmanage}
                   onChange={handlepartmanage}
                 >
