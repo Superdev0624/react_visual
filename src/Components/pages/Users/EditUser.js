@@ -142,7 +142,7 @@ export default function EditUser() {
                   value={superpartname}
                   onChange={handlesuperpart}
                 >
-                  <option selected>Select Department</option>
+                  {/* <option selected>Select Department</option> */}
                   {depart.length > 0 ? (
                       depart.map((part, id) => (
                         <option key={id}>{part}</option>
@@ -165,7 +165,7 @@ export default function EditUser() {
                     value={role}
                     onChange={handlerole}
                   >
-                    <option selected>Select Role</option>
+                    {/* <option selected>Select Role</option> */}
                     <option>Admin</option>
                     <option>Accountant</option>
                     <option>User</option>

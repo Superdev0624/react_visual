@@ -1,7 +1,6 @@
 import React,{ useState,useEffect }from 'react';
 import '../assets/main.css';
 import { db } from '../../firebase-config'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 export default function Navbar(props) {
@@ -19,13 +18,10 @@ export default function Navbar(props) {
         const userrole = users[0].data().Role
         setCurrentCompanyName(companyRole)
        setCurrentAdmin(userrole)
-       console.log(currentadmin)
       })
   
       // eslint-disable-next-line
   },[])
-  const handlelogo = (e) =>{
-  }
   const adminShow = () => {
     if (currentadmin === 'Admin') {
       navigate('/admindashboard');

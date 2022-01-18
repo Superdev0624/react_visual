@@ -26,6 +26,7 @@ export default function Department() {
       //eslint-disable-next-line
   }, [])
   function onEdit(event) {
+    console.log("Edit")
     const editId = departmentdata[event].partname
     db.collection("Departmentdata").where("partname", "==", editId)
       .get()
@@ -40,6 +41,7 @@ export default function Department() {
   }
 
   function onDelete(event) {
+    console.log("delete")
     if (window.confirm('Are you sure to delete this department?')) {
       db.collection("Departmentdata").where('partname',"==", event)
       .get()

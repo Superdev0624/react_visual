@@ -112,7 +112,7 @@ export default function Sidebar(props) {
   return (
     <div className={"w-full h-full flex justify-between cursor-pointer " + (props.value ? "absolute translate-x-0 " : "hidden absolute translate-x-full")}>
       <div className="inset-0 fixed left-0" onClick={props.sidebarHide} />
-      <div className={"w-80 transition transform fixed bottom-0 right-0 usecolor min-h-full " + (props.value ? "absolute z-9999 translate-x-0 " : "absolute translate-x-full")}>
+      <div className={"w-80 transition transform fixed bottom-0 right-0 usecolor min-h-full easy-in-out duration-300 " + (props.value ? "absolute z-9999 translate-x-0 " : "absolute translate-x-full")}>
         <div className="mt-5 ml-5 text-white" onClick={props.sidebarHide}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />

@@ -103,6 +103,7 @@ function Users() {
     }
   }
   function onEdit(event) {
+    console.log("Edit")
     db.collection("Users").where("useremail", "==", event)
       .get()
       .then(doc => {
