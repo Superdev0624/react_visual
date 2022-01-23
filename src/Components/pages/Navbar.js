@@ -1,33 +1,18 @@
-import React,{ useState,useEffect }from 'react';
+import React from 'react';
 import '../assets/main.css';
-import { db } from '../../firebase-config'
 import { useNavigate } from 'react-router-dom'
 
 export default function Navbar(props) {
-  const Roll = sessionStorage.getItem('UID')
-  const [currentcompanyname, setCurrentCompanyName] = useState('');
-  const [currentadmin, setCurrentAdmin] = useState('');
+  const UserRole = sessionStorage.getItem('Role')
+  const recentconpanyname = sessionStorage.getItem('currentCompanyname')
   const navigate = useNavigate();
 
-  useEffect(() => {
-    db.collection("UserRole").where("userId", "==", Roll)
-      .get()
-      .then(doc => {
-        const users = doc.docs;
-        const companyRole = users[0].data().companyId
-        const userrole = users[0].data().Role
-        setCurrentCompanyName(companyRole)
-       setCurrentAdmin(userrole)
-      })
-  
-      // eslint-disable-next-line
-  },[])
   const adminShow = () => {
-    if (currentadmin === 'Admin') {
+    if (UserRole === 'Admin') {
       navigate('/admindashboard');
-    } else if (Roll === 'Accountant') {
+    } else if (UserRole === 'Accountant') {
       navigate('/accountantdashboard')
-    } else if (Roll === 'User') {
+    } else if (UserRole === 'User') {
       navigate('/userdashboard')
     }
   }
@@ -45,7 +30,7 @@ export default function Navbar(props) {
             />}
             </div>
           </div>
-          <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">{currentcompanyname}</span>
+          <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">{recentconpanyname}</span>
           <div className="mr-5 h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">

@@ -40,6 +40,7 @@ export default function Login() {
               .get()
               .then(doc=>{
                 sessionStorage.setItem('Role', doc.docs[0].data().Role)
+                sessionStorage.setItem('currentCompanyname', doc.docs[0].data().companyId)
                 const accessrole = doc.docs[0].data().Role
               if (doc.docs.length === 1) {
                   if(accessrole === "Admin") {
