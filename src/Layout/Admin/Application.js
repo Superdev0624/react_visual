@@ -22,7 +22,6 @@ export default function Application() {
   const search = useLocation().search;
   const authcode = new URLSearchParams(search).get('code')
   const realmId = new URLSearchParams(search).get('realmId')
-  console.log(authcode, realmId)
   React.useEffect(() => {
     if (!authcode) return;
     const data = {
@@ -33,7 +32,10 @@ export default function Application() {
     }
     axios.get('https://wepull-back.herokuapp.com/callback' + search)
       .then((response) => {
-        console.log(response.data)
+        axios.get('https://wepull-back.herokuapp.com/getCompanyInfo')
+        .then(ref=>{
+          console.log(ref.data)
+        })
       })
     // eslint-disable-next-line
   }, []);
