@@ -277,6 +277,7 @@ export default function Signup() {
                   value={companynum}
                   onChange={hadlecompanyNum}
                 >
+                   <option selected>Choose Department</option>
                   <option>1-3</option>
                   <option>4-10</option>
                   <option>11-20</option>

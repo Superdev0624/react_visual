@@ -112,6 +112,7 @@ export default function CreateDepartment() {
                 db.collection("Departmentdata")
                 .doc()
                 .set({
+                  companyId:companyRole,
                   superpart: superpartname,
                   partname: partname,
                   partmanager: partmanage,

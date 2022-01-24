@@ -3,16 +3,15 @@ import axios from 'axios'
 import {useLocation} from "react-router-dom";
 import '../../Components/assets/main.css'
 export default function Application() {
-  const clientId = 'ABrOwTX3hXgkfMSGc90PAahKuDw890Vpq5XN2Bg3DBdzldY6wL';
-  const clientSecret = 'mYerpvoNJSTUWmfmEtkqa14qXH0pIN4dcxSrBaaF';
-  const authorization_code = (clientId + ":" + clientSecret)
-  const Authorization = "Basic " + Buffer.from(authorization_code).toString('base64');
-  const headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': Authorization
-  }
-
+  // const clientId = 'ABrOwTX3hXgkfMSGc90PAahKuDw890Vpq5XN2Bg3DBdzldY6wL';
+  // const clientSecret = 'mYerpvoNJSTUWmfmEtkqa14qXH0pIN4dcxSrBaaF';
+  // const authorization_code = (clientId + ":" + clientSecret)
+  // const Authorization = "Basic " + Buffer.from(authorization_code).toString('base64');
+  // const headers = {
+  //   'Accept': 'application/json',
+  //   'Content-Type': 'application/x-www-form-urlencoded',
+  //   'Authorization': Authorization
+  // }
   function qbointegration (event) {
     axios.get('https://wepull-back.herokuapp.com/authUri')
     .then(res=>{
@@ -20,16 +19,16 @@ export default function Application() {
     })
   }
   const search = useLocation().search;
-  const authcode = new URLSearchParams(search).get('code')
-  const realmId = new URLSearchParams(search).get('realmId')
+  // const authcode = new URLSearchParams(search).get('code')
+  // const realmId = new URLSearchParams(search).get('realmId')
   React.useEffect(() => {
-    if (!authcode) return;
-    const data = {
-      'grant_type': 'authorization_code',
-      'code': authcode,
-      'redirect_uri': 'https://d1f3-188-43-136-33.ngrok.io/app',
-      url: search
-    }
+    // if (!authcode) return;
+    // const data = {
+    //   'grant_type': 'authorization_code',
+    //   'code': authcode,
+    //   'redirect_uri': 'https://d1f3-188-43-136-33.ngrok.io/app',
+    //   url: search
+    // }
     axios.get('https://wepull-back.herokuapp.com/callback' + search)
       .then((response) => {
         axios.get('https://wepull-back.herokuapp.com/getCompanyInfo')
