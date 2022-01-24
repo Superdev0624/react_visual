@@ -16,7 +16,6 @@ export default function Department() {
         db.collection('Departmentdata').where('companyId',"==",currentcominfo)
         .get()
         .then(doc=>{
-          console.log(doc)
           var arr = [];
           for(let i = 0; i< doc.docs.length; i++){
             const departmentdata = doc.docs[i].data()

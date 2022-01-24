@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { db } from '../../../firebase-config'
 import '../../assets/main.css'
 export default function CreateDepartment() {
+  const [superpartname, setSuperPartname] = useState('');
   const [partname, setPartname] = useState('');
   const [ budget, setBudget] = useState('');
   const [partmanage, setPartmanage] = useState('');
-  const [superpartname, setSuperPartname] = useState('');
   const [description, setDescription] = useState('');
-  const [partnamevalid, setPartnameValid] = useState(false);
   const [superpartnamevalid, setSuperpartnameValid] = useState(false);
+  const [partmanagervalid, setPartmanagerValid ] = useState(false);
   const [selectmanager, setSelectManager] = useState([]);
   const [depart, setDepart] = useState([]);
   let navigate=useNavigate();
@@ -50,35 +50,34 @@ export default function CreateDepartment() {
     e.preventDefault();
     navigate('/department');
   }
-  const handlepartName =(e) =>{
-    setPartname(e.target.value);
-      setPartnameValid(false);
-  }
-  const handlepartmanage = (e) => {
-    setPartmanage(e.target.value);
-  }
-  const handleBudget = (e) =>{
-    setBudget(e.target.value);
-  } 
   const handlesuperpart = (e) => {
     setSuperPartname(e.target.value);
     setSuperpartnameValid(false);
   }
+  const handlepartName =(e) =>{
+    setPartname(e.target.value);
+  }
+  const handleBudget = (e) =>{
+    setBudget(e.target.value);
+  }
+  const handlepartmanage = (e) => {
+    setPartmanage(e.target.value);
+    setPartmanagerValid(false);
+  } 
   const handleDescription =(e) =>{
     setDescription(e.target.value);
   }
   function handleSubmit (e) {
-    console.log('created')
     e.preventDefault();
-    if(superpartname === '' || partname === '' ||  budget === ''){
+    if(superpartname === '' ||  partmanage === ''|| budget === ''){
       if( superpartname === '') {
         setSuperpartnameValid(true);
       }
-      if( partname === ''){
-        setPartnameValid(true);
-      }
       if ( budget === '') {
         setBudget("0");
+      }
+      if(partmanage === '') {
+        setPartmanagerValid(true);
       }
       return
     }
@@ -134,18 +133,18 @@ export default function CreateDepartment() {
             <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3">
                 <div className="flex justify-between">
-                  <div className="block tracking-wide text-gray-700 text-xs font-bold py-1">
-                    <svg className="inline flex-shrink-0 mr-3 w-5 h-5 mb-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
-                    Department(*)
+                  <div className="block tracking-wide text-gray-700 text-xs font-bold py-1 uppercase">
+                    Department<p className="inline flex-shrink-0 mr-3 w-5 h-5 mb-1 text-red-500 text-xl">*</p>
+                    <svg className="inline flex-shrink-0 mr-3 w-5 h-5 mb-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>"this list is managed by WePull"
                   </div>
-                  <p className={"inputcolor text-xs italic ml-1 " + (superpartnamevalid ? "visible" : "invisible")}>Department Manager required</p>
+                  <p className={"inputcolor text-xs italic ml-1 mt-3 " + (superpartnamevalid ? "visible" : "invisible")}>Department required</p>
                 </div>
                 <select
                   className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (superpartnamevalid ? "border bordercolor":"border border-gray-200")}
                   value={superpartname}
                   onChange={handlesuperpart}
                 >
-                  {/* <option selected>Select Department</option> */}
+                  <option selected>Choose Department</option>
                   {depart.length > 0 ? (
                       depart.map((part, id) => (
                         <option key={id}>{part}</option>
@@ -158,14 +157,13 @@ export default function CreateDepartment() {
               </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
-                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1">
-                  Sub Department(*)
+                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1 uppercase">
+                  Sub Department
                   </label>
-                  <p className={"inputcolor text-xs italic ml-1 " + (partnamevalid ? "visible":"invisible")}>Department Name required</p>
                 </div>
                 <input 
                   type="text"
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (partnamevalid ? "border bordercolor":"border border-gray-200")}
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
                   placeholder="IT Department"
                   value={partname}
                   onChange={handlepartName}
@@ -173,8 +171,8 @@ export default function CreateDepartment() {
               </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
-                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1">
-                    Budget(optional)
+                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1 uppercase">
+                    Budget
                   </label>
                 </div>
                 <input 
@@ -187,16 +185,17 @@ export default function CreateDepartment() {
               </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
-                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1">
-                    department manager(optional)
+                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1 uppercase">
+                    Department Manager
                   </label>
+                  <p className={"inputcolor text-xs italic ml-1 mt-3 " + (partmanagervalid ? "visible" : "invisible")}>Department Manager required</p>
                 </div>
                 <select
-                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200"
+                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (partmanagervalid ? "border bordercolor":"border border-gray-200")}
                   value={partmanage}
                   onChange={handlepartmanage}
                 >
-                  {/* <option selected>Select Manager</option> */}
+                  <option selected>Select Manager</option>
                   {selectmanager.length > 0 ? (
                       selectmanager.map((part ,id) => (
                         <option key={id}>{part.firstname}{" "}{part.lastname}</option>
@@ -209,8 +208,8 @@ export default function CreateDepartment() {
               </div>
               <div className="w-full px-3">
                 <div className="flex justify-between">
-                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1">
-                    Description(optional)
+                  <label className="block tracking-wide text-gray-700 text-xs font-bold py-1 uppercase">
+                    Description
                   </label>
                 </div>
                 <textarea 

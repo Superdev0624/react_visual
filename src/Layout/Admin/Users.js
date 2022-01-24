@@ -163,7 +163,7 @@ function Users() {
                             <div className="text-xl leading-5 text-gray-500 text-center">{id + 1}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <div className="text-xl leading-5 text-gray-500 text-center">{part.firstname}{""}{part.lastname}</div>
+                            <div className="text-xl leading-5 text-gray-500 text-center">{part.firstname}{" "}{part.lastname}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <div className="text-xl leading-5 text-gray-500 text-center">{part.useremail}</div>

@@ -204,7 +204,7 @@ export default function CreateUser() {
                 <input 
                   type="email"
                   className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (emailvalid ? "border bordercolor" : "border border-gray-200")}
-                  placeholder="**@example.example"
+                  placeholder="Enter user email address"
                   pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
                   value={email}
                   onChange={handleEmail}
@@ -224,7 +224,7 @@ export default function CreateUser() {
                   value={superpartname}
                   onChange={handlesuperpart}
                 >
-                  {/* <option selected>Select Department</option> */}
+                  <option selected>Choose Department</option>
                   {depart.length > 0 ? (
                       depart.map((part, id) => (
                         <option key={id}>{part}</option>
@@ -251,9 +251,9 @@ export default function CreateUser() {
                     onChange={handleRole}
                   > 
                     {/* <option selected >Select Role</option> */}
-                    <option>Admin</option>
-                    <option>Accountant</option>
                     <option>User</option>
+                    <option>Accountant</option>
+                    <option>Admin</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="fill-current h-4 w-4"xmlns="http://www.w3.org/2000/svg"viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
