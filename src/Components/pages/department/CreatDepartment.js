@@ -34,7 +34,7 @@ export default function CreateDepartment() {
         setSelectManager(arr)
       })
     })
-    db.collection('departments').where('Basic',"==", "0")
+    db.collection('Departments').where('Basic',"==", "0")
     .get()
     .then(doc=>{
       var superarr = [];
@@ -73,11 +73,11 @@ export default function CreateDepartment() {
       if( superpartname === '') {
         setSuperpartnameValid(true);
       }
-      if ( budget === '') {
-        setBudget("0");
-      }
       if(partmanage === '') {
         setPartmanagerValid(true);
+      }
+      if ( budget === '') {
+        setBudget("0");
       }
       return
     }
@@ -85,11 +85,11 @@ export default function CreateDepartment() {
       .get()
       .then(doc=>{
         const companyRole= doc.docs[0].data().companyId
-          db.collection("departments").where("departmentname","==",partname)
+          db.collection('Departments').where("departmentname","==",partname)
           .get()
           .then(doc=>{
             if(doc.docs.length === 0) {
-                db.collection("departments")
+                db.collection('Departments')
                 .doc()
                 .set({
                   Basic:"1",
@@ -97,7 +97,7 @@ export default function CreateDepartment() {
                   departmentmanager: partmanage,
                   description: description
                 })
-                db.collection("departments").where("departmentname","==", partname)
+                db.collection('Departments').where("departmentname","==", partname)
                 .get()
                 .then(doc=>{
                   const departmentrole = doc.docs[0].id
@@ -226,12 +226,12 @@ export default function CreateDepartment() {
             </div>
             <div className="flex flex-wrap -mx-3 mt-3">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight">
+                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight">
                   <span className="mr-2 uppercase">Create</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={onCancel}>
+                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={onCancel}>
                   <span className="mr-2 uppercase">Cancel</span>
                 </button>
               </div>

@@ -13,21 +13,15 @@ export default function Sidebar(props) {
   const adminShow = () => {
     if (Roll === 'Admin') {
       return (
-        <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">Admin</p>
-        </>
+        <p className="flex item w-full justify-center">Admin</p>
       )
     } else if (Roll === 'Accountant') {
       return (
-        <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">Accountant</p>
-        </>
+        <p className="flex item w-full justify-center">Accountant</p>
       )
     } else if (Roll === 'User') {
       return (
-        <>
-          <p className="uppercase flex item text-lg w-full justify-center font-bold text-white text-blue-700">User</p>
-        </>
+        <p className="flex item w-full justify-center">User</p>
       )
     }
   }
@@ -53,6 +47,7 @@ export default function Sidebar(props) {
                 <Link to="/app"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Apps</li></Link>
                 <Link to="/adminnotification"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Notifications</li></Link>
                 <Link to="/billSub"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Billing</li></Link>
+                <Link to="/data"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Data</li></Link>
               </ul>
             </div>
           ) : (
@@ -77,6 +72,7 @@ export default function Sidebar(props) {
                 <Link to="/app"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Apps</li></Link>
                 <Link to="/adminnotification"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Notifications</li></Link>
                 <Link to="/billSub"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-xl hover:bg-green-600 hover:text-white">Billing</li></Link>
+                <Link to="/data"><li className="pt-1 pb-1 flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-white font-Medium justify-center text-lg hover:bg-green-600 hover:text-white">Data</li></Link>
               </ul>
             </div>
           ) : (
@@ -123,7 +119,7 @@ export default function Sidebar(props) {
             <div className="px-10 pt-4 flex justify-content center">
               <p className="uppercase flex item text-white italic font-mono w-full justify-center text-3xl font-bold">Hi,{Username} </p>
             </div>
-            <div className="px-10 pt-1 flex justify-content center">
+            <div className="px-10 pt-1 flex justify-content center textstylecolor uppercase text-lg font-bold">
               {adminShow()}
             </div>
             <hr className="border-5 mb-2 mt-2"></hr>

@@ -140,7 +140,6 @@ export default function CreateUser() {
     <div className="flex justify-center items-center bg-indigo-50">
       <div className="container max-w-3xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden sm:max-w-xl pt-3 pb-3  flex-1 flex flex-col items-center justify-center">
         <div className="px-2 py-1">
-        <span className="block tracking-wide text-gray-400 text-4xl text-center font-medium italic">COMPANY  :   { companyname } </span>
           <div className="uppercase text-3xl textstylecolor font-semibold text-center">Create User</div>
           <form className="w-full max-w-lg" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3 mb-1">
@@ -278,12 +277,12 @@ export default function CreateUser() {
             </div>
             <div className="flex flex-wrap -mx-3 mt-3">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button type="submit"className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight">
+                <button type="submit"className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight">
                   <span className="mr-2 uppercase">Add</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={cancelButton}>
+                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={cancelButton}>
                   <span className="mr-2 uppercase">Cancel</span>
                 </button>
               </div>

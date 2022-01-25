@@ -15,7 +15,7 @@ export default function EditDepartment() {
   const authID = sessionStorage.getItem('UID')
   let navigate = useNavigate();
   useEffect(() =>{
-    db.collection('departments').where('Basic',"==", "0")
+    db.collection('Departments').where('Basic',"==", "0")
     .get()
     .then(doc=>{
       var superarr = [];
@@ -169,12 +169,12 @@ export default function EditDepartment() {
             </div>
             <div className="flex flex-wrap -mx-3 mt-3">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight">
+                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight">
                   <span className="mr-2 uppercase">SAVE</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={onCancel}>
+                <button className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight" onClick={onCancel}>
                   <span className="mr-2 uppercase">Cancel</span>
                 </button>
               </div>

@@ -7,25 +7,18 @@ import '../../assets/main.css'
 export default function EditUser() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [companyname, setCompanyname] = useState("");
   const [superpartname, setSuperPartname] = useState('');
   const [role, setRole] = useState("");
   const [phone, setPhone] = useState("");
   let navigate = useNavigate();
   const [depart, setDepart] = useState([]);
-  const authID = sessionStorage.getItem('UID')
   const edituserID = useParams().id
   function cancelButton(e) {
     e.preventDefault();
     navigate('/user');
   }
   useEffect(() => {
-    db.collection("UserRole").where("userId", "==", authID)
-    .get()
-    .then(doc =>{
-      var comname=doc.docs[0].data().companyId
-      setCompanyname(comname)
-    })
+  
     db.collection("Users")
     .doc(edituserID)
     .get()
@@ -101,7 +94,6 @@ export default function EditUser() {
     <div className="flex justify-center flex-col bg-indigo-50">
       <div className="container max-w-3xl mx-auto bg-gray-50 rounded-xl shadow-xl overflow-hidden sm:max-w-xl pt-3  pb-3 flex justify-center items-center">
         <div className="px-2 py-1">
-          <span className="block tracking-wide text-gray-400 text-4xl text-center font-medium italic">COMPANY  :   {companyname} </span>
           <div className="uppercase text-3xl textstylecolor font-semibold text-center">Edit User</div>
           <form className="w-full max-w-lg" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3 mb-2">
@@ -190,12 +182,12 @@ export default function EditUser() {
             </div>
             <div className="flex flex-wrap -mx-3 mb-2">
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <button type="submit" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                   <span className="mr-2 uppercase">Save</span>
                 </button>
               </div>
               <div className="w-full md:w-1/2 px-3 mb-2 md:mb-0">
-                <button type="button" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-blue-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onClick={cancelButton}>
+                <button type="button" className="appearance-none block w-full backcustomcolor text-white font-medium hover:bg-green-500 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onClick={cancelButton}>
                   <span className="mr-2 uppercase">Cancel</span>
                 </button>
               </div>

@@ -11,6 +11,7 @@ import Department from './Layout/Admin/Department'
 import Users from './Layout/Admin/Users'
 import Bill from './Layout/Admin/Bill'
 import Apps from './Layout/Admin/Application'
+import Data from './Layout/Account/Data'
 import Profile from './Layout/User/Profile'
 import AdminNotification from "./Layout/Admin/AdminNotification"
 import CreateUser from './Components/pages/Users/CreateUser'
@@ -35,7 +36,7 @@ function App() {
         <Route path='/billSub' element={ <Layout child={<Bill />} />} />
         <Route path='/app' element={ <Layout child={<Apps />} />} />
         <Route path='/adminnotification' element={ <Layout child={<AdminNotification />} />} />
-        
+        <Route path="/data" element={ <Layout child={<Data />} />} />
         <Route path='/user' element={ <Layout child={<Users />} />} />
         <Route path='/createuser' element={<Layout child={<CreateUser />} /> } />
         <Route path='/edituser/:id' element={<Layout child={<EditUser/>} /> } />

@@ -19,6 +19,19 @@ export default function Application() {
     })
   }
   const search = useLocation().search;
+  axios.get('https://wepull-back.herokuapp.com/callback' + search)
+    .then((response) => {
+      axios.get('https://wepull-back.herokuapp.com/getCompanyInfo')
+      .then(ref=>{
+        console.log(ref.data)
+      })
+    })
+  function qbodisconnect(event) {
+    axios.get('https://wepull-back.herokuapp.com/disconnect')
+    .then(res=>{
+      console.log(res)
+    })
+  }
   // const authcode = new URLSearchParams(search).get('code')
   // const realmId = new URLSearchParams(search).get('realmId')
   React.useEffect(() => {
@@ -29,13 +42,7 @@ export default function Application() {
     //   'redirect_uri': 'https://d1f3-188-43-136-33.ngrok.io/app',
     //   url: search
     // }
-    axios.get('https://wepull-back.herokuapp.com/callback' + search)
-      .then((response) => {
-        axios.get('https://wepull-back.herokuapp.com/getCompanyInfo')
-        .then(ref=>{
-          console.log(ref.data)
-        })
-      })
+    
     // eslint-disable-next-line
   }, []);
 
@@ -44,17 +51,21 @@ export default function Application() {
       <div className="text-5xl font-bold text-center textstylecolor ">Accounting provider setup</div>
       <div className="text-3xl font-Medium text-center mt-10 mb-10 font-mono text-gray-400">Please select your data source</div>
       <div className="flex justify-around items-center">
-        <button className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl ">
-          <img className="object-between pl-5 pr-5 mb-5" src="../xero.png" alt="XERO" />
-          <p className="text-center font-medium text-2xl text-gray-400 textstylecolor uppercase">XERO</p>
+        <button className="block p-6 w-xs bg-white rounded-lg border-2 border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
+          <img className="object-between" src="../xero.png" alt="XERO" />
+          <p className="text-center font-medium text-lg textstylecolor">XERO</p>
         </button>
-        <button className="block p-6 max-w-xs bg-white rounded-lg border-2 border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl" onClick={qbointegration}>
+        <button className="block p-6 w-xs bg-white rounded-lg border-2 border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl" onClick={qbointegration}>
           <img className="object-between " src="../Qb.png" alt="quickbook" />
           <p className="text-center font-medium text-lg mt-5 textstylecolor ">QuickBooks Online</p>
         </button>
-        <button className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl">
-          <img className="object-between pl-5 pr-5 mb-5" src="../Excel.png" alt="excel" />
-          <p className="text-center font-medium text-2xl text-gray-400 textstylecolor uppercase">Trial Balance import</p>
+        <button className="block p-6 w-xs bg-white rounded-lg border-2 border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl" onClick={qbointegration}>
+          <img className="object-between " src="../Excel.png" alt="trial" />
+          <p className="text-center font-medium text-lg mt-5 textstylecolor ">Trial balance import</p>
+        </button>
+
+        <button className="block p-6 w-xs bg-white rounded-lg border-2 border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:shadow-2xl" onClick={qbodisconnect}>
+          <p className="text-center font-medium text-lg mt-5 textstylecolor ">QuickBooks Disconnect</p>
         </button>
       </div>
     </div>   
