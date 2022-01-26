@@ -36,7 +36,7 @@ export default function Application() {
         .then(ref=>{
           console.log('companyinfo',ref.data)
         })
-        axios.post('https://sandbox-quickbooks.api.intuit.com/v3/company/' + realmId)
+        axios.post('https://wepull-back.herokuapp.com/vendor')
         .then(res=>{
           console.log('vendorinfo', res.data)
         })
