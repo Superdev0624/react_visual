@@ -27,7 +27,6 @@ function Users() {
                 .get()
                 .then(async doc => {
                   var roledata = doc.docs[0].data().Role
-                  var partdata = doc.docs[0].data().Partname
                   var mainId = doc.docs[0].data().userId
                   const doc1 = await db.collection("Users")
                     .doc(mainId)
@@ -35,8 +34,7 @@ function Users() {
                   var users = doc1.data()
                   arr.push({
                     ...users,
-                    role: roledata,
-                    part: partdata
+                    role: roledata
                   });
                   var alldatas = arr.map((word) => {
                     return { ...word }
@@ -147,9 +145,6 @@ function Users() {
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Role</th>
                       <th
-                      className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                      Department</th>
-                      <th
                         className="px-6 py-3 text-base font-medium leading-4 tracking-wider text-center text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Actions</th>
                     </tr>
@@ -173,9 +168,6 @@ function Users() {
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                             <div className="text-xl leading-5 text-gray-500 text-center">{part.role}</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                            <div className="text-xl leading-5 text-gray-500 text-center">{part.part}</div>
                           </td>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 flex justify-between">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 textstylecolor hover:text-blue-600 cursor-pointer" fill="none"

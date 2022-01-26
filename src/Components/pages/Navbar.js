@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 
 export default function Navbar(props) {
   const UserRole = sessionStorage.getItem('Role')
-  const recentconpanyname = sessionStorage.getItem('currentCompanyname')
   const navigate = useNavigate();
 
   const adminShow = () => {
@@ -30,7 +29,6 @@ export default function Navbar(props) {
             />}
             </div>
           </div>
-          <span className="flex justify-center items-center textstylecolor font-medium text-lg mr-4">{recentconpanyname}</span>
           <div className="mr-5 h-full xl:flex items-center justify-end hidden">
             <div className="w-full h-full flex items-center">
               <div className="w-full h-full flex">
@@ -57,19 +55,18 @@ export default function Navbar(props) {
                     </span>
                   </span>
                   <svg
-                    onClick={props.sidebarShow}
+                    onMouseEnter={props.sidebarShow}
                     aria-label="Main Menu"
                     aria-haspopup="true"
-                    className="h-12 w-15 p-1 "
+                    className="h-25 w-15 p-1 themeusercolor"
                     viewBox="0 0 22 22"
                     fill="none"
                     stroke="currentColor"
-                    style={{ color: '#41CCAD' }}
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth="3"
+                      strokeWidth="4"
                       d="M4 6h16M4 12h16M4 18h16"
                     />
                   </svg>
@@ -79,19 +76,18 @@ export default function Navbar(props) {
           </div>
           <div className="visible xl:hidden flex items-center relative">
             <svg
-              onClick={props.sidebarShow}
+              onMouseEnter={props.sidebarShow}
               aria-label="Main Menu"
               aria-haspopup="true"
-              className="h-12 w-15 p-1"
-              viewBox="0 0 22 22"
+              className="h-20 w-20 p-1 themeusercolor hover:text-black"
+              viewBox="0 0 25 25"
               fill="none"
               stroke="currentColor"
-              style={{ color: '#41CCAD' }}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="3"
+                strokeWidth="4"
                 d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>

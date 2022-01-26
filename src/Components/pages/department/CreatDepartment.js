@@ -42,7 +42,7 @@ export default function CreateDepartment() {
         const partdata = doc.docs[i].data().departmentname
         superarr.push(partdata)
       }
-      setDepart(superarr)
+      setDepart(superarr.sort())
     })
     // eslint-disable-next-line 
   },[])

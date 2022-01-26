@@ -23,7 +23,7 @@ export default function EditDepartment() {
         const partdata = doc.docs[i].data().departmentname
         superarr.push(partdata)
       }
-      setDepart(superarr)
+      setDepart(superarr.sort())
     })
     db.collection("Departmentdata")
     .doc(editID)
@@ -41,19 +41,17 @@ export default function EditDepartment() {
       const currentusercompany = doc.docs[0].data().companyId
       db.collection("UserRole").where("companyId","==", currentusercompany)
       .get()
-      .then(doc=>{
+      .then(async doc=>{
         var arr = [];
         for(let i = 0; i<doc.docs.length; i++) {
-          const useruid = doc.docs[i].data().userId
-          db.collection("Users")
+          var useruid = doc.docs[i].data().userId
+          const doc1 = await db.collection("Users")
           .doc(useruid)
           .get()
-          .then(doc=>{
-            const users = doc.data()
-            arr.push(users)      
-          })
+          var users = doc1.data()
+          if (!!users) arr.push(users);
         }
-        setSelectManager(arr)    
+        setSelectManager(arr)
       })
     })
     // eslint-disable-next-line

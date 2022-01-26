@@ -22,9 +22,8 @@ export default function Layout(props) {
   }, [])
   const handleShow = (e) => {
     e.preventDefault();
-    setShow(!show);
+    setShow(true);
   };
-
   const handleHide = (e) => {
     e.preventDefault();
     setShow(false);

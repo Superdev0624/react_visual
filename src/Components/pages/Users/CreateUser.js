@@ -13,14 +13,14 @@ export default function CreateUser() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-  const [superpartname, setSuperPartname] = useState('');
+  const [superpartname, setSuperPartname] = useState([]);
   const [fnamevalid, setFnameValid] = useState(false);
   const [lnamevalid, setLnameValid] = useState(false);
   const [emailvalid, setEmailValid] = useState(false);
   const [passvalid, setPassValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
-  const [superpartnamevalid, setSuperpartnameValid] = useState(false);
   const [depart, setDepart] = useState([]);
+  const [product, setProduct] = useState(false);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
   useEffect(() =>{
@@ -50,10 +50,6 @@ export default function CreateUser() {
     setSecond(e.target.value);
     setLnameValid(false);
   };
-  const handlesuperpart = (e) => {
-    setSuperPartname(e.target.value);
-    setSuperpartnameValid(false);
-  }
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setEmailValid(false);
@@ -69,9 +65,17 @@ export default function CreateUser() {
     setRole(e.target.value)
     setRoleValid(false);
   }
+  const handleCheck = (e) => {
+    const value = e.target.value
+    var arr = superpartname;
+    arr.push(value);
+    setSuperPartname(arr)
+    console.log(arr)
+
+  }
   async function handleSubmit(e) {
     e.preventDefault();
-    if(fname === ''|| lname === ''|| email === ''|| password === ''|| role==='' || superpartname === ''){
+    if(fname === ''|| lname === ''|| email === ''|| password === ''|| role===''){
       if(fname === ''){
         setFnameValid(true)
       }
@@ -86,9 +90,6 @@ export default function CreateUser() {
       }
       if(role === ''){
         setRoleValid(true)
-      }
-      if(superpartname === '') {
-       setSuperpartnameValid(true);
       }
       return
     }
@@ -216,23 +217,31 @@ export default function CreateUser() {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold py-1">
                   Department
                 </label>
-                <p className={"inputcolor text-xs italic ml-1 " + (superpartnamevalid ? "visible" : "invisible")}>Department Manager required</p>
               </div>
-                <select
-                  className={"appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 " + (superpartnamevalid ? "border bordercolor":"border border-gray-200")}
-                  value={superpartname}
-                  onChange={handlesuperpart}
-                >
-                  <option selected>Choose Department</option>
+                <li className="flex flex-row items-center h-5 justify-center transform cursor-pointer text-gray-800">
+                  <span className="uppercase ml-1 text-xl m-2 font-medium" onClick={() => setProduct(!product)}>Available Department List</span>
+                </li>
+                {product ? (
+                  <ul
+                  className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200">
+                
                   {depart.length > 0 ? (
                       depart.map((part, id) => (
-                        <option key={id}>{part}</option>
+                        <div key={id} className="flex justify-between">
+                          <label className="form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">{part}</label>
+                          <input 
+                            type="checkbox" 
+                            className="form-checkbox h-3 w-3 text-blue-600"
+                            value={part}
+                            onChange={handleCheck}/>
+                        </div>
                       ))
                     ) : (
-                      <option>Select Department</option>
+                      <label className="form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">No Department</label>
                     )
                     }
-                </select>
+                </ul>
+                ) : ("")}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3">
@@ -249,7 +258,7 @@ export default function CreateUser() {
                     value={role}
                     onChange={handleRole}
                   > 
-                    {/* <option selected >Select Role</option> */}
+                    <option select="true" >Select Role</option>
                     <option>User</option>
                     <option>Accountant</option>
                     <option>Admin</option>
