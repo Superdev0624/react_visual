@@ -83,7 +83,7 @@ export default function Sidebar(props) {
 
   return (
     <div className={"w-full h-full flex justify-between cursor-pointer " + (props.value ? "absolute translate-x-0 " : "hidden absolute translate-x-full")}>
-      <div className="inset-0 fixed left-0" onMouseOver={props.sidebarHide} />
+      <div className="inset-0 fixed left-0" onClick={props.sidebarHide} />
       <div className={"w-70 transition transform absolute top-0 bottom-0 right-0 usecolor min-h-full easy-in-out duration-300 " + (props.value ? "absolute z-9999 translate-x-0 " : "absolute translate-x-full")}>
 
         <div className="flex flex-col column justify-between">

@@ -21,7 +21,7 @@ export default function Application() {
 
   const search = useLocation().search;
   // const authcode = new URLSearchParams(search).get('code')
-  const realmId = new URLSearchParams(search).get('realmId')
+  // const realmId = new URLSearchParams(search).get('realmId')
   React.useEffect(() => {
     // if (!authcode) return;
     // const data = {
@@ -32,13 +32,9 @@ export default function Application() {
     // }
     axios.get('https://wepull-back.herokuapp.com/callback' + search)
       .then((response) => {
-        axios.get('https://wepull-back.herokuapp.com/getCompanyInfo')
-        .then(ref=>{
-          console.log('companyinfo',ref.data)
-        })
-        axios.post('https://wepull-back.herokuapp.com/vendor')
+        axios.get('https://wepull-back.herokuapp.com/getExpenses')
         .then(res=>{
-          console.log('vendorinfo', res.data)
+          console.log(res)
         })
       })
     // eslint-disable-next-line

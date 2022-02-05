@@ -55,7 +55,7 @@ export default function Navbar(props) {
                     </span>
                   </span>
                   <svg
-                    onMouseEnter={props.sidebarShow}
+                    onClick={props.sidebarShow}
                     aria-label="Main Menu"
                     aria-haspopup="true"
                     className="h-25 w-15 p-1 themeusercolor"
@@ -76,7 +76,7 @@ export default function Navbar(props) {
           </div>
           <div className="visible xl:hidden flex items-center relative">
             <svg
-              onMouseEnter={props.sidebarShow}
+              onClick={props.sidebarShow}
               aria-label="Main Menu"
               aria-haspopup="true"
               className="h-20 w-20 p-1 themeusercolor hover:text-black"

@@ -20,7 +20,6 @@ export default function CreateUser() {
   const [passvalid, setPassValid] = useState(false);
   const [rolevalid, setRoleValid] = useState(false);
   const [depart, setDepart] = useState([]);
-  const [product, setProduct] = useState(false);
   let navigate = useNavigate();
   const authID = sessionStorage.getItem('UID') 
   useEffect(() =>{
@@ -219,9 +218,8 @@ export default function CreateUser() {
                 </label>
               </div>
                 <li className="flex flex-row items-center h-5 justify-center transform cursor-pointer text-gray-800">
-                  <span className="uppercase ml-1 text-xl m-2 font-medium" onClick={() => setProduct(!product)}>Available Department List</span>
+                  <span className="uppercase ml-1 text-xl m-2 font-medium">Available Department List</span>
                 </li>
-                {product ? (
                   <ul
                   className="appearance-none block w-full text-gray-700 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 border border-gray-200">
                 
@@ -231,7 +229,7 @@ export default function CreateUser() {
                           <label className="form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">{part}</label>
                           <input 
                             type="checkbox" 
-                            className="form-checkbox h-3 w-3 text-blue-600"
+                            className="form-checkbox h-4 w-4 text-blue-600"
                             value={part}
                             onChange={handleCheck}/>
                         </div>
@@ -241,7 +239,6 @@ export default function CreateUser() {
                     )
                     }
                 </ul>
-                ) : ("")}
               </div>
             </div>
             <div className="flex flex-wrap -mx-3">
